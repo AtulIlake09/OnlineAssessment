@@ -110,7 +110,7 @@
                            {{$message}}
                            @enderror
                         </span>
-                        <input class="contactus" placeholder=" Phone_Number" type="text" name="Phone_Number">                          
+                        <input class="contactus" placeholder=" Phone Number" type="text" name="Phone_Number">                          
                      </div>
                      <input hidden name="ip" type="text" id="ip">
                      <input hidden name="time" type="text" id="time">
@@ -164,7 +164,7 @@
       <script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
       <script src="{{ asset('js/custom.js') }}"></script>
       <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script>
-      <script>
+      {{-- <script>
          $.getJSON("https://api.ipify.org/?format=json", function(e) {
                console.log(e.ip);
                $('#ip').val(e.ip);
@@ -175,7 +175,7 @@
             var dateTime = date+' '+time;
             $('#time').val(dateTime);
            
-      </script>
+      </script> --}}
       <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js') }}"></script>
 
    </body>

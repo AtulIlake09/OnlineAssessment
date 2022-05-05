@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::get('info/{category_id}',function($id){
    
     return view('login',compact('id'));
-});
+})->name('info');
 
 Route::post('getinfo',[InfoController::class,'info'])->name('getinfo');
 
@@ -31,4 +31,5 @@ Route::get('/exam',[ExamController::class,'exam']);
 Route::get('/timer/{time}',[ExamController::class,'timer']);
 
 Route::post('submit',[SubmitController::class,'submit']);
+Route::get('/submit',[SubmitController::class,'previous']);
 

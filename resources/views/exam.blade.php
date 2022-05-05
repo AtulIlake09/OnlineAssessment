@@ -3,40 +3,36 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-      <!-- basic -->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <!-- mobile metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-      <!-- site metas -->
-      <title>MetricoidTech</title>
-      <meta name="keywords" content="">
-      <meta name="description" content="">
-      <meta name="author" content="">
-      <!-- bootstrap css -->
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <!-- style css -->
-      <link rel="stylesheet" href="css/style.css">
-      <!-- Responsive-->
-      <link rel="stylesheet" href="css/responsive.css">
-      <!-- fevicon -->
-      <link rel="icon" href="images/fevicon.png" type="image/gif" />
-      <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-      <!-- Tweaks for older IEs-->
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-      <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-      <script>
+     <!-- basic -->
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <!-- mobile metas -->
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+     <!-- site metas -->
+     <title>MetricoidTech</title>
+     <meta name="keywords" content="">
+     <meta name="description" content="">
+     <meta name="author" content="">
+     <!-- bootstrap css -->
+     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+     <!-- style css -->
+     <link rel="stylesheet" href="{{asset('css/style.css')}}">
+     <!-- Responsive-->
+     <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
+     <!-- fevicon -->
+     <link rel="icon" href="{{asset('images/fevicon.png')}}" type="image/gif" />
+     <!-- Scrollbar Custom CSS -->
+     <link rel="stylesheet" href="{{asset('css/jquery.mCustomScrollbar.min.css')}}">
+     <!-- Tweaks for older IEs-->
+     <link rel="stylesheet" href="{{asset('https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')}}">
+     <link rel="stylesheet" href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css')}}" media="screen">
+     <!--[if lt IE 9]>
+     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 
-         if(localStorage.getItem("count_timer")){
-             var count_timer = localStorage.getItem("count_timer");
-         } else {
-             var count_timer = 60* 0.2;
-         }
+      <script>
+         var count_timer ={{$remain}};
          var minutes = parseInt(count_timer/60);
          var seconds = parseInt(count_timer%60);
          function countDownTimer(){
@@ -47,15 +43,14 @@
              }
              
              document.getElementById("timer").innerHTML = minutes+" Min. "+seconds+" Sec.";
-             var next=document.getElementById('next');
+       
              if(count_timer <= 0){
-                  localStorage.clear("count_timer");
+               document.getElementById('next').click();
              }
              else {
                  count_timer = count_timer -1 ;
                  minutes = parseInt(count_timer/60);
                  seconds = parseInt(count_timer%60);
-                 localStorage.setItem("count_timer",count_timer);
                  setTimeout("countDownTimer()",1000);
              }
          }
@@ -68,7 +63,7 @@
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="images/loading.gif" alt="#" /></div>
+         <div class="loader"><img src="{{asset('images/loading.gif')}}" alt="#" /></div>
       </div>
       <!-- end loader -->
       <!-- header -->
@@ -81,7 +76,7 @@
                      <div class="full">
                         <div class="center-desk">
                            <div class="logo">
-                              <a href="{{url('/info')}}"><img src="images/Logo-2.png" alt="#" /></a>
+                              <a href="{{url('/info')}}"><img src="{{asset('images/Logo-2.png')}}" alt="#" /></a>
                            </div>
                         </div>
                      </div>
@@ -121,15 +116,15 @@
                   @csrf
                   <div class="row">
                      <div class="col-md-12 ">
-                        <label class="text-white" for="">Question</label>
-                        <p class="text-white h3">{{$question}}</p> 
+                        <label class="text-white" for="">Question: <b>{{$qno}}</b></label>
+                        <p name="question" class="text-white h3">{{$question }}</p> 
                      </div>
                      <div class="form-floating col-md-12">
                         <label class="text-white" for="floatingTextarea2">Answer:-</label>
                         <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                      </div>
                      <div class="col-sm-6 mt-4">
-                        <button class="send_btn">Previous</button>
+                        <a href="#" id="previous" class="send_btn text-center link-light" role="button">Previous</a>
                      </div>
                      <div class="col-sm-6 mt-4">
                         <button type="submit" id="next" class="send_btn">Next</button>
@@ -153,52 +148,16 @@
          </div>
          
       </footer>
-      <!-- end footer -->
+       <!-- end footer -->
       <!-- Javascript files-->
-      <script src="js/jquery.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.bundle.min.js"></script>
-      <script src="js/jquery-3.0.0.min.js"></script>
+      <script src="{{ asset('js/jquery.min.js') }}"></script>
+      <script src="{{ asset('js/popper.min.js') }}"></script>
+      <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+      <script src="{{ asset('js/jquery-3.0.0.min.js') }}"></script>
       <!-- sidebar -->
-      <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="js/custom.js"></script>
-      <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-      {{-- <script>
-            setInterval(function() {
-               var xmlhttp=new XMLHttpRequest();
-               var time=document.getElementById("timer").innerText;
-               xmlhttp.open("GET","http://127.0.0.1:8000/timer/"+ time,false);
-               xmlhttp.send(null);
-               var data = xmlhttp.responseText;
-               console.log(data,'////');
-               document.getElementById("timer").innerHTML=xmlhttp.responseText;
-            }, 1000);
-      </script> --}}
-      {{-- <script>
-         var startingminutes= ;
-         let time=startingminutes*60;
-         const countdown=document.getElementById('timer');
-         setInterval(updateCountdown,1000);
-         function updateCountdown(){
-            const minutes=Math.floor(time/60);
-            let seconds=time % 60;
-            countdown.innerHTML=`${minutes}:${seconds}`;
-            time--;
-            time = time < 0 ? 0 : time; 
-         }
-      </script> --}}
-      {{-- <script>
-            $.getJSON("https://api.ipify.org/?format=json", function(e) {
-               console.log(e.ip);
-               $('#ip').val(e.ip);
-            });
-            var today = new Date();
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date+' '+time;
-            $('#time').val(dateTime);
-            
-      </script> --}}
+      <script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+      <script src="{{ asset('js/custom.js') }}"></script>
+      <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script>
     
     </body>
 </html>
