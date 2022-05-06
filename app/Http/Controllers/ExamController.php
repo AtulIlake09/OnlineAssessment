@@ -94,7 +94,6 @@ class ExamController extends Controller
                 $questions1[$key]=$val->questions;
                 $key++;
             }
-            dd($questions1);
 
             $query=DB::table('category')
             ->where('id','=',$data['category_id'])
@@ -134,7 +133,7 @@ class ExamController extends Controller
                 // $arr1=[];
                 // array_push($arr1,['qno'=>$qno,'question'=>$question]);
                 // $request->session()->put('exam1',$arr1);
-                return view('exam',compact('qno','question','remain'));
+                return view('exam',compact('qno','question','remain','questions1'));
             }
             else
             {
