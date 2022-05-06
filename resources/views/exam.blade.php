@@ -113,21 +113,25 @@
          <div class="row d_flex">
             <div class="col-md-12">
                <form action="{{url('/submit')}}" method="POST" id="request" class="main_form">
+               {{-- <form id="request" class="main_form"> --}}
                   @csrf
-                  <div class="row">
-                     <div class="col-md-12 ">
-                        <label class="text-white" for="">Question: <b>{{$qno}}</b></label>
-                        <p name="question" class="text-white h3">{{$question }}</p> 
+                  <div class="row" >
+                     <div class="col-md-12 " id="quediv">
+                        <label class="text-white" for="">Question: <b id="qno">{{$qno}}</b></label>
+                        <p name="question" id="question" class="text-white h3">{{$question }}</p> 
                      </div>
-                     <div class="form-floating col-md-12">
+                     <div class="form-floating col-md-12" id="ansdiv">
                         <label class="text-white" for="floatingTextarea2">Answer:-</label>
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <textarea class="form-control" placeholder="Leave a comment here" name="answer" id="answer" style="height: 100px"></textarea>
                      </div>
                      <div class="col-sm-6 mt-4">
-                        <a href="#" id="previous" class="send_btn text-center link-light" role="button">Previous</a>
+                        <a href="{{url('/previous')}}" <?php if($qno==1){?> style='pointer-events: none' <?php  }?>
+                           id="previous" name="previous" class="send_btn text-center link-light">Previous</a>
+                        {{-- <button type="submit" id="previous" class="send_btn">Previous</button> --}}
+                        
                      </div>
                      <div class="col-sm-6 mt-4">
-                        <button type="submit" id="next" class="send_btn">Next</button>
+                        <button type="submit" id="next" name="next" class="send_btn">Next</button>
                      </div>
                   </div>
                </form>
@@ -158,7 +162,15 @@
       <script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
       <script src="{{ asset('js/custom.js') }}"></script>
       <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script>
-    
+      {{-- <script>
+         $(document).ready(function () {
+            $('#previous').on("click", function(e){
+               e.preventDefault();
+               window.history.back();
+            });
+                     
+         });
+      </script> --}}
     </body>
 </html>
 

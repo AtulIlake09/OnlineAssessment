@@ -14,6 +14,14 @@ class ExamController extends Controller
     {
         if(session()->has('exam'))
         {
+            $count=$request->session()->get('count');
+            if($count==6)
+            {
+                $data = $request->session()->get('data');
+                $id = $data['category_id'];
+                $request->session()->flush();
+                return Redirect::route('info', $id)->with('message', 'Submitted Succsefully!!!');
+            }
             $question=$request->session()->get('exam');
             $qno=$request->session()->get('qno');
             $data=$request->session()->get('data');
@@ -47,7 +55,6 @@ class ExamController extends Controller
             if( $difftime<=$diffinsec)
             {
                 $remain=$diffinsec-$difftime;
-                
                 $request->session()->put('exam',$question);
                 return view('exam',compact('qno','question','remain'));
             }
@@ -61,7 +68,6 @@ class ExamController extends Controller
         }
         else
         {
-
             $data=$request->session()->get('data');
             $ip=$request->ip();
            
@@ -70,6 +76,25 @@ class ExamController extends Controller
             ->where('category_id','=',$data['category_id'])
             ->first();
             $question=$query->questions;
+
+            $query=DB::table('questions')
+            ->select('questions')
+            ->where('category_id','=',$data['category_id'])
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+            $question1=$query->all();
+
+            // dd($question1);
+            $questions1=[];
+            $key=1;
+            foreach($question1 as $val)
+            {
+          
+                $questions1[$key]=$val->questions;
+                $key++;
+            }
+            dd($questions1);
 
             $query=DB::table('category')
             ->where('id','=',$data['category_id'])
@@ -105,6 +130,10 @@ class ExamController extends Controller
                 $request->session()->put('questions',$arr);
                 $request->session()->put('qno',$qno);
                 $request->session()->put('exam',$question);
+
+                // $arr1=[];
+                // array_push($arr1,['qno'=>$qno,'question'=>$question]);
+                // $request->session()->put('exam1',$arr1);
                 return view('exam',compact('qno','question','remain'));
             }
             else
