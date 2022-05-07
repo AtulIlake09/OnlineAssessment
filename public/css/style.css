@@ -410,6 +410,47 @@ button {
      transition: ease-in all 0.5s;
      color: #fbfaf8;
 }
+.main_form .prev_btn {
+     font-size: 17px;
+     transition: ease-in all 0.5s;
+     background-color: #93dcff;
+     color: #fff;
+     padding: 13px 0px;
+     margin: 0 auto;
+     max-width: 200px;
+     width: 100%;
+     display: block;
+     font-weight: 500;
+     text-transform: uppercase;
+     border-radius: 35px;
+}
+
+.main_form .prev_btn:hover {
+     background-color: #0aa2faf7;
+     transition: ease-in all 0.5s;
+     color: #fbfaf8;
+}
+
+.main_form .submit_btn {
+     font-size: 17px;
+     transition: ease-in all 0.5s;
+     background-color: #1fcda1;
+     color: #fff;
+     padding: 13px 0px;
+     margin: 0 auto;
+     max-width: 200px;
+     width: 100%;
+     display: block;
+     font-weight: 500;
+     text-transform: uppercase;
+     border-radius: 35px;
+}
+
+.main_form .submit_btn:hover {
+     background-color: #03916e;
+     transition: ease-in all 0.5s;
+     color: #fbfaf8;
+}
 
 #request *::placeholder {
      color: #fbfaf8;

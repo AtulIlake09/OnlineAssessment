@@ -30,10 +30,11 @@ Route::post('getinfo',[InfoController::class,'info'])->name('getinfo');
 
 Route::get('/exam/{id}',[ExamController::class,'exam'])->name('exam');
 Route::get('/timer/{time}',[ExamController::class,'timer']);
+Route::post('/next',[ExamController::class,'next_que']);
+Route::post('/prev',[ExamController::class,'prev_que']);
+Route::post('/submit',[ExamController::class,'submit_test']);
 
-Route::post('submit',[SubmitController::class,'submit']);
 Route::get('previous',[SubmitController::class,'previous']);
 
-Route::post('/next',[NextController::class,'next']);
 
 
