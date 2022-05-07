@@ -147,7 +147,7 @@
                <div class="container">
                   <div class="row">
                      <div class="col-md-12">
-                        <p>Copyright 2019 All Right Reserved By <a href="https://html.design/"><u> Free Html Templates</u></a></p>
+                        <p>© 2022 All Rights Reserved by  <a href="https://metricoidtech.com/"><u> Metricoid Technology Solutions Private Limited</u></a></p>
                      </div>
                   </div>
                </div>
@@ -179,6 +179,5 @@
       <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js') }}"></script>
  
    </body>
-
 </html>
 

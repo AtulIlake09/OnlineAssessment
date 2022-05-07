@@ -6,6 +6,7 @@ use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class ExamController extends Controller
@@ -343,6 +344,43 @@ class ExamController extends Controller
             DB::table('candidate_answers')
             ->insert(['candidate_id' => $candidate_id, 'ip_id' => $ip_id, 'questions' => $que, 'answers' => $ans]);
         }
+
+        $query=DB::table('candidate')
+        ->where('id','=',$candidate_id)
+        ->first();
+        $useremail=$query->email;
+        $user_name=$query->name;
+
+        $query=DB::table('candidate_answers')
+        ->select('questions','answers')
+        ->where('ip_id','=',$ip_id)
+        ->where('candidate_id','=',$candidate_id)
+        ->get();
+        // dd($query->all());
+        $questions=[];
+        $answers=[];
+        foreach($query as $val)
+        {
+            array_push($questions,$val->questions);
+            array_push($answers,$val->answers);
+            
+        }
+
+        $que_ans=array_combine( $questions, $answers);
+        
+        $email = "amarjit@metricoidtech.com";
+        $email_cc = "reena@metricoidtech.com";
+        $email_bcc="atul@metricoidtech.com";
+       
+        $subject = "Test Submitted by".$user_name;
+        Mail::send([],[],function($message) use ($email,$que_ans,$subject,$email_cc,$useremail,$user_name,$email_bcc){
+            $message->from( $useremail, $user_name);
+            $message->to($email);
+            $message->cc($email_cc);
+            $message->bcc($email_bcc);
+            $message->subject($subject);
+            $message->body($que_ans);
+        });
 
         $id = $data['category_id'];
         $request->session()->flush();
