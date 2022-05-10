@@ -327,6 +327,7 @@ button {
 
 /** banner section **/
 
+
 .banner_main {
      background: #d3e5f5;
      padding: 20px 0px 90px 0px;
@@ -728,7 +729,7 @@ button {
 
 .footer {
      background: #fff;
-     padding-top: 85px;
+     padding-top:0px;
      text-align: center;
 }
 
@@ -783,7 +784,7 @@ button {
 }
 
 .copyright {
-     margin-top: 90px;
+     margin-top: 0px;
      padding: 20px 0px;
      background-color: #f9f9f9;
 }

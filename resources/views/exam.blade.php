@@ -49,6 +49,7 @@
             document.getElementById("timer").innerHTML = minutes + " Min. " + seconds + " Sec.";
 
             if (count_timer <= 0) {
+                document.getElementById("next").id = "submit";
                 document.getElementById('submit').click();
             } else {
                 count_timer = count_timer - 1;
@@ -158,7 +159,6 @@
                 </div>
             </div>
         </div>
-
     </footer>
     <!-- end footer -->
     <!-- Javascript files-->
@@ -179,6 +179,7 @@
     });
    });
    </script>
+  
 </body>
 
 </html>
