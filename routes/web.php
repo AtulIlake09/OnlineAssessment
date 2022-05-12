@@ -45,3 +45,6 @@ Route::get('adminpage',[AdminController::class,'view_admin']);
 Route::post('/addquestion',[AdminController::class,'store']);
 
 Route::get('/category',[AdminController::class,'getcattbl']);
+
+Route::view('/index', 'dashboard');
+Route::get('/tables', [AdminController::class,'tables']);

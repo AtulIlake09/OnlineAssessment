@@ -13,16 +13,20 @@ class AdminController extends Controller
     {
         if(Auth::check())
         {
-            $ct=$request->session()->get('ct');
-            $cd=$request->session()->get('cd');
-            $ctdata=$request->session()->get('ctdata');
-            return view('admin',compact('ct','cd','ctdata'));
+            $category=$this->getcattbl();
+            $question=$this->getquetbl();
+            $candidate=$this->getcandtbl();
+            $qurey=DB::table('category')
+            ->count();
+            $ct=$qurey;
+            return view('dashboard',compact('category','question','candidate','ct'));
         }
         else
         {
             return redirect('/adminlogin');
         }
     }
+
     public $successStatus = 200;
     /**
      * Register api
@@ -44,6 +48,7 @@ class AdminController extends Controller
         $success['name'] =  $user->name;
         return response()->json(['success' => $success], $this->successStatus);
     }
+
     public function login(Request $request)
     {
         $request->validate(
@@ -73,24 +78,47 @@ class AdminController extends Controller
 
     }
 
-    public function getcattbl(Request $request)
+    public function getcattbl()
     {
         $qurey=DB::table('category')
         ->get();
-        $data=$qurey->all();
-        if(empty($data))
-        {
-            return redirect()->back()->with('error','Record not found');
-        }
-        else{
-            $request->session()->put('ctdata',$data);
-            return redirect('/adminpage');
-        }
+        $category=$qurey->all();
+
+        return $category;
+    }
+
+    public function getquetbl()
+    {
+        $query=DB::table('questions')
+        ->join('category','questions.category_id','=','category.id')
+        ->select('questions.id','questions.questions','category.category','questions.type','questions.status')
+        ->get();
+        $question=$query->all();
+        return $question;
+    }
+
+    public function getcandtbl()
+    {
+        $query=DB::table('candidate')
+        ->join('category','candidate.category_id','=','category.id')
+        ->select('candidate.id','candidate.name','category.category','candidate.email','candidate.mobile','candidate.ip')
+        ->get();
+        $candidate=$query->all();
+        return $candidate;
     }
     
-    public function store(Request $request)
+    public function tables(Request $request)
     {
-        dd($request->all());
+        if(Auth::check())
+        {
+            $data=$this->getcattbl();
+            return view('tables',compact('data'));
+        }
+        else
+        {
+            return redirect('/adminlogin');
+        }
+        
     }
 
 }

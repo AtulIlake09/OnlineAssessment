@@ -111,8 +111,8 @@
                  </div>
                  <div class="table-responsive">
                      @if(!empty($ctdata))
-                     <table class="table">
-                        <thead>
+                     <table class="table table-hover text-center">
+                        <thead class="thead-light">
                            <tr>
                               <th>ID</th>
                               <th>Category</th>
