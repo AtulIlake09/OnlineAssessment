@@ -52,6 +52,28 @@ class ExamController extends Controller
                 $answer = "";
             }
 
+            $cb=$request->session()->get('checkbox');
+            
+            $query = DB::table('candidate_answers')
+                ->select('answers')
+                ->where('candidate_id', '=', $candidate_id)
+                ->where('ip_id', '=', $ip_id)
+                ->get();
+              
+            foreach($query as $val)
+            {
+                if($val->answers=="")
+                {
+                    array_push($cb,0);
+                }
+                else
+                {
+                    array_push($cb,1);
+                }
+            }
+            
+            $request->session()->put('checkbox',$cb);
+
             $query = DB::table('category')
                 ->where('id', '=', $data['category_id'])
                 ->select('time_period')
@@ -79,7 +101,7 @@ class ExamController extends Controller
 
             if ($difftime <= $diffinsec) {
                 $remain = $diffinsec - $difftime;
-                return view('exam', compact('qno', 'count', 'question', 'answer', 'remain'));
+                return view('exam', compact('qno', 'count', 'question', 'answer', 'remain','cb'));
             } else {
                 $remain = 0;
                 return redirect('/finish')->with('message','Test Submitted Successfully');     
@@ -142,14 +164,14 @@ class ExamController extends Controller
                 $difftime = $timesecond - $timefirst;
 
                 $cb=[];
-                $request->session()->put('checkbox',$cb);
-
+                
                 if ($difftime <= $diffinsec) {
                     $remain = $diffinsec - $difftime;
                     $request->session()->put('qnos', $keys);
                     $request->session()->put('questions', $values);
                     $request->session()->put('questions', $values);
                     $request->session()->put('ques', $questions);
+                    $request->session()->put('checkbox',$cb);
                     $answer = "";
                     return view('exam', compact('qno', 'count', 'answer', 'question', 'remain','cb'));
                 
