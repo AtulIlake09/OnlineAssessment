@@ -141,15 +141,18 @@ class ExamController extends Controller
                 $timesecond = strtotime($localtime);
                 $difftime = $timesecond - $timefirst;
 
+                $cb=[];
+                $request->session()->put('checkbox',$cb);
+
                 if ($difftime <= $diffinsec) {
                     $remain = $diffinsec - $difftime;
                     $request->session()->put('qnos', $keys);
                     $request->session()->put('questions', $values);
                     $request->session()->put('questions', $values);
                     $request->session()->put('ques', $questions);
-
                     $answer = "";
-                    return view('exam', compact('qno', 'count', 'answer', 'question', 'remain'));
+                    return view('exam', compact('qno', 'count', 'answer', 'question', 'remain','cb'));
+                
                 } else {
                     $remain = 0;
                     return redirect('/finish')->with('message','Test Submitted Successfully');     

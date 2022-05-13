@@ -145,14 +145,28 @@
                     </form>
                 </div>
                 <div class="col-md-2">
-                    <div class="card rounded ml-2 row">
-                        <div class="col-12 ml-3">
+                    <div class="card rounded ml-0 row">
+                        <div class="col-12 ml-0">
+                            @for($i=1;$i<=$count;$i++)
+
+                                @if(empty($cb))
+                                <input class="ml-4" type="checkbox" value="1" />
+                                @else
+                                    @foreach($cb as $val)
+                                        @if($val==0)
+                                            <input class="ml-4" type="checkbox" value="1" />
+                                        @else
+                                            <input class="ml-4" type="checkbox" value="1" checked/>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                            @endfor
+                            {{-- <input class="ml-4" type="checkbox" value="1" />
                             <input class="ml-4" type="checkbox" value="1" />
                             <input class="ml-4" type="checkbox" value="1" />
                             <input class="ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" />
+                            <input class="ml-4" type="checkbox" value="1" /> --}}
                         </div>
                     </div>
                 </div>
