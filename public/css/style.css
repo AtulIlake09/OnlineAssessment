@@ -726,6 +726,9 @@ button {
 
 
 /** footer **/
+.text-white-custom-colour{
+     color: white !important;
+}
 
 .footer {
      background: #fff;

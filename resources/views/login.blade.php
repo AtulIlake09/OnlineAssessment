@@ -177,7 +177,17 @@
            
       </script> --}}
       <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js') }}"></script>
- 
+      <script>
+         window.addEventListener( "pageshow", function ( event ) {
+         var historyTraversal = event.persisted || 
+                             ( typeof window.performance != "undefined" && 
+                                 window.performance.navigation.type === 2 );
+         if ( historyTraversal ) {
+         // Handle page restore.
+         window.location.reload();
+     }
+     });
+   </script>
    </body>
 </html>
 

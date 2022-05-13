@@ -118,17 +118,17 @@
     <section class="banner_main">
         <div class="container">
             <div class="row d_flex">
-                <div class="col-md-12">
+                <div class="col-md-10">
                     <form <?php if($qno==$count){?>action="{{ url('/submit') }}" method="POST" <?php }else{ ?>action="{{ url('/next') }}" method="POST" <?php } ?> id="request" class="main_form">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 " id="quediv">
-                                <label class="text-white" for="">Question: <b
+                                <label class="text-white-custom-colour" for="">Question: <b
                                         id="qno">{{ $qno }}</b></label>
-                                <p name="question" id="question" class="text-white h3">{{ $question }}</p>
+                                <p name="question" id="question" class="text-white-custom-colour h3">{{ $question }}</p>
                             </div>
                             <div class="form-floating col-md-12" id="ansdiv">
-                                <label class="text-white" for="floatingTextarea2">Answer:-</label>
+                                <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
                                 <textarea class="form-control" placeholder="Leave a comment here" name="answer" id="answer"
                                     style="height: 100px">{{ $answer }}</textarea>
                             </div>
@@ -143,6 +143,18 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                <div class="col-md-2">
+                    <div class="card rounded ml-2 row">
+                        <div class="col-12 ml-3">
+                            <input class="ml-4" type="checkbox" value="1" />
+                            <input class="ml-4" type="checkbox" value="1" />
+                            <input class="ml-4" type="checkbox" value="1" />
+                            <input class="ml-4" type="checkbox" value="1" />
+                            <input class="ml-4" type="checkbox" value="1" />
+                            <input class="ml-4" type="checkbox" value="1" />
+                        </div>
+                    </div>
                 </div>
             </div>
     </section>
@@ -179,7 +191,17 @@
     });
    });
    </script>
-  
+  <script>
+        window.addEventListener( "pageshow", function ( event ) {
+        var historyTraversal = event.persisted || 
+                            ( typeof window.performance != "undefined" && 
+                                window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+        // Handle page restore.
+        window.location.reload();
+    }
+    });
+  </script>
 </body>
 
 </html>

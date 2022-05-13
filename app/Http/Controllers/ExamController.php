@@ -11,14 +11,23 @@ use Illuminate\Support\Facades\Redirect;
 
 class ExamController extends Controller
 {
-    public function exam(Request $request)
+    public function exam(Request $request,$key)
     {
         if (session()->has('questions')) {
+
+            $ques = $request->session()->get('ques');
+            foreach($ques as $k => $v)
+            {
+                if($k==$key)
+                {
+                    $qno=$k;
+                    $question=$v;
+                }
+            }
             $qnos = $request->session()->get('qnos');
             $questions = $request->session()->get('questions');
-            $qno = $request->session()->get('qno');
-            $question = $request->session()->get('question');
-
+            // $qno = $request->session()->get('qno');
+            // $question = $request->session()->get('question');
             $data = $request->session()->get('data');
             $ip = $request->ip();
             $candidate_id = $data['can_id'];
@@ -136,6 +145,9 @@ class ExamController extends Controller
                     $remain = $diffinsec - $difftime;
                     $request->session()->put('qnos', $keys);
                     $request->session()->put('questions', $values);
+                    $request->session()->put('questions', $values);
+                    $request->session()->put('ques', $questions);
+
                     $answer = "";
                     return view('exam', compact('qno', 'count', 'answer', 'question', 'remain'));
                 } else {
