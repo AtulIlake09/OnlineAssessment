@@ -21,10 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('info/{category_id}',function($id){
-   
-    return view('login',compact('id'));
-})->name('info');
+Route::get('test/{category}/{key}',[InfoController::class,'index'])->name('test');
 Route::post('getinfo',[InfoController::class,'info'])->name('getinfo');
 
 Route::get('/exam/{id}',[ExamController::class,'exam'])->name('exam');
@@ -48,3 +45,6 @@ Route::get('/category',[AdminController::class,'getcattbl']);
 
 Route::view('/index', 'dashboard');
 Route::get('/tables', [AdminController::class,'tables']);
+
+Route::get('/generatelink',[AdminController::class,'glink']);
+Route::post('/linkgenerate',[AdminController::class,'generatelink']);

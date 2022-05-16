@@ -49,7 +49,7 @@
                      <div class="full">
                         <div class="center-desk">
                            <div class="logo">
-                              <a href="{{url('/info')}}"><img src="{{asset('images/Logo-2.png')}}" alt="#" /></a>
+                              <a href="#"><img src="{{asset('images/Logo-2.png')}}" alt="#" /></a>
                            </div>
                         </div>
                      </div>
@@ -83,9 +83,12 @@
          <div class="container">
          <div class="row d_flex">
             <div class="col-md-6">
-               <form action="{{route('getinfo')}}" method="POST" id="request" class="main_form">
+               <form action="{{route('getinfo')}}" method="POST" id="request" class="main_form" enctype="multipart/form-data">
                   @csrf
-                  <input type="hidden" name="category_id" value="{{$id?$id:old($id)}}">
+                  <input type="text" hidden name="link" id="link" value="{{$link}}">
+                  <input type="text" hidden name="cat_id" id="cat_id" value="{{$cat}}">
+                  <input type="text" hidden name="can_id" id="can_id" value="{{$key}}">
+
                   <div class="row">
                      <div class="col-md-12 ">
                         <span style="color: rgb(230, 33, 33)"> 
@@ -93,7 +96,7 @@
                            {{$message}}
                            @enderror
                         </span>
-                        <input class="contactus" placeholder="Name" type="text" name="Name"> 
+                        <input class="contactus" placeholder="Name" type="text" name="Name" value="{{$name}}"> 
                        
                      </div>
                      <div class="col-md-12">
@@ -102,7 +105,7 @@
                            {{$message}}
                            @enderror
                         </span>
-                        <input class="contactus" placeholder=" Email" type="email" name="Email"> 
+                        <input class="contactus" placeholder=" Email" type="email" name="Email" value="{{$email}}"> 
                      </div>
                      <div class="col-md-12">
                         <span style="color: rgb(230, 33, 33)"> 
@@ -110,10 +113,19 @@
                            {{$message}}
                            @enderror
                         </span>
-                        <input class="contactus" placeholder=" Phone Number" type="text" name="Phone_Number">                          
+                        <input class="contactus" placeholder=" Phone Number" type="text" name="Phone_Number" value="{{$phone}}">                          
                      </div>
-                     <input hidden name="ip" type="text" id="ip">
-                     <input hidden name="time" type="text" id="time">
+                     <div class="col-md-12">
+                        <div class="mb-3">
+                           <span style="color: rgb(230, 33, 33)"> 
+                              @error('file')
+                              {{$message}}
+                              @enderror
+                           </span>
+                           <label for="formFile" class="form-label text-white-custom-colour">Upload Resume:</label>
+                           <input class="form-control" type="file" id="formFile" name='file'>
+                        </div>
+                     </div>
                      <div class="col-sm-12">
                         <button type="submit" class="send_btn">Start Test</button>
                      </div>

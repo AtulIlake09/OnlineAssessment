@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Faker\Provider\bg_BG\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -121,4 +122,46 @@ class AdminController extends Controller
         
     }
 
+    public function glink(Request $request)
+    {
+        
+        $query=DB::table('candidate_test_link')
+        ->join('category','candidate_test_link.test_category_id','=','category.id')
+        ->select('candidate_test_link.id','candidate_test_link.name','candidate_test_link.email','candidate_test_link.phone','category.category','candidate_test_link.link')
+        ->orderBy('id','asc')
+        ->get();
+
+        $data=$query->all();
+        
+        $query=DB::table('category')
+        ->select('category')
+        ->get();
+    
+        $categories=$query->all();
+        return view('generatelink',compact('data','categories'));
+        
+    }
+
+    public function generatelink(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        $name=$request->name;
+        $email=$request->email;
+        $phone=$request->phone;
+        $category_id=$request->category;
+        $token=base64_encode(time());
+        
+        $link='/test/'.$category_id.'/'.$token;
+        
+        DB::table('candidate_test_link')
+        ->insert(['name'=>$name,'email'=>$email,'phone'=>$phone,'test_category_id'=>$category_id,'candidate_id'=>$token,'link'=>$link]);
+
+        return redirect('/generatelink');
+
+    }
 }

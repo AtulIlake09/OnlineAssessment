@@ -26,8 +26,6 @@ class ExamController extends Controller
             }
             $qnos = $request->session()->get('qnos');
             $questions = $request->session()->get('questions');
-            // $qno = $request->session()->get('qno');
-            // $question = $request->session()->get('question');
             $data = $request->session()->get('data');
             $ip = $request->ip();
             $candidate_id = $data['can_id'];
@@ -384,7 +382,7 @@ class ExamController extends Controller
         $candidate_id = $data['can_id'];
 
         $query = DB::table('candidate')
-                ->where('id', '=', $candidate_id)
+                ->where('candidate_id', '=', $candidate_id)
                 ->first();
         $useremail = $query->email;
         $user_name = $query->name;
@@ -410,17 +408,17 @@ class ExamController extends Controller
             array_push($answers, $val->answers);
         }
 
-        $que_ans = array_combine($questions, $answers);
-        $queAns = ['que_ans' => $que_ans];
-        $email = "amarjit@metricoidtech.com";
-        $email_cc = "reena@metricoidtech.com";
-        $email_bcc = 'atul@metricoidtech.com';
+        // $que_ans = array_combine($questions, $answers);
+        // $queAns = ['que_ans' => $que_ans];
+        // $email = "amarjit@metricoidtech.com";
+        // $email_cc = "reena@metricoidtech.com";
+        // $email_bcc = 'atul@metricoidtech.com';
 
-        $subject = "Test Submitted by" . $user_name;
-        Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
-            $message->to($email_bcc);
-            $message->subject($subject);
-        });
+        // $subject = "Test Submitted by" . $user_name;
+        // Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
+        //     $message->to($email_bcc);
+        //     $message->subject($subject);
+        // });
 
         $id = $data['category_id'];
         $msg=session()->get('message');

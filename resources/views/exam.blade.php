@@ -80,7 +80,7 @@
                         <div class="full">
                             <div class="center-desk">
                                 <div class="logo">
-                                    <a href="{{ url('/info') }}"><img src="{{ asset('images/Logo-2.png') }}"
+                                    <a href="#"><img src="{{ asset('images/Logo-2.png') }}"
                                             alt="#" /></a>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
     <section class="banner_main">
         <div class="container">
             <div class="row d_flex">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <form <?php if($qno==$count){?>action="{{ url('/submit') }}" method="POST" <?php }else{ ?>action="{{ url('/next') }}" method="POST" <?php } ?> id="request" class="main_form">
                         @csrf
                         <div class="row">
@@ -143,24 +143,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="col-md-2">
-                    <div class="card rounded ml-0 row">
-                        <div class="col-12 ml-0">
-                            @php $j=1; @endphp
-                            @for($i=1;$i<=$count;$i++)
-                                <input $id="{{$j}}" class="ml-4" type="checkbox" value="1" />
-                                @php $j++; @endphp
-                            @endfor  
-                                                 
-                            {{-- <input class=" ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" />
-                            <input class="ml-4" type="checkbox" value="1" /> --}}
-                        </div>
-                    </div>
                 </div>
             </div>
     </section>
