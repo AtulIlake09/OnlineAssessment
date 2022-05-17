@@ -48,3 +48,11 @@ Route::get('/tables', [AdminController::class,'tables']);
 
 Route::get('/generatelink',[AdminController::class,'glink']);
 Route::post('/linkgenerate',[AdminController::class,'generatelink']);
+
+Route::get('/logout',[AdminController::class,'logot']);
+Route::get('/changeStatus/{id}',[AdminController::class,'change_status']);
+Route::get('/deletelink/{id}',[AdminController::class,'delete_link']);
+Route::post('/edit_link',[AdminController::class,'edit_link']);
+
+
+

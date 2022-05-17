@@ -24,16 +24,19 @@ DROP TABLE IF EXISTS `candidate`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `candidate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `link` varchar(254) NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `candidate_id` varchar(255) NOT NULL,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `mobile` bigint(10) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `resume` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
   `ip` varchar(255) NOT NULL,
   `start_date_time` datetime DEFAULT NULL,
   `end_date_time` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT '1:complete 0:incomplete',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=219 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=254 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +45,7 @@ CREATE TABLE `candidate` (
 
 LOCK TABLES `candidate` WRITE;
 /*!40000 ALTER TABLE `candidate` DISABLE KEYS */;
-INSERT INTO `candidate` VALUES (206,'',1,'Atul','sdfasf@gmail.com',8958675845,'127.0.0.1',NULL,NULL),(207,'',1,'ada','gasd@gmail.com',9586745812,'127.0.0.1',NULL,NULL),(208,'',1,'Atul','abc@gmail.com',8692876825,'127.0.0.1',NULL,NULL),(209,'',1,'ada','sdfasf@gmail.com',8958675845,'127.0.0.1',NULL,NULL),(210,'',1,'sdfa','sdfasf@gmail.com',9586745812,'127.0.0.1',NULL,NULL),(211,'',1,'ada','sdfasf@gmail.com',8692876825,'127.0.0.1',NULL,NULL),(212,'',1,'ada','gasd@gmail.com',9586745812,'127.0.0.1',NULL,NULL),(213,'',1,'ada','gasd@gmail.com',8958675845,'127.0.0.1',NULL,NULL),(214,'',1,'Atul','sdfasf@gmail.com',8692876825,'127.0.0.1',NULL,NULL),(215,'',1,'Atul','abc@gmail.com',8958675845,'127.0.0.1',NULL,NULL),(216,'',1,'Atul','abfadsg@gmail.com',84545555,'127.0.0.1',NULL,NULL),(217,'',2,'Atul','abc@gmail.com',84545555,'127.0.0.1',NULL,NULL),(218,'',1,'Atul','sdfasdaw@gmail.com',548578456,'127.0.0.1',NULL,NULL);
+INSERT INTO `candidate` VALUES (253,'MTY1MjcwNTkwOQ==','Atul','atul@metricoidtech.com',8695748569,1,'','/test/1/MTY1MjcwNTkwOQ==','127.0.0.1','2022-05-17 04:19:55','2022-05-17 04:23:16',1);
 /*!40000 ALTER TABLE `candidate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,12 +58,13 @@ DROP TABLE IF EXISTS `candidate_answers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `candidate_answers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `candidate_id` int(10) NOT NULL,
-  `ip_id` int(11) NOT NULL,
+  `candidate_id` varchar(255) NOT NULL,
+  `ip_id` varchar(255) NOT NULL,
   `questions` text NOT NULL,
   `answers` text NOT NULL,
+  `time` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=408 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +73,7 @@ CREATE TABLE `candidate_answers` (
 
 LOCK TABLES `candidate_answers` WRITE;
 /*!40000 ALTER TABLE `candidate_answers` DISABLE KEYS */;
-INSERT INTO `candidate_answers` VALUES (238,154,303,'How to print chessboard in PHP ?','ADAsda'),(239,154,303,'How to print reverse number in PHP ?','asdfasdfg'),(240,154,303,'How to print star pattern in PHP ?','fgdsafgsdfg'),(241,154,303,'How to find Armstrong number in PHP ?','dfgdsfgadg'),(242,154,303,'How to print even numbers between two numbers in PHP ?','dfgdasfgfg'),(243,155,304,'How to print chessboard in PHP ?',''),(244,154,305,'How to print reverse number in PHP ?','\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n'),(245,157,306,'How to print Fibonacci series in PHP ?',''),(246,157,306,'How to print even numbers between two numbers in PHP ?',''),(247,157,306,'How to print star pattern in PHP ?',''),(248,157,306,'How to print chessboard in PHP ?','dsfafawef'),(249,157,306,'How to print reverse number in PHP ?','arwerqatWEtr'),(250,158,307,'How to print reverse number in PHP ?',''),(251,158,307,'How to print even numbers between two numbers in PHP ?','awdaefrewf'),(252,158,307,'How to find palindrome number in PHP ?',''),(253,158,307,'How to print Fibonacci series in PHP ?',''),(254,155,308,'How to print Fibonacci series in PHP ?',''),(255,155,308,'How to print even numbers between two numbers in PHP ?',''),(256,155,309,'How to print reverse number in PHP ?',''),(257,155,310,'How to print even numbers between two numbers in PHP ?',''),(258,155,310,'How to print star pattern in PHP ?',''),(259,155,310,'How to print chessboard in PHP ?',''),(260,155,311,'How to find palindrome number in PHP ?',''),(261,155,311,'How to print reverse number in PHP ?',''),(262,155,311,'How to print Fibonacci series in PHP ?',''),(263,155,311,'How to print even numbers between two numbers in PHP ?',''),(264,155,312,'How to print even numbers between two numbers in PHP ?',''),(265,155,312,'How to print star pattern in PHP ?',''),(266,155,312,'How to print reverse number in PHP ?',''),(267,155,312,'How to print chessboard in PHP ?',''),(268,155,312,'How to print Fibonacci series in PHP ?',''),(269,155,313,'What are the components in React?',''),(270,155,313,'What is an event in React?',''),(271,155,313,'What are synthetic events in React?',''),(272,155,313,'Why is there a need for using keys in Lists?',''),(273,155,313,'What is the use of render() in React?',''),(274,155,315,'Why is there a need for using keys in Lists?',''),(275,155,315,'What is the use of render() in React?',''),(276,155,315,'What are the components in React?',''),(277,155,315,'What is an event in React?',''),(278,157,316,'How to print chessboard in PHP ?',''),(279,157,316,'How to print reverse number in PHP ?',''),(280,157,316,'How to print star pattern in PHP ?',''),(281,157,316,'How to find palindrome number in PHP ?',''),(282,157,316,'How to find Armstrong number in PHP ?',''),(283,155,317,'What is an event in React?',''),(284,155,317,'What is the use of render() in React?',''),(285,155,317,'What are the components in React?',''),(286,155,317,'What are synthetic events in React?',''),(287,155,317,'Why is there a need for using keys in Lists?',''),(288,155,318,'How to print even numbers between two numbers in PHP ?','fawefa'),(289,155,318,'How to print chessboard in PHP ?','erqawer'),(290,155,318,'How to print star pattern in PHP ?',''),(291,155,318,'How to print reverse number in PHP ?',''),(292,155,318,'How to find Armstrong number in PHP ?',''),(293,157,319,'How to print star pattern in PHP ?',''),(294,157,319,'How to print Fibonacci series in PHP ?',''),(295,157,320,'What is the use of render() in React?',''),(296,157,320,'What is an event in React?',''),(297,157,320,'What are synthetic events in React?',''),(298,157,321,'What are the components in React?',''),(299,157,321,'Why is there a need for using keys in Lists?',''),(300,155,324,'What are the components in React?',''),(301,155,326,'What are the components in React?',''),(302,155,327,'What are the components in React?',''),(303,155,328,'What are the components in React?',''),(304,157,329,'What are the components in React?',''),(305,157,329,'Why is there a need for using keys in Lists?',''),(306,157,329,'What are synthetic events in React?',''),(307,157,329,'What is an event in React?',''),(308,154,330,'How to print chessboard in PHP ?',''),(309,155,331,'How to print star pattern in PHP ?',''),(310,155,331,'How to print Fibonacci series in PHP ?',''),(311,155,332,'How to print Fibonacci series in PHP ?',''),(312,155,332,'How to find palindrome number in PHP ?',''),(313,155,332,'How to print even numbers between two numbers in PHP ?',''),(314,155,332,'How to find Armstrong number in PHP ?',''),(315,155,332,'How to print chessboard in PHP ?',''),(316,158,333,'How to print reverse number in PHP ?','erawgaerg'),(317,158,333,'How to find Armstrong number in PHP ?','awertgwetg'),(318,158,333,'How to print Fibonacci series in PHP ?','asfasefsfd'),(319,158,333,'How to find palindrome number in PHP ?',''),(320,158,333,'How to print even numbers between two numbers in PHP ?',''),(321,155,334,'How to find palindrome number in PHP ?','wqerqaer'),(322,155,334,'How to print Fibonacci series in PHP ?','wqerqaer'),(323,155,334,'How to print reverse number in PHP ?','wqerqaer'),(324,155,334,'How to print chessboard in PHP ?','wqerqaer'),(325,155,334,'How to find Armstrong number in PHP ?',''),(326,157,335,'How to print chessboard in PHP ?',''),(327,157,335,'How to find Armstrong number in PHP ?',''),(328,157,335,'How to print star pattern in PHP ?',''),(329,157,335,'How to print Fibonacci series in PHP ?',''),(330,155,336,'How to print even numbers between two numbers in PHP ?',''),(331,155,336,'How to print chessboard in PHP ?',''),(332,155,336,'How to find Armstrong number in PHP ?',''),(333,155,336,'How to print star pattern in PHP ?',''),(334,155,336,'How to print Fibonacci series in PHP ?',''),(335,155,337,'How to print reverse number in PHP ?',''),(336,155,337,'How to print even numbers between two numbers in PHP ?',''),(337,155,337,'How to find palindrome number in PHP ?',''),(338,155,337,'How to find Armstrong number in PHP ?',''),(339,155,338,'How to print star pattern in PHP ?',''),(340,155,338,'How to print reverse number in PHP ?',''),(341,155,338,'How to print even numbers between two numbers in PHP ?',''),(342,155,338,'How to find palindrome number in PHP ?',''),(343,155,338,'How to find Armstrong number in PHP ?',''),(344,155,339,'How to print star pattern in PHP ?',''),(345,155,339,'How to print reverse number in PHP ?',''),(346,155,339,'How to print even numbers between two numbers in PHP ?',''),(347,155,339,'How to find palindrome number in PHP ?',''),(348,155,339,'How to find Armstrong number in PHP ?',''),(349,155,340,'How to print star pattern in PHP ?',''),(350,155,340,'How to print reverse number in PHP ?',''),(351,155,340,'How to print even numbers between two numbers in PHP ?',''),(352,155,340,'How to find palindrome number in PHP ?',''),(353,155,340,'How to find Armstrong number in PHP ?',''),(354,157,341,'How to find palindrome number in PHP ?',''),(355,157,341,'How to print Fibonacci series in PHP ?',''),(356,157,341,'How to print star pattern in PHP ?',''),(357,157,341,'How to find Armstrong number in PHP ?',''),(358,157,342,'How to find palindrome number in PHP ?','aaadsfasdfgaefhsd'),(359,157,342,'How to print star pattern in PHP ?','dfhghywr5yhaqr4ywa'),(360,157,342,'How to print Fibonacci series in PHP ?',''),(361,157,342,'How to print reverse number in PHP ?','etWETWt'),(362,157,342,'How to print chessboard in PHP ?','wetaert'),(363,158,343,'How to find Armstrong number in PHP ?',''),(364,158,343,'How to print even numbers between two numbers in PHP ?',''),(365,157,344,'What is the use of render() in React?',''),(366,157,345,'What is an event in React?',''),(367,157,345,'What are synthetic events in React?',''),(368,158,346,'What is the use of render() in React?',''),(369,158,348,'How to find palindrome number in PHP ?',''),(370,157,349,'How to print Fibonacci series in PHP ?',''),(371,157,349,'How to print reverse number in PHP ?','fasdgfaerg'),(372,157,349,'How to find palindrome number in PHP ?','argadrg'),(373,157,349,'How to print even numbers between two numbers in PHP ?',''),(374,158,350,'How to print Fibonacci series in PHP ?','asgetasetg'),(375,158,350,'How to print chessboard in PHP ?','sdfgsdf'),(376,158,350,'How to find palindrome number in PHP ?',''),(377,158,351,'Why is there a need for using keys in Lists?',''),(378,207,356,'What are the components in React?',''),(379,208,357,'How to find palindrome number in PHP ?',''),(380,208,357,'How to print chessboard in PHP ?','dfaefAW'),(381,208,357,'How to print even numbers between two numbers in PHP ?',''),(382,208,357,'How to print star pattern in PHP ?',''),(383,208,357,'How to print reverse number in PHP ?',''),(384,206,358,'How to print even numbers between two numbers in PHP ?',''),(385,206,358,'How to print star pattern in PHP ?',''),(386,206,359,'How to print even numbers between two numbers in PHP ?','fqwerAE'),(387,206,359,'How to find Armstrong number in PHP ?','WERWAER'),(388,206,359,'How to print star pattern in PHP ?',''),(389,206,360,'How to print chessboard in PHP ?',''),(390,206,360,'How to find palindrome number in PHP ?','sdfasd'),(391,206,360,'How to print reverse number in PHP ?','fgasdfgf'),(392,206,360,'How to find Armstrong number in PHP ?',''),(393,207,361,'How to print reverse number in PHP ?',''),(394,207,361,'How to find Armstrong number in PHP ?','rwatwet'),(395,207,361,'How to print chessboard in PHP ?',''),(396,206,363,'How to print chessboard in PHP ?',''),(397,206,363,'How to find palindrome number in PHP ?',''),(398,208,364,'How to print star pattern in PHP ?',''),(399,208,364,'How to find Armstrong number in PHP ?',''),(400,208,364,'How to find palindrome number in PHP ?',''),(401,208,364,'How to print Fibonacci series in PHP ?',''),(402,216,365,'How to print star pattern in PHP ?',''),(403,216,365,'How to print Fibonacci series in PHP ?',''),(404,216,365,'How to find Armstrong number in PHP ?','tqwetyery'),(405,216,365,'How to print chessboard in PHP ?',''),(406,218,367,'How to print even numbers between two numbers in PHP ?',''),(407,208,367,'What are the components in React?','');
+INSERT INTO `candidate_answers` VALUES (492,'MTY1Mjc3OTY3NQ==','404','What is the difference between list and tuples in Python?','feasegfasdfgadfg','2022-05-17 16:14:58'),(493,'MTY1Mjc3OTY3NQ==','404','Write a program to print star pattern in python ?','fsadfaefasef','2022-05-17 16:15:02'),(494,'MTY1Mjc3OTY3NQ==','404','Write a python program to print all even numbers between 1 to 100 ?','sgasdfgasdg','2022-05-17 16:15:08'),(495,'MTY1MjcwNTkwOQ==','405','How to print reverse number in PHP ?','wthwrthwrth','2022-05-17 16:20:02'),(496,'MTY1MjcwNTkwOQ==','405','How to find palindrome number in PHP ?','wthwrthwrth','2022-05-17 16:20:09'),(497,'MTY1MjcwNTkwOQ==','405','How to print Fibonacci series in PHP ?','wthwrthwrth','2022-05-17 16:20:25'),(498,'MTY1MjcwNTkwOQ==','405','How to print star pattern in PHP ?','wthwrthwrth','2022-05-17 16:20:45'),(499,'MTY1MjcwNTkwOQ==','405','How to find Armstrong number in PHP ?','wrthwrtwrthw','2022-05-17 16:21:14');
 /*!40000 ALTER TABLE `candidate_answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,14 +85,17 @@ DROP TABLE IF EXISTS `candidate_test_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `candidate_test_link` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(254) NOT NULL,
   `email` varchar(254) NOT NULL,
   `phone` varchar(254) NOT NULL,
   `test_category_id` int(11) NOT NULL,
+  `candidate_id` varchar(255) NOT NULL,
   `link` varchar(254) NOT NULL COMMENT 'base64_encode(time())',
-  `created_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1:active 0:inactive',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +104,7 @@ CREATE TABLE `candidate_test_link` (
 
 LOCK TABLES `candidate_test_link` WRITE;
 /*!40000 ALTER TABLE `candidate_test_link` DISABLE KEYS */;
-INSERT INTO `candidate_test_link` VALUES (0,'Amarjit Kumar','amarjit@metricoidtech.com','',2,'dfjh66sdjfhj','2022-05-13 16:14:44');
+INSERT INTO `candidate_test_link` VALUES (12,'Atul','atul@metricoidtech.com','8695748569',1,'MTY1MjcwNTkwOQ==','/test/1/MTY1MjcwNTkwOQ==','2022-05-16 18:28:29',1),(13,'Shubham','shubham@metricoidtech.com','9865748569',3,'MTY1Mjc3OTY3NQ==','/test/3/MTY1Mjc3OTY3NQ==','2022-05-17 14:57:55',0),(14,'Shubham','shubham@metricoidtech.com','9865748569',3,'MTY1Mjc4MzU5Mw==','/test/3/MTY1Mjc4MzU5Mw==','2022-05-17 16:03:13',0);
 /*!40000 ALTER TABLE `candidate_test_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +177,7 @@ CREATE TABLE `ip_details` (
   `category_id` int(11) NOT NULL,
   `date_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=368 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=406 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +186,7 @@ CREATE TABLE `ip_details` (
 
 LOCK TABLES `ip_details` WRITE;
 /*!40000 ALTER TABLE `ip_details` DISABLE KEYS */;
-INSERT INTO `ip_details` VALUES (355,'127.0.0.1',1,'2022-05-13 06:20:23'),(356,'127.0.0.1',1,'2022-05-13 06:39:48'),(357,'127.0.0.1',1,'2022-05-13 06:43:38'),(358,'127.0.0.1',1,'2022-05-13 06:47:26'),(359,'127.0.0.1',1,'2022-05-13 06:54:32'),(360,'127.0.0.1',1,'2022-05-13 06:58:12'),(361,'127.0.0.1',1,'2022-05-13 07:04:00'),(362,'127.0.0.1',1,'2022-05-13 07:16:23'),(363,'127.0.0.1',1,'2022-05-13 07:23:43'),(364,'127.0.0.1',1,'2022-05-13 07:27:26'),(365,'127.0.0.1',1,'2022-05-13 07:32:57'),(366,'127.0.0.1',2,'2022-05-13 07:37:30'),(367,'127.0.0.1',1,'2022-05-13 07:38:44');
+INSERT INTO `ip_details` VALUES (355,'127.0.0.1',1,'2022-05-13 06:20:23'),(356,'127.0.0.1',1,'2022-05-13 06:39:48'),(357,'127.0.0.1',1,'2022-05-13 06:43:38'),(358,'127.0.0.1',1,'2022-05-13 06:47:26'),(359,'127.0.0.1',1,'2022-05-13 06:54:32'),(360,'127.0.0.1',1,'2022-05-13 06:58:12'),(361,'127.0.0.1',1,'2022-05-13 07:04:00'),(362,'127.0.0.1',1,'2022-05-13 07:16:23'),(363,'127.0.0.1',1,'2022-05-13 07:23:43'),(364,'127.0.0.1',1,'2022-05-13 07:27:26'),(365,'127.0.0.1',1,'2022-05-13 07:32:57'),(366,'127.0.0.1',2,'2022-05-13 07:37:30'),(367,'127.0.0.1',1,'2022-05-13 07:38:44'),(368,'127.0.0.1',1,'2022-05-16 05:49:29'),(369,'127.0.0.1',1,'2022-05-16 07:38:42'),(370,'127.0.0.1',1,'2022-05-16 07:45:28'),(371,'127.0.0.1',1,'2022-05-16 07:45:59'),(372,'127.0.0.1',1,'2022-05-16 07:49:32'),(373,'127.0.0.1',1,'2022-05-17 11:00:52'),(374,'127.0.0.1',1,'2022-05-17 11:09:05'),(375,'127.0.0.1',1,'2022-05-17 11:09:53'),(376,'127.0.0.1',1,'2022-05-17 11:47:59'),(377,'127.0.0.1',1,'2022-05-17 12:26:21'),(378,'127.0.0.1',1,'2022-05-17 12:27:36'),(379,'127.0.0.1',1,'2022-05-17 12:31:11'),(380,'127.0.0.1',1,'2022-05-17 12:32:23'),(381,'127.0.0.1',1,'2022-05-17 12:35:18'),(382,'127.0.0.1',1,'2022-05-17 12:37:37'),(383,'127.0.0.1',1,'2022-05-17 12:39:41'),(384,'127.0.0.1',1,'2022-05-17 12:44:37'),(385,'127.0.0.1',1,'2022-05-17 12:45:17'),(386,'127.0.0.1',1,'2022-05-17 12:47:43'),(387,'127.0.0.1',1,'2022-05-17 12:51:03'),(388,'127.0.0.1',1,'2022-05-17 12:52:48'),(389,'127.0.0.1',1,'2022-05-17 12:52:55'),(390,'127.0.0.1',1,'2022-05-17 12:56:48'),(391,'127.0.0.1',1,'2022-05-17 12:57:06'),(392,'127.0.0.1',1,'2022-05-17 01:07:50'),(393,'127.0.0.1',1,'2022-05-17 01:07:58'),(394,'127.0.0.1',1,'2022-05-17 01:08:25'),(395,'127.0.0.1',1,'2022-05-17 01:08:44'),(396,'127.0.0.1',1,'2022-05-17 02:00:03'),(397,'127.0.0.1',1,'2022-05-17 02:06:42'),(398,'127.0.0.1',1,'2022-05-17 02:17:35'),(399,'127.0.0.1',1,'2022-05-17 03:23:36'),(400,'127.0.0.1',1,'2022-05-17 03:33:05'),(401,'127.0.0.1',1,'2022-05-17 03:42:09'),(402,'127.0.0.1',3,'2022-05-17 03:52:17'),(403,'127.0.0.1',3,'2022-05-17 03:57:26'),(404,'127.0.0.1',3,'2022-05-17 04:05:49'),(405,'127.0.0.1',1,'2022-05-17 04:19:55');
 /*!40000 ALTER TABLE `ip_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -439,6 +446,32 @@ INSERT INTO `questions` VALUES (1,1,'How to print even numbers between two numbe
 UNLOCK TABLES;
 
 --
+-- Table structure for table `temp_queans`
+--
+
+DROP TABLE IF EXISTS `temp_queans`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temp_queans` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `candidate_id` varchar(255) NOT NULL,
+  `questions` text NOT NULL,
+  `answers` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `temp_queans`
+--
+
+LOCK TABLES `temp_queans` WRITE;
+/*!40000 ALTER TABLE `temp_queans` DISABLE KEYS */;
+INSERT INTO `temp_queans` VALUES (1,'MTY1MjcwNTkwOQ==','How to print Fibonacci series in PHP ?',NULL),(2,'MTY1MjcwNTkwOQ==','How to print even numbers between two numbers in PHP ?',NULL),(3,'MTY1MjcwNTkwOQ==','How to find palindrome number in PHP ?',NULL),(4,'MTY1MjcwNTkwOQ==','How to print chessboard in PHP ?',NULL),(5,'MTY1MjcwNTkwOQ==','How to print reverse number in PHP ?',NULL);
+/*!40000 ALTER TABLE `temp_queans` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -478,4 +511,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-13 20:05:03
+-- Dump completed on 2022-05-17 16:59:49

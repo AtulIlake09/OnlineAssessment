@@ -177,7 +177,7 @@
                                                 <span class="card-label fw-bolder fs-3 mb-1">Candidates Links</span>
                                                 {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                                             </h3>
-                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a category">
+                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to Generate Link">
                                                 <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                                 <span class="svg-icon svg-icon-3">
@@ -251,12 +251,12 @@
                                                                 <label href="#" class="text-muted fw-bolder d-block fs-6">{{url($val->link)}}</label>
                                                                 {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
-                                                            {{-- <td class="text-center">
-                                                                <span @if($val->active==1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{($val->active==1)?"Active":"Inactive"}}</span>
-                                                            </td> --}}
+                                                            <td class="text-center">
+                                                                <span @if($val->status==1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{($val->status==1)?"Active":"Inactive"}}</span>
+                                                            </td>
                                                             <td>
                                                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                                    <a href="{{url('/changeStatus/'.$val->id)}}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                                         <span class="svg-icon svg-icon-3">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -266,7 +266,7 @@
                                                                         </span>
                                                                         <!--end::Svg Icon-->
                                                                     </a>
-                                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                                    <a href="" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_link_{{$val->id}}">
                                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                         <span class="svg-icon svg-icon-3">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -276,7 +276,7 @@
                                                                         </span>
                                                                         <!--end::Svg Icon-->
                                                                     </a>
-                                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                                                    <a href="{{url('/deletelink/'.$val->id)}}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                                         <span class="svg-icon svg-icon-3">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -376,6 +376,83 @@
                             </div>
                             <!--end::Modal dialog-->
                         </div>
+                        @foreach($data as $val)
+                        <div class="modal fade" id="kt_modal_edit_link_{{$val->id}}" tabindex="-1" aria-hidden="true">
+                            <!--begin::Modal dialog-->
+                            <div class="modal-dialog mw-650px">
+                                <!--begin::Modal content-->
+                                <div class="modal-content">
+                                    <!--begin::Modal header-->
+                                    <div class="modal-header pb-0 border-0 justify-content-end">
+                                        <!--begin::Close-->
+                                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
+                                        </div>
+                                        <!--end::Close-->
+                                    </div>
+                                    <!--begin::Modal header-->
+                                    <!--begin::Modal body-->
+                                    <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                        <!--begin::Heading-->
+                                        <div class="mb-13">
+                                            <!--begin::Title-->
+                                            <h1 class="mb-3">Candidate Details</h1>
+                                            <!--end::Title-->
+                                            <hr>
+                                            <form action="{{url('/edit_link')}}" method="POST">
+                                                @csrf   
+                                                <input type="hidden" name="id" id="cid" value="{{$val->id}}">
+                                                <div class="form-row">
+                                                    <div class="form-group">
+                                                        <label for="cname">Name</label>
+                                                        <input type="text" class="form-control" name="name" id="cname" placeholder="Name" value="{{empty($val->name)? "" : $val->name}}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputEmail4">Email</label>
+                                                        <input type="email" class="form-control" name="email" id="cemail" placeholder="Email" value="{{empty($val->email)? "" : $val->email}}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group">
+                                                        <label for="phone">Phone</label>
+                                                        <input type="text" class="form-control" name="phone" id="cphone" placeholder="phone" value="{{empty($val->phone)? "" : $val->phone}}" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="inputCategory">Category</label>
+                                                        <select name="category" id="ccategory" class="form-control" required>
+                                                        <option >Choose...</option>
+
+                                                        @php $i=1; @endphp
+                                                        @foreach($categories as $value)
+                                                            @if($val->category==$value->category)
+                                                            <option value="{{$i}}" selected>{{$value->category}}</option>
+                                                            @else
+                                                            <option value="{{$i}}">{{$value->category}}</option>
+                                                            @endif
+                                                            @php $i++; @endphp
+                                                        @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mt-5">Update Link</button>
+                                            </form>
+                                        </div>
+                                        <!--end::Heading-->
+                                    </div>
+                                    <!--end::Modal body-->
+                                </div>
+                                <!--end::Modal content-->
+                            </div>
+                            <!--end::Modal dialog-->
+                        </div>
+                        @endforeach
 					</div>
 					<!--end::Content-->
 					<!--begin::Footer-->
@@ -408,6 +485,7 @@
 		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--end::Page Custom Javascript-->
 		<!--end::Javascript-->
+      
 	</body>
 	<!--end::Body-->
 </html>

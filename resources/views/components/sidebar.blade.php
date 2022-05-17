@@ -46,11 +46,11 @@
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
                         <div class="menu-item">
-                            <a class="menu-link active" href="../../demo1/dist/index.html">
+                            <a class="menu-link active" href="{{url('/generatelink')}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Multipurpose</span>
+                                <span class="menu-title">Generate Link</span>
                             </a>
                         </div>
                         <div class="menu-item">

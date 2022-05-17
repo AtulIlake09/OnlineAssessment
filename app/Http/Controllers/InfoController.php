@@ -15,17 +15,31 @@ class InfoController extends Controller
     {
         
         $query=DB::table('candidate_test_link')
-        ->select('name','email','phone','link')
-        ->where('test_category_id','=',$cat)
+        ->select('status')
         ->where('candidate_id','=',$key)
         ->first();
         
-        $name=$query->name;
-        $email=$query->email;
-        $phone=$query->phone;
-        $link=$query->link;
-       
-        return view('login',compact('name','email','phone','cat','key','link'));
+        if($query->status==0)
+        {
+            $err="You can not give a test !";
+            return view('AfterSubmit',compact('err'));
+        }
+        else
+        {
+            $query=DB::table('candidate_test_link')
+            ->select('name','email','phone','link')
+            ->where('test_category_id','=',$cat)
+            ->where('candidate_id','=',$key)
+            ->first();
+            
+            $name=$query->name;
+            $email=$query->email;
+            $phone=$query->phone;
+            $link=$query->link;
+        
+            return view('login',compact('name','email','phone','cat','key','link'));
+        }
+        
     }
     
     public function info(Request $request)
@@ -58,39 +72,56 @@ class InfoController extends Controller
         $date = new DateTime('now', new DateTimeZone($timezone)); 
         $localtime = $date->format('Y-m-d h:i:s');
    
-        $ip=$request->ip();     
-       
-        DB::table('ip_details')
-        ->insert(['ip'=>$ip,'category_id'=>$category_id,'date_time'=>$localtime]);
+        $ip=$request->ip(); 
         
-        DB::table('candidate')
-        ->insert([
-            'candidate_id'=>$candidate_id,
-            'name'=>$name,
-            'email'=>$email,
-            'mobile'=>$mobile,
-            'category_id'=>$category_id,
-            'resume'=>$path,
-            'link'=>$link,
-            'ip'=>$ip,
-            'start_date_time'=>$localtime
-        ]);
+          
+       
+        $query=DB::table('candidate')
+        ->where('candidate_id','=',$candidate_id)
+        ->first();
 
-        // $can_id=DB::table('candidate')
-        // ->select('id')
-        // ->where('ip','=',$ip)
-        // ->where('email','=',$email)
-        // ->first();
-        // $candidate_id=$can_id->id;
-        $id=1;
-        $data=[
-            'ip'=>$ip,
-            'category_id'=>$category_id,
-            'time'=>$localtime,
-            'can_id'=>$candidate_id
-        ];
-        $request->session()->put('data',$data);
-        return Redirect::route('exam',$id);
+        if(!empty($query))
+        {
+            $id=1;
+            $data=[
+                'ip'=>$ip,
+                'category_id'=>$category_id,
+                'time'=>$localtime,
+                'can_id'=>$candidate_id
+            ];
+            $request->session()->put('data',$data);
+            return Redirect::route('exam',$id);
+        }
+        else
+        {
+            DB::table('ip_details')
+            ->insert(['ip'=>$ip,'category_id'=>$category_id,'date_time'=>$localtime]);
+            
+            DB::table('candidate')
+            ->insert([
+                'candidate_id'=>$candidate_id,
+                'name'=>$name,
+                'email'=>$email,
+                'mobile'=>$mobile,
+                'category_id'=>$category_id,
+                'resume'=>$path,
+                'link'=>$link,
+                'ip'=>$ip,
+                'start_date_time'=>$localtime
+            ]);
+
+            $id=1;
+            $data=[
+                'ip'=>$ip,
+                'category_id'=>$category_id,
+                'time'=>$localtime,
+                'can_id'=>$candidate_id
+            ];
+
+            $request->session()->put('data',$data);
+            return Redirect::route('exam',$id);
+        }
+       
     }
 
    public function getUserIP()

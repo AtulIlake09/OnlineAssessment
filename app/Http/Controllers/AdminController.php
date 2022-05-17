@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function view_admin(Request $request)
     {
-        if(Auth::check())
+        if(Auth::user())
         {
             $category=$this->getcattbl();
             $question=$this->getquetbl();
@@ -79,6 +79,12 @@ class AdminController extends Controller
 
     }
 
+    public function logot()
+    {
+        Auth::logout();
+        return redirect('/adminlogin');
+    }
+    
     public function getcattbl()
     {
         $qurey=DB::table('category')
@@ -124,22 +130,27 @@ class AdminController extends Controller
 
     public function glink(Request $request)
     {
-        
-        $query=DB::table('candidate_test_link')
-        ->join('category','candidate_test_link.test_category_id','=','category.id')
-        ->select('candidate_test_link.id','candidate_test_link.name','candidate_test_link.email','candidate_test_link.phone','category.category','candidate_test_link.link')
-        ->orderBy('id','asc')
-        ->get();
+        if(Auth::check())
+        {
+            $query=DB::table('candidate_test_link')
+            ->join('category','candidate_test_link.test_category_id','=','category.id')
+            ->select('candidate_test_link.id','candidate_test_link.name','candidate_test_link.email','candidate_test_link.phone','category.category','candidate_test_link.link','candidate_test_link.status')
+            ->orderBy('id','asc')
+            ->get();
 
-        $data=$query->all();
+            $data=$query->all();
+            
+            $query=DB::table('category')
+            ->select('category')
+            ->get();
         
-        $query=DB::table('category')
-        ->select('category')
-        ->get();
-    
-        $categories=$query->all();
-        return view('generatelink',compact('data','categories'));
-        
+            $categories=$query->all();
+            return view('generatelink',compact('data','categories'));
+        }
+        else
+        {
+            return redirect('/adminlogin');
+        }
     }
 
     public function generatelink(Request $request)
@@ -163,5 +174,66 @@ class AdminController extends Controller
 
         return redirect('/generatelink');
 
+    }
+
+    public function change_status($id)
+    {
+        $query=DB::table('candidate_test_link')
+        ->select('status')
+        ->where('id','=',$id)
+        ->first();
+
+        $status=$query->status;
+
+        if($status==0)
+        {
+            $status=1;
+            DB::table('candidate_test_link')
+            ->where('id','=',$id)
+            ->update(['status'=>$status]);
+
+        }
+        else
+        {
+            $status=0;
+            DB::table('candidate_test_link')
+            ->where('id','=',$id)
+            ->update(['status'=>$status]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function delete_link($id)
+    {
+        DB::table('candidate_test_link')
+        ->where('id','=',$id)
+        ->delete();
+
+        return redirect()->back();
+    }
+
+    public function edit_link(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        $id=$request->id;
+        $name=$request->name;
+        $email=$request->email;
+        $phone=$request->phone;
+        $category_id=$request->category;
+        $token=base64_encode(time());
+        
+        $link='/test/'.$category_id.'/'.$token;
+        
+        DB::table('candidate_test_link')
+        ->where('id','=',$id)
+        ->update(['name'=>$name,'email'=>$email,'phone'=>$phone,'test_category_id'=>$category_id,'candidate_id'=>$token,'link'=>$link]);
+         
+        return redirect()->back();
     }
 }
