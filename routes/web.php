@@ -54,5 +54,7 @@ Route::get('/changeStatus/{id}',[AdminController::class,'change_status']);
 Route::get('/deletelink/{id}',[AdminController::class,'delete_link']);
 Route::post('/edit_link',[AdminController::class,'edit_link']);
 
+Route::view('/categories','categories');
+
 
 

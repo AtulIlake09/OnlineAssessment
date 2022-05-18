@@ -234,6 +234,6 @@ class AdminController extends Controller
         ->where('id','=',$id)
         ->update(['name'=>$name,'email'=>$email,'phone'=>$phone,'test_category_id'=>$category_id,'candidate_id'=>$token,'link'=>$link]);
          
-        return redirect()->back();
+        return redirect('/generatelink');
     }
 }

@@ -18,8 +18,13 @@ class InfoController extends Controller
         ->select('status')
         ->where('candidate_id','=',$key)
         ->first();
-       
-        if(empty($query))
+
+        $category=DB::table('category')
+        ->select('id')
+        ->where('id','=',$cat)
+        ->first();
+        
+        if(empty($query) || empty($category))
         {
             $err="You can not give a test !";
             return view('AfterSubmit',compact('err'));
@@ -33,6 +38,7 @@ class InfoController extends Controller
             else
             {
                 $query=DB::table('candidate')
+                ->where('category_id','=',$cat)
                 ->where('candidate_id','=',$key)
                 ->first();
                 
@@ -40,15 +46,9 @@ class InfoController extends Controller
                 {
                     if($query->status==0)
                     {
-                        $query=DB::table('candidate_test_link')
-                        ->select('name','email','phone','link')
-                        ->where('test_category_id','=',$cat)
-                        ->where('candidate_id','=',$key)
-                        ->first();
-        
                         $name=$query->name;
                         $email=$query->email;
-                        $phone=$query->phone;
+                        $phone=$query->mobile;
                         $link=$query->link;
                     
                         return view('login',compact('name','email','phone','cat','key','link'));
@@ -120,6 +120,13 @@ class InfoController extends Controller
             $starttime=$query->start_date_time;
             if($query->status==0)
             {
+                if($path!="")
+                {
+                    $query=DB::table('candidate')
+                    ->where('candidate_id','=',$candidate_id)
+                    ->update(['resume'=>$path]);
+                }
+                
                 $id=1;
                 $data=[
                     'ip'=>$ip,

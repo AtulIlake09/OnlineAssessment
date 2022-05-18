@@ -51,7 +51,7 @@
 								<!--begin::Page title-->
 								<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
 									<!--begin::Title-->
-									<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1" id="generateLink">Generate Link 
+									<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1" id="generateLink">Categories 
 									<!--begin::Separator-->
 									<span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
 									<!--end::Separator-->
@@ -75,10 +75,10 @@
                                         <!--begin::Header-->
                                         <div class="card-header border-0 pt-5">
                                             <h3 class="card-title align-items-start flex-column">
-                                                <span class="card-label fw-bolder fs-3 mb-1">Candidates Links</span>
+                                                <span class="card-label fw-bolder fs-3 mb-1">Categories</span>
                                                 {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                                             </h3>
-                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to Generate Link">
+                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add Categories">
                                                 <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                                 <span class="svg-icon svg-icon-3">
@@ -87,7 +87,7 @@
                                                         <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->Generate Link</a>
+                                                <!--end::Svg Icon-->Add Categories</a>
                                             </div>
                                         </div>
                                         <!--end::Header-->
@@ -266,7 +266,7 @@
                                                 <!--end::Select2-->
                                             </div>
                                             <div class="text-center">
-                                                <button type="submit" class="btn btn-primary mt-5">Generate Link</button>
+                                                <button type="submit" class="btn btn-primary mt-5">Categories</button>
                                             </div>
                                         </div>
                                     </form>
