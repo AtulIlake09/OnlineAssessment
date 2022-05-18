@@ -4,7 +4,7 @@
     <div class="aside-logo flex-column-auto" id="kt_aside_logo">
         <!--begin::Logo-->
         <a href="{{url('/adminpage')}}">
-            <img alt="Logo" src="assets/media/logos/logo-1-dark.svg" class="h-25px logo" />
+            <img alt="Logo" src="images/metricoid-new-logo.png" class="h-25px logo" /><h2 class="h-25px logo" style="color:aliceblue">MetricoidTech</h2>
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggler-->

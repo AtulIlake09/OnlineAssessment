@@ -97,12 +97,12 @@ class ExamController extends Controller
                 $ip = $request->ip();
                 $can_id = $data['can_id'];
 
-                $query=DB::table('temp_queans')
+                $query=DB::table('candidate_answers')
                 ->where('candidate_id','=',$can_id)
                 ->get();
                 
                 if(!empty($query->first()))
-                {
+                {         
                     $question1=$query->all();
                     $questions = [];
                     $key = 1;
@@ -153,7 +153,7 @@ class ExamController extends Controller
                         $request->session()->put('questions', $values);
                         $request->session()->put('ques', $questions);
 
-                        $query=DB::table('temp_queans')
+                        $query=DB::table('candidate_answers')
                         ->select('questions', 'answers')
                         ->where('candidate_id', '=', $can_id)
                         ->where('questions', '=', $question)
@@ -172,7 +172,6 @@ class ExamController extends Controller
                     
                     } else {
                         $remain = 0;
-                        $request->session()->flush();
                         return redirect('/finish')->with('message','Test Submitted Successfully');     
                     }
                 }
@@ -186,13 +185,21 @@ class ExamController extends Controller
                     ->get();
                     $question1 = $query->all();
                     
+                    $ip_id = DB::table('ip_details')
+                    ->select('id')
+                    ->where('ip', '=', $data['ip'])
+                    ->orderBy('id', 'DESC')
+                    ->first();
+                    $ip_id = $ip_id->id;
+
+                   
                     $questions = [];
                     $key = 1;
                     foreach ($question1 as $val) {
     
                         $questions[$key] = $val->questions;
-                        DB::table('temp_queans')
-                        ->insert(['candidate_id'=>$can_id,'questions'=>$val->questions]);
+                        DB::table('candidate_answers')
+                        ->insert(['candidate_id' => $can_id, 'ip_id' => $ip_id, 'questions' => $val->questions]);
                         $key++;
                     }
     
@@ -237,12 +244,25 @@ class ExamController extends Controller
                         $request->session()->put('qnos', $keys);
                         $request->session()->put('questions', $values);
                         $request->session()->put('ques', $questions);
-                        $answer = "";
+
+                        $query=DB::table('candidate_answers')
+                        ->select('questions', 'answers')
+                        ->where('candidate_id', '=', $can_id)
+                        ->where('questions', '=', $question)
+                        ->first();
+                        
+                        if(!empty($query))
+                        {
+                            $answer=$query->answers;
+                        }
+                        else
+                        {
+                            $answer = "";
+                        }
                         return view('exam', compact('qno', 'count', 'answer', 'question', 'remain'));
                     
                     } else {
                         $remain = 0;
-                        $request->session()->flush();
                         return redirect('/finish')->with('message','Test Submitted Successfully');     
                     }
                 }
@@ -268,6 +288,17 @@ class ExamController extends Controller
                 ->first();
             $ip_id = $ip_id->id;
 
+
+            $query=DB::table('candidate')
+            ->where('candidate_id', '=', $candidate_id)
+            ->first();
+
+            $status=$query->status;
+            if($status==1)
+            {
+                $err="You can not give a test !";
+                return view('AfterSubmit',compact('err'));
+            }
             $query = DB::table('candidate_answers')
                 ->select('questions', 'answers')
                 ->where('candidate_id', '=', $candidate_id)
@@ -287,7 +318,7 @@ class ExamController extends Controller
                     ->where('candidate_id', '=', $candidate_id)
                     ->where('ip_id', '=', $ip_id)
                     ->where('questions', '=', $que)
-                    ->update(['candidate_id' => $candidate_id, 'ip_id' => $ip_id, 'questions' => $que, 'answers' => $ans]);
+                    ->update(['answers' => $ans]);
 
             } else {
 
@@ -301,11 +332,6 @@ class ExamController extends Controller
                 DB::table('candidate_answers')
                     ->insert(['candidate_id' => $candidate_id, 'ip_id' => $ip_id, 'questions' => $que, 'answers' => $ans]);
             }
-
-            DB::table('temp_queans')
-            ->where('candidate_id', '=', $candidate_id)
-            ->where('questions', '=', $que)
-            ->update(['answers' => $ans]);
 
             $qnos = $request->session()->get('qnos');
             $questions = $request->session()->get('questions');
@@ -343,6 +369,17 @@ class ExamController extends Controller
                 ->first();
             $ip_id = $ip_id->id;
 
+            $query=DB::table('candidate')
+            ->where('candidate_id', '=', $candidate_id)
+            ->first();
+
+            $status=$query->status;
+            if($status==1)
+            {
+                $err="You can not give a test !";
+                return view('AfterSubmit',compact('err'));
+            }
+
             $query = DB::table('candidate_answers')
                 ->select('questions', 'answers')
                 ->where('candidate_id', '=', $candidate_id)
@@ -376,11 +413,6 @@ class ExamController extends Controller
                     ->insert(['candidate_id' => $candidate_id, 'ip_id' => $ip_id, 'questions' => $que, 'answers' => $ans]);
             }
             
-            DB::table('temp_queans')
-            ->where('candidate_id', '=', $candidate_id)
-            ->where('questions', '=', $que)
-            ->update(['answers' => $ans]);
-
             $qnos = $request->session()->get('qnos');
             $questions = $request->session()->get('questions');
             $qno = $request->session()->get('qno');
@@ -444,11 +476,6 @@ class ExamController extends Controller
                     ->insert(['candidate_id' => $candidate_id, 'ip_id' => $ip_id, 'questions' => $que, 'answers' => $ans]);
             }
 
-            DB::table('temp_queans')
-            ->where('candidate_id', '=', $candidate_id)
-            ->where('questions', '=', $que)
-            ->update(['answers' => $ans]);
-
             return redirect('/finish')->with('message','Test Submitted Successfully...');
 
         } 
@@ -456,67 +483,75 @@ class ExamController extends Controller
 
     public function After_Submit(Request $request)
     {
-        $data = $request->session()->get('data');
-        $candidate_id = $data['can_id'];
+        if(session()->has('data'))
+        {
+            $data = $request->session()->get('data');
+            if(empty($data))
+            {
 
-        $query = DB::table('candidate')
+            }
+            $candidate_id = $data['can_id'];
+
+            $query = DB::table('candidate')
+                    ->where('candidate_id', '=', $candidate_id)
+                    ->first();
+            $useremail = $query->email;
+            $user_name = $query->name;
+                
+            $ip_id = DB::table('ip_details')
+                    ->select('id')
+                    ->where('ip', '=', $data['ip'])
+                    ->orderBy('id', 'DESC')
+                    ->first();
+            $ip_id = $ip_id->id;
+
+            $query = DB::table('candidate_answers')
+                ->select('questions', 'answers')
+                ->where('ip_id', '=', $ip_id)
                 ->where('candidate_id', '=', $candidate_id)
-                ->first();
-        $useremail = $query->email;
-        $user_name = $query->name;
+                ->get();
             
-        $ip_id = DB::table('ip_details')
-                ->select('id')
-                ->where('ip', '=', $data['ip'])
-                ->orderBy('id', 'DESC')
-                ->first();
-        $ip_id = $ip_id->id;
+            $questions = [];
+            $answers = [];
 
-        $query = DB::table('candidate_answers')
-            ->select('questions', 'answers')
-            ->where('ip_id', '=', $ip_id)
-            ->where('candidate_id', '=', $candidate_id)
-            ->get();
-        
-        $questions = [];
-        $answers = [];
+            foreach ($query as $val) {
+                array_push($questions, $val->questions);
+                array_push($answers, $val->answers);
+            }
 
-        foreach ($query as $val) {
-            array_push($questions, $val->questions);
-            array_push($answers, $val->answers);
+            $que_ans = array_combine($questions, $answers);
+            $queAns = ['que_ans' => $que_ans];
+            $email = "amarjit@metricoidtech.com";
+            $email_cc = "reena@metricoidtech.com";
+            $email_bcc = 'atul@metricoidtech.com';
+
+            $subject = "Test Submitted by " . $user_name;
+            Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
+                $message->to($email_bcc);
+                $message->subject($subject);
+            });
+
+            $timezone = 'ASIA/KOLKATA';
+            $date = new DateTime('now', new DateTimeZone($timezone));
+            $localtime = $date->format('Y-m-d h:i:s');
+
+            DB::table('candidate')
+            ->where('candidate_id','=',$candidate_id)
+            ->update(['end_date_time'=>$localtime,'status'=>1]);
+
+            DB::table('candidate_test_link')
+            ->where('candidate_id','=',$candidate_id)
+            ->update(['status'=>0]);
+
+            $id = $data['category_id'];
+            $msg=session()->get('message');
+            $request->session()->flush();
+            return view('AfterSubmit',compact('msg'));
         }
-
-        $que_ans = array_combine($questions, $answers);
-        $queAns = ['que_ans' => $que_ans];
-        $email = "amarjit@metricoidtech.com";
-        $email_cc = "reena@metricoidtech.com";
-        $email_bcc = 'atul@metricoidtech.com';
-
-        $subject = "Test Submitted by" . $user_name;
-        Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
-            $message->to($email_bcc);
-            $message->subject($subject);
-        });
-
-        DB::table('temp_queans')
-        ->where('candidate_id','=',$candidate_id)
-        ->delete();
-        
-        $timezone = 'ASIA/KOLKATA';
-        $date = new DateTime('now', new DateTimeZone($timezone));
-        $localtime = $date->format('Y-m-d h:i:s');
-
-        DB::table('candidate')
-        ->where('candidate_id','=',$candidate_id)
-        ->update(['end_date_time'=>$localtime,'status'=>1]);
-
-        DB::table('candidate_test_link')
-        ->where('candidate_id','=',$candidate_id)
-        ->update(['status'=>0]);
-
-        $id = $data['category_id'];
-        $msg=session()->get('message');
-        $request->session()->flush();
-        return view('AfterSubmit',compact('msg'));
+        else
+        {
+            $err="You can not give a test !";
+            return view('AfterSubmit',compact('err'));
+        }
     }
 }

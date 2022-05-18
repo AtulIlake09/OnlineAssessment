@@ -102,7 +102,8 @@
                                         <a class="nav-link" href="#">Contact</a>
                                     </li>
                                 </ul>
-                                <div class="time"><span class="yellow">Timer: </span>
+                                <div class="time">
+                                {{-- <span class="yellow">Timer: </span> --}}
                                     <label class="font-weight-bold" id="timer"></label>
                                 </div>
                             </div>
@@ -130,7 +131,7 @@
                             <div class="form-floating col-md-12" id="ansdiv">
                                 <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
                                 <textarea class="form-control" placeholder="Leave a comment here" name="answer" id="answer"
-                                    style="height: 100px">{{ $answer }}</textarea>
+                                    style="height: 200px" autofocus>{{ $answer }}</textarea>
                             </div>
                             <div class="col-sm-6 mt-4">
                                 <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous" name="previous"

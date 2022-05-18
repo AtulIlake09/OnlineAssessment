@@ -13,7 +13,7 @@
 		<meta property="og:url" content="https://keenthemes.com/metronic" />
 		<meta property="og:site_name" content="Keenthemes | Metronic" />
 		<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="images/metricoid-new-logo.png" />
 		<!--begin::Fonts-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -51,7 +51,7 @@
 								<!--begin::Page title-->
 								<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
 									<!--begin::Title-->
-									<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Generate Link 
+									<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1" id="generateLink">Generate Link 
 									<!--begin::Separator-->
 									<span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
 									<!--end::Separator-->
@@ -328,47 +328,48 @@
                                     <!--begin::Modal header-->
                                     <!--begin::Modal body-->
                                     <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                        <form action="{{url('/linkgenerate')}}" method="POST" class="form">
+                                            @csrf   
                                         <!--begin::Heading-->
-                                        <div class="mb-13">
+                                        <div class="mb-13 text-center">
                                             <!--begin::Title-->
                                             <h1 class="mb-3">Candidate Details</h1>
                                             <!--end::Title-->
-                                            <hr>
-                                            <form action="{{url('/linkgenerate')}}" method="POST">
-                                                @csrf   
-                                                <div class="form-row">
-                                                    <div class="form-group">
-                                                        <label for="cname">Name</label>
-                                                        <input type="text" class="form-control" name="name" id="cname" placeholder="Name" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="inputEmail4">Email</label>
-                                                        <input type="email" class="form-control" name="email" id="inputEmail4" placeholder="Email" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group">
-                                                        <label for="phone">Phone</label>
-                                                        <input type="text" class="form-control" name="phone" id="phone" required>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="inputCategory">Category</label>
-                                                        <select name="category" id="inputCategory" class="form-control" required>
-                                                        <option selected>Choose...</option>
-
-                                                        @php $i=1; @endphp
-                                                        @foreach($categories as $val)
-                                                        <option value="{{$i}}">{{$val->category}}</option>
-                                                        @php $i++; @endphp
-                                                        @endforeach
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary mt-5">Generate Link</button>
-                                            </form>
                                         </div>
                                         <!--end::Heading-->
+                                        <div class="d-flex flex-column mb-8 fv-row">
+                                            <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
+                                            <input type="text" class="form-control form-control-solid" name="name" id="cname" placeholder="Name" required>
+                                        
+                                            <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label>
+                                            <input type="email" class="form-control form-control-solid" name="email" id="inputEmail4" placeholder="Email" required>
+                                        </div>
+                                        <div class="row g-9 mb-8">
+                                            <div class="col-md-6 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
+                                                <input type="text" class="form-control form-control-solid" name="phone" placeholder="phone" id="phone" required>
+                                            </div>
+                                            <div class="col-md-6 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="inputCategory">Category</label>
+                                                <!--begin::Select2-->
+                                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select an option" id="kt_ecommerce_add_product_status_select">
+                                                    <option></option>
+                                                    <option selected>Choose...</option>
+                                                    
+                                                    @php $i=1; @endphp
+                                                    @foreach($categories as $val)
+                                                    <option value="{{$i}}">{{$val->category}}</option>
+                                                    @php $i++; @endphp
+                                                    @endforeach
+
+                                                </select>
+                                                <!--end::Select2-->
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary mt-5">Generate Link</button>
+                                            </div>
+                                        </div>
+                                        </form>
                                     </div>
                                     <!--end::Modal body-->
                                 </div>
@@ -400,51 +401,49 @@
                                     <!--begin::Modal header-->
                                     <!--begin::Modal body-->
                                     <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                        <!--begin::Heading-->
-                                        <div class="mb-13">
+                                        <form action="{{url('/edit_link')}}" method="POST">
+                                            @csrf
+                                            <!--begin::Heading-->
+                                        <div class="mb-13 text-center">
                                             <!--begin::Title-->
                                             <h1 class="mb-3">Candidate Details</h1>
                                             <!--end::Title-->
-                                            <hr>
-                                            <form action="{{url('/edit_link')}}" method="POST">
-                                                @csrf   
-                                                <input type="hidden" name="id" id="cid" value="{{$val->id}}">
-                                                <div class="form-row">
-                                                    <div class="form-group">
-                                                        <label for="cname">Name</label>
-                                                        <input type="text" class="form-control" name="name" id="cname" placeholder="Name" value="{{empty($val->name)? "" : $val->name}}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="inputEmail4">Email</label>
-                                                        <input type="email" class="form-control" name="email" id="cemail" placeholder="Email" value="{{empty($val->email)? "" : $val->email}}" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group">
-                                                        <label for="phone">Phone</label>
-                                                        <input type="text" class="form-control" name="phone" id="cphone" placeholder="phone" value="{{empty($val->phone)? "" : $val->phone}}" required>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="inputCategory">Category</label>
-                                                        <select name="category" id="ccategory" class="form-control" required>
-                                                        <option >Choose...</option>
-
-                                                        @php $i=1; @endphp
-                                                        @foreach($categories as $value)
-                                                            @if($val->category==$value->category)
-                                                            <option value="{{$i}}" selected>{{$value->category}}</option>
-                                                            @else
-                                                            <option value="{{$i}}">{{$value->category}}</option>
-                                                            @endif
-                                                            @php $i++; @endphp
-                                                        @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary mt-5">Update Link</button>
-                                            </form>
                                         </div>
                                         <!--end::Heading-->
+                                        <input type="hidden" name="id" id="cid" value="{{$val->id}}">
+                                        <div class="d-flex flex-column mb-8 fv-row">
+                                            <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
+                                            <input type="text" class="form-control form-control-solid" name="name" id="cname" placeholder="Name" value="{{empty($val->name)? "" : $val->name}}" required>
+                                        
+                                            <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label>
+                                            <input type="email" class="form-control form-control-solid" name="email" id="cemail" placeholder="Email" value="{{empty($val->email)? "" : $val->email}}" required>
+                                        </div>
+                                        <div class="row g-9 mb-8">
+                                            <div class="col-md-6 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
+                                                <input type="text" class="form-control form-control-solid" name="phone" id="cphone" placeholder="phone" value="{{empty($val->phone)? "" : $val->phone}}" required>
+                                            </div>
+                                            <div class="col-md-6 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="inputCategory">Category</label>
+                                                <!--begin::Select2-->
+                                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Team Member" name="target_assign">
+                                                    @foreach($categories as $value)
+                                                        @if($val->category==$value->category)
+                                                        <option value="{{$i}}" selected>{{$value->category}}</option>
+                                                        @else
+                                                        <option value="{{$i}}">{{$value->category}}</option>
+                                                        @endif
+                                                        @php $i++; @endphp
+                                                    @endforeach
+
+                                                </select>
+                                                <!--end::Select2-->
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary mt-5">Update Link</button>
+                                            </div>
+                                        </div>
+                                        </form>
                                     </div>
                                     <!--end::Modal body-->
                                 </div>
@@ -485,6 +484,10 @@
 		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--end::Page Custom Javascript-->
 		<!--end::Javascript-->
+
+        <script>
+            
+        </script>
       
 	</body>
 	<!--end::Body-->

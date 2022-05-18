@@ -18,26 +18,64 @@ class InfoController extends Controller
         ->select('status')
         ->where('candidate_id','=',$key)
         ->first();
-        
-        if($query->status==0)
+       
+        if(empty($query))
         {
             $err="You can not give a test !";
             return view('AfterSubmit',compact('err'));
         }
-        else
-        {
-            $query=DB::table('candidate_test_link')
-            ->select('name','email','phone','link')
-            ->where('test_category_id','=',$cat)
-            ->where('candidate_id','=',$key)
-            ->first();
-            
-            $name=$query->name;
-            $email=$query->email;
-            $phone=$query->phone;
-            $link=$query->link;
+        else{
+            if($query->status==0)
+            {
+                $err="You can not give a test !";
+                return view('AfterSubmit',compact('err'));
+            }
+            else
+            {
+                $query=DB::table('candidate')
+                ->where('candidate_id','=',$key)
+                ->first();
+                
+                if(!empty($query))
+                {
+                    if($query->status==0)
+                    {
+                        $query=DB::table('candidate_test_link')
+                        ->select('name','email','phone','link')
+                        ->where('test_category_id','=',$cat)
+                        ->where('candidate_id','=',$key)
+                        ->first();
         
-            return view('login',compact('name','email','phone','cat','key','link'));
+                        $name=$query->name;
+                        $email=$query->email;
+                        $phone=$query->phone;
+                        $link=$query->link;
+                    
+                        return view('login',compact('name','email','phone','cat','key','link'));
+                    }   
+                    else
+                    {
+                        $err="You can not give a test !";
+                        return view('AfterSubmit',compact('err'));
+                    }
+                }
+                else
+                {
+                    $query=DB::table('candidate_test_link')
+                    ->select('name','email','phone','link')
+                    ->where('test_category_id','=',$cat)
+                    ->where('candidate_id','=',$key)
+                    ->first();
+    
+                    $name=$query->name;
+                    $email=$query->email;
+                    $phone=$query->phone;
+                    $link=$query->link;
+                
+                    return view('login',compact('name','email','phone','cat','key','link'));
+                }
+               
+            }
         }
         
     }
@@ -71,26 +109,32 @@ class InfoController extends Controller
         $timezone = 'ASIA/KOLKATA'; 
         $date = new DateTime('now', new DateTimeZone($timezone)); 
         $localtime = $date->format('Y-m-d h:i:s');
-   
         $ip=$request->ip(); 
         
-          
-       
         $query=DB::table('candidate')
         ->where('candidate_id','=',$candidate_id)
         ->first();
 
         if(!empty($query))
         {
-            $id=1;
-            $data=[
-                'ip'=>$ip,
-                'category_id'=>$category_id,
-                'time'=>$localtime,
-                'can_id'=>$candidate_id
-            ];
-            $request->session()->put('data',$data);
-            return Redirect::route('exam',$id);
+            $starttime=$query->start_date_time;
+            if($query->status==0)
+            {
+                $id=1;
+                $data=[
+                    'ip'=>$ip,
+                    'category_id'=>$category_id,
+                    'time'=>$starttime,
+                    'can_id'=>$candidate_id
+                ];
+                $request->session()->put('data',$data);
+                return Redirect::route('exam',$id);
+            }
+            else
+            {
+                $err="You can not give a test !";
+                return view('AfterSubmit',compact('err'));
+            }
         }
         else
         {
