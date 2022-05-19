@@ -135,7 +135,7 @@
             <div class="col-md-6">
                <div class="text-bg">
                   <h3>About test</h3>
-                  <p> There are many variations of passages of Lorem Ipsum available, but the majorityomised words which don't look even slightly believable</p>
+                  <p>{{$descrip}}</p>
                   <a class="read_more" href="#">Read More</a>
                </div>
             </div>

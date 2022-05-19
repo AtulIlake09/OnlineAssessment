@@ -80,8 +80,7 @@
                         <div class="full">
                             <div class="center-desk">
                                 <div class="logo">
-                                    <a href="#"><img src="{{ asset('images/Logo-2.png') }}"
-                                            alt="#" /></a>
+                                    <a href="#"><img src="{{ asset('images/Logo-2.png') }}" alt="#" /></a>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +102,7 @@
                                     </li>
                                 </ul>
                                 <div class="time">
-                                {{-- <span class="yellow">Timer: </span> --}}
+                                    {{-- <span class="yellow">Timer: </span> --}}
                                     <label class="font-weight-bold" id="timer"></label>
                                 </div>
                             </div>
@@ -120,27 +119,35 @@
         <div class="container">
             <div class="row d_flex">
                 <div class="col-md-12">
-                    <form <?php if($qno==$count){?>action="{{ url('/submit') }}" method="POST" <?php }else{ ?>action="{{ url('/next') }}" method="POST" <?php } ?> id="request" class="main_form">
+                    <form <?php if($qno==$count){?>action="{{ url('/submit') }}" method="POST"
+                        <?php }else{ ?>action="{{ url('/next') }}" method="POST" <?php } ?> id="request"
+                        class="main_form">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 " id="quediv">
                                 <label class="text-white-custom-colour" for="">Question: <b
                                         id="qno">{{ $qno }}</b></label>
-                                <p name="question" id="question" class="text-white-custom-colour h3">{{ $question }}</p>
+                                <p name="question" id="question" class="text-white-custom-colour h3">
+                                    {{ $question }}</p>
                             </div>
                             <div class="form-floating col-md-12" id="ansdiv">
                                 <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
-                                <textarea class="form-control" placeholder="Leave a comment here" name="answer" id="answer"
-                                    style="height: 200px" autofocus>{{ $answer }}</textarea>
+                                <textarea class="form-control" placeholder="Leave a comment here" name="answer" id="answer" style="height: 200px"
+                                    autofocus>{{ $answer }}</textarea>
                             </div>
                             <div class="col-sm-6 mt-4">
-                                <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous" name="previous"
-                                    class="prev_btn" formaction="{{ url('/prev') }}">Previous</button>
+                                <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
+                                    name="previous" class="prev_btn"
+                                    formaction="{{ url('/prev') }}">Previous</button>
                             </div>
                             <div class="col-sm-6 mt-4">
                                 <button type="submit" <?php if($qno==$count){?> id="submit" name="submit"
                                     class="submit_btn btn-success" <?php }else{ ?>id="next" name="next"
-                                    class="send_btn" <?php } ?>><?php if ($qno == $count) { echo 'Submit';} else { echo 'Next';} ?></button>
+                                    class="send_btn" <?php } ?>><?php if ($qno == $count) {
+                                        echo 'Submit';
+                                    } else {
+                                        echo 'Next';
+                                    } ?></button>
                             </div>
                         </div>
                     </form>
@@ -153,7 +160,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                           <p>© 2022 All Rights Reserved by  <a href="https://metricoidtech.com/"><u> Metricoid Technology Solutions Private Limited</u></a></p>
+                            <p>© 2022 All Rights Reserved by <a href="https://metricoidtech.com/"><u> Metricoid
+                                        Technology Solutions Private Limited</u></a></p>
 
                         </div>
                     </div>
@@ -172,26 +180,69 @@
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script>
 
-   <script>
-   $(document).ready(function() {
-    $("#submit").click(function(event) {
-        if( !confirm('Are you sure that you want to submit the test') ) 
-            event.preventDefault();
-    });
-   });
-   </script>
-  <script>
-        window.addEventListener( "pageshow", function ( event ) {
-        var historyTraversal = event.persisted || 
-                            ( typeof window.performance != "undefined" && 
-                                window.performance.navigation.type === 2 );
-        if ( historyTraversal ) {
-        // Handle page restore.
-        window.location.reload();
-    }
-    });
-  </script>
- 
+    {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
+
+    {{-- <script type="text/javascript">
+        $(document).ready(function() {
+            $("#submit").on("click", function() {
+
+                var currentRow = $(this).closest("tr");
+                var col1 = currentRow.find("td:eq(7)").text(); // get current row 1st TD value
+                var link = col1;
+
+                console.log(link)
+
+                swal({
+                    title: "Are you sure!",
+                    text: "Do you really want to remove candidate!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: "get",
+                            url: '/deletecan/' + link,
+                            data: "",
+                            success: function(data) {
+                                console.log(data);
+
+                            }
+                        })
+                        swal("Yaa! candidate successfully deleted!", {
+                            icon: "success",
+                        });
+                        window.location.reload();
+                    } else {
+                        swal("User not deleted your candidate is safe!", {
+                            icon: "error",
+                        });
+                    }
+                });
+            });
+
+        });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            $("#submit").click(function(event) {
+                if (!confirm('Are you sure that you want to submit the test'))
+                    event.preventDefault();
+            });
+        });
+    </script>
+    <script>
+        window.addEventListener("pageshow", function(event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                // Handle page restore.
+                window.location.reload();
+            }
+        });
+    </script>
+
 </body>
 
 </html>
