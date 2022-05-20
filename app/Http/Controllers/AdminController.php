@@ -82,6 +82,7 @@ class AdminController extends Controller
 
     public function logot()
     {
+        session()->flush();
         Auth::logout();
         return redirect('/adminlogin');
     }
@@ -107,8 +108,11 @@ class AdminController extends Controller
 
     public function getcandtbl()
     {
-        $query = DB::table('candidate')
+        $query = DB::table('candidate as cn')
+            ->join('category as ct', 'cn.category_id', '=', 'ct.id')
+            ->select('cn.id', 'cn.candidate_id', 'cn.name', 'cn.email', 'cn.mobile', 'cn.category_id', 'ct.category', 'cn.resume', 'cn.link', 'cn.ip', 'cn.start_date_time', 'cn.end_date_time', 'cn.status')
             ->get();
+
         $candidate = $query->all();
         return $candidate;
     }
@@ -126,8 +130,9 @@ class AdminController extends Controller
     public function glink(Request $request)
     {
         if (Auth::check()) {
-            $query = DB::table('candidate_test_link')
-                ->select('id', 'name', 'email', 'phone', 'test_category_id', 'link', 'status')
+            $query = DB::table('candidate_test_link as cl')
+                ->join('category as ct', 'cl.test_category_id', '=', 'ct.id')
+                ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'ct.category', 'cl.link', 'cl.status')
                 ->orderBy('id', 'asc')
                 ->get();
 
@@ -158,7 +163,7 @@ class AdminController extends Controller
         $category_id = $request->category;
         $token = base64_encode(time());
 
-        $link = '/test/' . $category_id . '/' . $token;
+        $link = '/test/' . $token;
 
         DB::table('candidate_test_link')
             ->insert(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'candidate_id' => $token, 'link' => $link]);
@@ -226,21 +231,17 @@ class AdminController extends Controller
 
     public function delete_link($id)
     {
-        // return response()->json($id);
-        $query = DB::table('candidate_test_link')
+        DB::table('candidate_test_link')
             ->where('id', '=', $id)
             ->delete();
-        if ($query == true) {
-            $flag = 1;
-        }
-        return $flag;
+
+        return redirect()->back();
     }
 
-    public function delete_can($link)
+    public function delete_can($id)
     {
-        // return response()->json($id);
         DB::table('candidate')
-            ->where('link', '=', $link)
+            ->where('id', '=', $id)
             ->delete();
 
         return redirect()->back();
@@ -261,11 +262,17 @@ class AdminController extends Controller
         $category_id = $request->category;
         $token = base64_encode(time());
 
-        $link = '/test/' . $category_id . '/' . $token;
+        $query = DB::table('category')
+            ->select('category')
+            ->where('id', '=', $category_id)
+            ->first();
+        $category = $query->category;
+
+        $link = '/test/' . $token;
 
         DB::table('candidate_test_link')
             ->where('id', '=', $id)
-            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'candidate_id' => $token, 'link' => $link]);
+            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'category' => $category, 'candidate_id' => $token, 'link' => $link]);
 
         return redirect('/generatelink');
     }
@@ -301,6 +308,30 @@ class AdminController extends Controller
 
             $categories = $query->all();
             return view('assessment', compact('candidates', 'categories'));
+        } else {
+            return redirect('/adminlogin');
+        }
+    }
+
+    public function getqueans(Request $request, $id)
+    {
+        if (Auth::check()) {
+            $query = DB::table('candidate_answers')
+                ->where('candidate_id', '=', $id)
+                ->get();
+            $queans = $query->all();
+            $request->session()->put('queans', $queans);
+            return redirect('showanswers');
+        } else {
+            return redirect('/adminlogin');
+        }
+    }
+
+    public function showanswers(Request $request)
+    {
+        if (Auth::check()) {
+            $queans = $request->session()->get('queans');
+            return view('showanswers', compact('queans'));
         } else {
             return redirect('/adminlogin');
         }

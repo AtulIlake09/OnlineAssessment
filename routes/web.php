@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test/{category}/{key}', [InfoController::class, 'index'])->name('test');
+Route::get('test/{key}', [InfoController::class, 'index'])->name('test');
 Route::post('getinfo', [InfoController::class, 'info'])->name('getinfo');
 
 Route::get('/exam/{id}', [ExamController::class, 'exam'])->name('exam');
@@ -59,5 +59,7 @@ Route::get('/changeStatuscan/{id}', [AdminController::class, 'change_status_cand
 Route::get('/deletecan/{id}', [AdminController::class, 'delete_can']);
 Route::post('/edit_can', [AdminController::class, 'edit_can']);
 
+Route::get('/getqueans/{id}', [AdminController::class, 'getqueans']);
+Route::get('/showanswers', [AdminController::class, 'showanswers']);
 
 Route::view('/categories', 'categories');

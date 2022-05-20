@@ -30,6 +30,14 @@
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+    </style>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -132,12 +140,16 @@
                                                         <th class="min-w-150px">Name</th>
                                                         <th class="min-w-150px">Email</th>
                                                         <th class="min-w-150px">Phone</th>
+                                                        <th class="min-w-150px">category</th>
                                                         <th class="min-w-100px">Link</th>
+                                                        <th class="min-w-150px text-center">Status</th>
+                                                        <th class="min-w-100px text-end">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <!--end::Table head-->
                                                 <!--begin::Table body-->
                                                 <tbody>
+                                                    @php $count=1; @endphp
                                                     @foreach ($data as $val)
                                                         <tr>
                                                             <td>
@@ -147,9 +159,13 @@
                                                                         type="checkbox" value="1" />
                                                                 </div>
                                                             </td>
+                                                            <td style="display:none;">
+                                                                <label
+                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                            </td>
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                    class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
                                                             </td>
                                                             <td>
                                                                 <div class="d-flex align-items-center">
@@ -167,6 +183,10 @@
                                                             <td>
                                                                 <label href="#"
                                                                     class="text-muted fw-bolder d-block fs-6">{{ $val->phone }}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label href="#"
+                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
                                                             </td>
                                                             <td>
                                                                 <label href="#"
@@ -237,6 +257,7 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
+                                                        @php $count++; @endphp
                                                     @endforeach
                                                 </tbody>
                                                 <!--end::Table body-->
@@ -300,8 +321,8 @@
                                         <div class="row g-9 mb-8">
                                             <div class="col-md-6 fv-row">
                                                 <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
-                                                <input type="text" class="form-control form-control-solid" name="phone"
-                                                    placeholder="phone" id="phone" required>
+                                                <input type="number" class="form-control form-control-solid"
+                                                    name="phone" placeholder="phone" id="phone" required>
                                             </div>
                                             <div class="col-md-6 fv-row">
                                                 <label class="required fs-6 fw-bold mb-2"
@@ -388,7 +409,7 @@
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
                                                     <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
-                                                    <input type="text" class="form-control form-control-solid"
+                                                    <input type="number" class="form-control form-control-solid"
                                                         name="phone" id="cphone" placeholder="phone"
                                                         value="{{ empty($val->phone) ? '' : $val->phone }}" required>
                                                 </div>
@@ -467,9 +488,9 @@
 
                 var currentRow = $(this).closest("tr");
                 var col1 = currentRow.find("td:eq(1)").text(); // get current row 1st TD value
-                var id = col1;
-
-                console.log(id)
+                var id = col1.trim();
+                var string_url = '/deletelink/' + id;
+                console.log(string_url)
 
                 swal({
                     title: "Are you sure!",
@@ -481,7 +502,7 @@
                     if (willDelete) {
                         $.ajax({
                             type: "get",
-                            url: '/deletelink/' + id,
+                            url: string_url,
                             data: "",
                             success: function(data) {
                                 console.log(data);

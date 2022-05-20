@@ -5,6 +5,7 @@
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="refresh" content="30">
     <!-- mobile metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -60,6 +61,15 @@
         }
         setTimeout("countDownTimer()", 1000);
     </script>
+    <style>
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+    </style>
 
 </head>
 <!-- body -->
@@ -126,14 +136,14 @@
                         <div class="row">
                             <div class="col-md-12 " id="quediv">
                                 <label class="text-white-custom-colour" for="">Question: <b
-                                        id="qno">{{ $qno }}</b></label>
+                                        id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
                                 <p name="question" id="question" class="text-white-custom-colour h3">
                                     {{ $question }}</p>
                             </div>
                             <div class="form-floating col-md-12" id="ansdiv">
                                 <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
-                                <textarea class="form-control" placeholder="Leave a comment here" name="answer" id="answer" style="height: 200px"
-                                    autofocus>{{ $answer }}</textarea>
+                                <textarea id="txtInput" class="form-control" placeholder="Leave a comment here" name="answer" id="answer"
+                                    style="height: 200px" autofocus>{{ $answer }}</textarea>
                             </div>
                             <div class="col-sm-6 mt-4">
                                 <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
@@ -229,6 +239,9 @@
                 if (!confirm('Are you sure that you want to submit the test'))
                     event.preventDefault();
             });
+            $('#txtInput').on("cut copy paste", function(e) {
+                e.preventDefault();
+            });
         });
     </script>
     <script>
@@ -240,6 +253,11 @@
                 // Handle page restore.
                 window.location.reload();
             }
+        });
+    </script>
+    <script>
+        $(document).bind("contextmenu", function(e) {
+            return false;
         });
     </script>
 

@@ -7,8 +7,7 @@
     <div class="aside-logo flex-column-auto" id="kt_aside_logo">
         <!--begin::Logo-->
         <a href="{{ url('/dashboard') }}">
-            <img alt="Logo" src="images/metricoid-new-logo.png" class="h-25px logo" />
-            <h2 class="h-25px logo" style="color:aliceblue">MetricoidTech</h2>
+            <img alt="Logo" src="{{ url('images/Metricoid.png') }}" class="h-30px logo" />
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggler-->
@@ -2380,8 +2379,7 @@
                     </div>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link"
-                        href="https://preview.keenthemes.com/metronic8/demo1/layout-builder.html"
+                    <a class="menu-link" {{-- href="https://preview.keenthemes.com/metronic8/demo1/layout-builder.html" --}}
                         title="Build your layout and export HTML for server side integration" data-bs-toggle="tooltip"
                         data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-icon">

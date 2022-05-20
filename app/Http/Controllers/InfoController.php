@@ -11,14 +11,19 @@ use Illuminate\Validation\Validator;
 
 class InfoController extends Controller
 {
-    public function index(Request $request, $cat, $key)
+    public function index(Request $request, $key)
     {
 
         $query = DB::table('candidate_test_link')
-            ->select('status')
+            ->select('test_category_id', 'status')
             ->where('candidate_id', '=', $key)
             ->first();
 
+        if (empty($query)) {
+            $err = "You can not give a test !";
+            return view('AfterSubmit', compact('err'));
+        }
+        $cat = $query->test_category_id;
         $category = DB::table('category')
             ->select('id')
             ->where('id', '=', $cat)
