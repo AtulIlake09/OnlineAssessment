@@ -65,11 +65,11 @@
                                     </a>
                                 </div>
                                 <div class="menu-item">
-                                    <a class="menu-link py-3" href="../../demo1/dist/dashboards/projects.html">
+                                    <a class="menu-link py-3" href="{{ url('/categories') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Projects</span>
+                                        <span class="menu-title">Categories</span>
                                     </a>
                                 </div>
                                 <div class="menu-item">

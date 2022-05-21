@@ -23,21 +23,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Page Vendor Stylesheets(used by this page)-->
-    <link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
-    <style>
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-    </style>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -70,7 +62,7 @@
                                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                 <!--begin::Title-->
                                 <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1" id="generateLink">
-                                    Generate Link
+                                    {{ $category }}
                                     <!--begin::Separator-->
                                     <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
                                     <!--end::Separator-->
@@ -80,6 +72,7 @@
                                 </h1>
                                 <!--end::Title-->
                             </div>
+                            <a href="" onclick="history.back(); return false;" class="btn btn-sm btn-primary">Back</a>
                             <!--end::Page title-->
                         </div>
                         <!--end::Container-->
@@ -87,6 +80,7 @@
                     <!--end::Toolbar-->
                     <!--begin::Container-->
                     <div id="kt_content_container" class="container-xxl">
+                        <!--begin::Row-->
                         <div class="row gy-5 g-xl-8">
                             <!--begin::Col-->
                             <div class="col-xl-12">
@@ -95,13 +89,13 @@
                                     <!--begin::Header-->
                                     <div class="card-header border-0 pt-5">
                                         <h3 class="card-title align-items-start flex-column">
-                                            <span class="card-label fw-bolder fs-3 mb-1">Candidates Links</span>
+                                            <span class="card-label fw-bolder fs-3 mb-1">Questions</span>
                                             {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                                         </h3>
                                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-trigger="hover" title="Click to Generate Link">
+                                            data-bs-trigger="hover" title="Click to add a question">
                                             <a href="#" class="btn btn-sm btn-light btn-active-primary"
-                                                data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+                                                data-bs-toggle="modal" data-bs-target="#kt_modal_new_question">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                                 <span class="svg-icon svg-icon-3">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -113,7 +107,7 @@
                                                             fill="currentColor" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->Generate Link
+                                                <!--end::Svg Icon-->New Question
                                             </a>
                                         </div>
                                     </div>
@@ -121,7 +115,7 @@
                                     <!--begin::Body-->
                                     <div class="card-body py-3">
                                         <!--begin::Table container-->
-                                        <div id="mytable" class="table-responsive">
+                                        <div class="table-responsive">
                                             <!--begin::Table-->
                                             <table
                                                 class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
@@ -136,12 +130,10 @@
                                                                     data-kt-check-target=".widget-9-check" />
                                                             </div>
                                                         </th>
-                                                        <th class="min-w-50px">ID</th>
-                                                        <th class="min-w-150px">Name</th>
-                                                        <th class="min-w-150px">Email</th>
-                                                        <th class="min-w-150px">Phone</th>
-                                                        <th class="min-w-150px">category</th>
-                                                        <th class="min-w-100px">Link</th>
+                                                        <th class="min-w-200px">ID</th>
+                                                        <th class="min-w-150px">Questions</th>
+                                                        {{-- <th class="min-w-150px text-center">Category</th> --}}
+                                                        <th class="min-w-150px text-center">Type</th>
                                                         <th class="min-w-150px text-center">Status</th>
                                                         <th class="min-w-100px text-end">Actions</th>
                                                     </tr>
@@ -149,8 +141,7 @@
                                                 <!--end::Table head-->
                                                 <!--begin::Table body-->
                                                 <tbody>
-                                                    @php $count=1; @endphp
-                                                    @foreach ($data as $val)
+                                                    @foreach ($questions as $val)
                                                         <tr>
                                                             <td>
                                                                 <div
@@ -159,38 +150,25 @@
                                                                         type="checkbox" value="1" />
                                                                 </div>
                                                             </td>
-                                                            <td style="display:none;">
-                                                                <label
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                            <td>
+                                                                <label href="#"
+                                                                    class="text-dark fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                    class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val->questions }}</label>
+                                                                {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
-                                                            <td>
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="d-flex justify-content-start flex-column">
-                                                                        <a href="#"
-                                                                            class="text-dark fw-bolder text-hover-primary fs-6">{{ $val->name }}</a>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
+                                                            {{-- <td>
+                                                                <label href="#"
+                                                                    class="text-muted text-center fw-bolder d-block fs-6">{{ $val->category }}</label>
+                                                                <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span>
+                                                            </td> --}}
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
-                                                            </td>
-                                                            <td>
-                                                                <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->phone }}</label>
-                                                            </td>
-                                                            <td>
-                                                                <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
-                                                            </td>
-                                                            <td>
-                                                                <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
+                                                                    class="text-muted text-center fw-bolder d-block fs-6">{{ $val->type }}</label>
+                                                                {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
                                                             <td class="text-center">
                                                                 <span
@@ -198,7 +176,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                                                    <a href="{{ url('/changeStatusglink/' . $val->id) }}"
+                                                                    <a href="{{ url('/changequestatus/' . $val->id) }}"
                                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                                         title="Change Status">
@@ -224,7 +202,8 @@
                                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                         <span class="svg-icon svg-icon-3"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="top" title="Edit Link">
+                                                                            data-bs-placement="top"
+                                                                            title="Edit Question">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="24" height="24"
                                                                                 viewBox="0 0 24 24" fill="none">
@@ -240,7 +219,7 @@
                                                                     </a>
                                                                     <a class="delete btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                        title="Delete Link">
+                                                                        title="Delete Question">
                                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                                         <span class="svg-icon svg-icon-3">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -262,8 +241,8 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                        @php $count++; @endphp
                                                     @endforeach
+
                                                 </tbody>
                                                 <!--end::Table body-->
                                             </table>
@@ -277,9 +256,9 @@
                             </div>
                             <!--end::Col-->
                         </div>
+                        <!--end::Row-->
                     </div>
-                    <!--end::Container-->
-                    <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
+                    <div class="modal fade" id="kt_modal_new_question" tabindex="-1" aria-hidden="true">
                         <!--begin::Modal dialog-->
                         <div class="modal-dialog mw-650px">
                             <!--begin::Modal content-->
@@ -305,51 +284,47 @@
                                 <!--begin::Modal header-->
                                 <!--begin::Modal body-->
                                 <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                    <form action="{{ url('/linkgenerate') }}" method="POST" class="form">
+                                    <form action="{{ url('/addquestion') }}" method="POST" class="form">
                                         @csrf
                                         <!--begin::Heading-->
                                         <div class="mb-13 text-center">
                                             <!--begin::Title-->
-                                            <h1 class="mb-3">Candidate Details</h1>
+                                            <h1 class="mb-3">New Question</h1>
                                             <!--end::Title-->
                                         </div>
                                         <!--end::Heading-->
-                                        <div class="d-flex flex-column mb-8 fv-row">
-                                            <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
-                                            <input type="text" class="form-control form-control-solid" name="name"
-                                                id="cname" placeholder="Name" required>
-
-                                            <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label>
-                                            <input type="email" class="form-control form-control-solid" name="email"
-                                                id="inputEmail4" placeholder="Email" required>
-                                        </div>
                                         <div class="row g-9 mb-8">
-                                            <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
-                                                <input type="number" class="form-control form-control-solid"
-                                                    name="phone" placeholder="phone" id="phone" required>
-                                            </div>
                                             <div class="col-md-6 fv-row">
                                                 <label class="required fs-6 fw-bold mb-2"
                                                     for="inputCategory">Category</label>
+                                                <input type="text" class="form-control form-control-solid" name="name"
+                                                    id="cname" placeholder="Name" required value="{{ $category }}"
+                                                    disabled>
+                                                <input type="hidden" name="cat_id" value="{{ $cat_id }}">
+                                            </div>
+                                            <div class="col-md-6 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="inputType">Type</label>
                                                 <!--begin::Select2-->
-                                                <select name="category" id="inputCategory"
+                                                <select name="type" id="inputType"
                                                     class="form-control form-select form-select-solid" required>
-                                                    <option selected>Choose...</option>
-
-                                                    @php $i=1; @endphp
-                                                    @foreach ($categories as $val)
-                                                        <option value="{{ $i }}">{{ $val->category }}
-                                                        </option>
-                                                        @php $i++; @endphp
-                                                    @endforeach
-
+                                                    <option value="0" selected>none</option>
+                                                    <option value="1">Descriptive</option>
+                                                    <option value="2">Objective</option>
                                                 </select>
                                                 <!--end::Select2-->
                                             </div>
+                                        </div>
+                                        <div class="row g-9 mb-8">
+                                            <div class="col-md-12 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="question">Add
+                                                    Question</label>
+                                                <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="question" placeholder="Test Question"
+                                                    id="question" required></textarea>
+                                            </div>
                                             <div class="text-center">
-                                                <button type="submit" class="btn btn-primary mt-5">Generate
-                                                    Link</button>
+                                                <button type="submit" class="btn btn-primary">Add</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </form>
@@ -360,7 +335,7 @@
                         </div>
                         <!--end::Modal dialog-->
                     </div>
-                    @foreach ($data as $val)
+                    @foreach ($questions as $val)
                         <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
                             aria-hidden="true">
                             <!--begin::Modal dialog-->
@@ -389,57 +364,52 @@
                                     <!--begin::Modal header-->
                                     <!--begin::Modal body-->
                                     <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                        <form action="{{ url('/edit_link') }}" method="POST">
+                                        <form action="{{ url('/editquestion') }}" method="POST">
                                             @csrf
                                             <!--begin::Heading-->
                                             <div class="mb-13 text-center">
                                                 <!--begin::Title-->
-                                                <h1 class="mb-3">Candidate Details</h1>
+                                                <h1 class="mb-3">Edit Question</h1>
                                                 <!--end::Title-->
                                             </div>
                                             <!--end::Heading-->
                                             <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
-                                            <div class="d-flex flex-column mb-8 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
-                                                <input type="text" class="form-control form-control-solid" name="name"
-                                                    id="cname" placeholder="Name"
-                                                    value="{{ empty($val->name) ? '' : $val->name }}" required>
-
-                                                <label class="required fs-6 fw-bold mb-2"
-                                                    for="inputEmail4">Email</label>
-                                                <input type="email" class="form-control form-control-solid" name="email"
-                                                    id="cemail" placeholder="Email"
-                                                    value="{{ empty($val->email) ? '' : $val->email }}" required>
-                                            </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
-                                                    <input type="number" class="form-control form-control-solid"
-                                                        name="phone" id="cphone" placeholder="phone"
-                                                        value="{{ empty($val->phone) ? '' : $val->phone }}" required>
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        for="inputCategory">Category</label>
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        name="name" id="cname" placeholder="Name" required
+                                                        value="{{ $val->category }}" disabled>
+                                                    <input type="hidden" name="cat_id" value="{{ $cat_id }}">
                                                 </div>
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" for="">Category</label>
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        for="inputType">Type</label>
                                                     <!--begin::Select2-->
-                                                    <select name="category" id="inputnCategory"
+                                                    <select name="type" id="inputType"
                                                         class="form-control form-select form-select-solid" required>
-                                                        @php $i=1; @endphp
-                                                        @foreach ($categories as $value)
-                                                            @if ($val->test_category_id == $value->id)
-                                                                <option value="{{ $i }}" selected>
-                                                                    {{ $value->category }}</option>
-                                                            @else
-                                                                <option value="{{ $i }}">
-                                                                    {{ $value->category }}</option>
-                                                            @endif
-                                                            @php $i++; @endphp
-                                                        @endforeach
+                                                        <option @if ($val->type == '') selected @endif
+                                                            value="0">none</option>
+                                                        <option @if ($val->type == 'descriptive') selected @endif
+                                                            value="1">Descriptive</option>
+                                                        <option @if ($val->type == 'objective') selected @endif
+                                                            value="2">Objective</option>
                                                     </select>
                                                     <!--end::Select2-->
                                                 </div>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-12 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" for="question">Edit
+                                                        Question</label>
+                                                    <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="question" placeholder="Test Question"
+                                                        id="question" required>{{ $val->questions }}</textarea>
+                                                </div>
                                                 <div class="text-center">
-                                                    <button type="submit" class="btn btn-primary mt-5">Update
-                                                        Link</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -484,9 +454,9 @@
     <script src="assets/js/custom/utilities/modals/create-app.js"></script>
     <script src="assets/js/custom/utilities/modals/users-search.js"></script>
     <!--end::Page Custom Javascript-->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!--end::Javascript-->
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $(".delete").on("click", function() {
@@ -494,7 +464,7 @@
                 var currentRow = $(this).closest("tr");
                 var col1 = currentRow.find("td:eq(1)").text(); // get current row 1st TD value
                 var id = col1.trim();
-                var string_url = '/deletelink/' + id;
+                var string_url = '/deletequestion/' + id;
                 console.log(string_url)
 
                 swal({

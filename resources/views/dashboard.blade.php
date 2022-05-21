@@ -227,10 +227,12 @@
 															</h3></a>
 															</div> --}}
                                                         <!--end::Svg Icon-->
-                                                        <div class="col-12 text-center mt-5"><a href="#"
+                                                        <div class="col-12 text-center mt-5"><a
+                                                                href="{{ url('/categories') }}"
                                                                 class="text-warning fw-bold fs-3">{{ empty($cat) ? 0 : $cat }}</a>
                                                         </div>
-                                                        <div class="col-12 text-center"><a href="#"
+                                                        <div class="col-12 text-center"><a
+                                                                href="{{ url('/categories') }}"
                                                                 class="text-warning fw-bold fs-6">Categories</a></div>
                                                     </div>
                                                     <!--end::Col-->

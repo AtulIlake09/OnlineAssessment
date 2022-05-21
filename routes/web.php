@@ -61,5 +61,18 @@ Route::post('/edit_can', [AdminController::class, 'edit_can']);
 
 Route::get('/getqueans/{id}', [AdminController::class, 'getqueans']);
 Route::get('/showanswers', [AdminController::class, 'showanswers']);
+Route::post('/feedback', [AdminController::class, 'feedback']);
 
-Route::view('/categories', 'categories');
+Route::get('/categories', [AdminController::class, 'categories']);
+Route::get('/getques/{id}', [AdminController::class, 'getques']);
+Route::get('/categoryques', [AdminController::class, 'questions']);
+
+Route::post('/addcategory', [AdminController::class, 'addcategory']);
+Route::get('/changecatStatus/{id}', [AdminController::class, 'change_cat_status']);
+Route::get('/deletecategory/{id}', [AdminController::class, 'delete_category']);
+Route::post('/editcategory', [AdminController::class, 'edit_category']);
+
+Route::post('/addquestion', [AdminController::class, 'addquestion']);
+Route::get('/changequestatus/{id}', [AdminController::class, 'change_que_status']);
+Route::get('/deletequestion/{id}', [AdminController::class, 'delete_question']);
+Route::post('/editquestion', [AdminController::class, 'edit_question']);

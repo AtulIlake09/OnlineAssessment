@@ -63,7 +63,7 @@
                                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                 <!--begin::Title-->
-                                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">candidate name
+                                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ $cname }}
                                     <!--begin::Separator-->
                                     <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
                                     <!--end::Separator-->
@@ -73,8 +73,8 @@
                                 </h1>
                                 <!--end::Title-->
                             </div>
-                            <a href="" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_create_app">Create</a>
+                            <a href="" onclick="history.back(); return false;" class="btn btn-sm btn-primary">Back</a>
+                            {{-- data-bs-toggle="modal" data-bs-target="#kt_modal_remark" --}}
                             <!--end::Page title-->
                         </div>
                         <!--end::Container-->
@@ -95,6 +95,11 @@
                                             <h3 class="card-title align-items-start flex-column">
                                                 <span class="card-label fw-bolder fs-3 mb-1">Question and Answers</span>
                                             </h3>
+                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-trigger="hover" title="Write Feedback">
+                                                <a class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#kt_modal_feedback">Remarks</a>
+                                            </div>
                                         </div>
                                         <!--end::Header-->
                                         <!--begin::Body-->
@@ -104,65 +109,21 @@
                                                 <!--begin::Table-->
                                                 <table
                                                     class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
-                                                    <!--begin::Table head-->
-                                                    {{-- <thead>
-                                                        <tr class="fw-bolder text-muted">
-                                                            <th class="w-25px">
-                                                                <div
-                                                                    class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                    <input class="form-check-input" type="checkbox"
-                                                                        value="1" data-kt-check="true"
-                                                                        data-kt-check-target=".widget-9-check" />
-                                                                </div>
-                                                            </th>
-                                                            <th class="min-w-50px">ID</th>
-                                                            <th class="min-w-150px">Questions</th>
-                                                            <th class="min-w-150px">Answers</th>
-                                                            <th class="min-w-100px text-end">Actions</th>
-                                                        </tr>
-                                                    </thead> --}}
-                                                    <!--end::Table head-->
                                                     <!--begin::Table body-->
                                                     <tbody>
                                                         @php $count=1; @endphp
                                                         @foreach ($queans as $val)
-                                                            {{-- <tr>
-                                                                <td>
-                                                                    <div
-                                                                        class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                        <input class="form-check-input widget-9-check"
-                                                                            type="checkbox" value="1" />
-                                                                    </div>
-                                                                </td>
-                                                                <td style="display: none">
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">
-                                                                        {{ $count }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->questions }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="" class="btn btn-sm btn-primary"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#kt_modal_edit_link_{{ $val->id }}">
-                                                                        view
-                                                                    </a>
-                                                                </td>
-                                                            </tr> --}}
                                                             <tr>
                                                                 <label href="#"
-                                                                    class="text-dark fw-bolder d-block fs-6">{{ 'Q. ' . $val->questions }}</label>
+                                                                    class="text-dark fw-bolder d-block fs-6">
+                                                                    <h3>{{ 'Q.' . $count . ') ' . $val->questions }}
+                                                                    </h3>
+                                                                </label>
                                                             </tr>
                                                             <tr>
-                                                                <h2>Ans:-</h2>
-                                                                <textarea disabled class="form-control border-dark" placeholder="Leave a comment here" name="answer" id="answer"
-                                                                    style=" white-space: nowrap; width: 500px; height: 300px;">{{ $val->answers }}</textarea>
+                                                                <h3>Ans:-</h3>
+                                                                <textarea disabled class="form-control border-dark w-100" placeholder="Leave a comment here" name="answer" id="answer"
+                                                                    style=" white-space: nowrap;  height: 300px;">{{ $val->answers }}</textarea>
                                                             </tr><br>
                                                             @php $count++; @endphp
                                                         @endforeach
@@ -180,67 +141,80 @@
                                 <!--end::Col-->
                             </div>
                             <!--end::Row-->
-                            <!--begin::Row-->
-                            <div class="row gy-5 g-xl-8">
-                                <!--begin::Col-->
-                                <div class="col-xl-12">
-
-                                </div>
-                                <!--end::Col-->
-                            </div>
-                            <!--end::Row-->
                         </div>
                         <!--end::Container-->
-                        @foreach ($queans as $val)
-                            <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
-                                aria-hidden="true">
-                                <!--begin::Modal dialog-->
-                                <div class="modal-dialog mw-650px">
-                                    <!--begin::Modal content-->
-                                    <div class="modal-content" style="width: fit-content">
-                                        <!--begin::Modal header-->
-                                        <div class="modal-header pb-0 border-0 justify-content-end">
-                                            <!--begin::Close-->
-                                            <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                data-bs-dismiss="modal">
-                                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                            rx="1" transform="rotate(-45 6 17.3137)"
-                                                            fill="currentColor" />
-                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                            transform="rotate(45 7.41422 6)" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                                <!--end::Svg Icon-->
-                                            </div>
-                                            <!--end::Close-->
+                        <div class="modal fade" id="kt_modal_feedback" tabindex="-1" aria-hidden="true">
+                            <!--begin::Modal dialog-->
+                            <div class="modal-dialog mw-650px">
+                                <!--begin::Modal content-->
+                                <div class="modal-content">
+                                    <!--begin::Modal header-->
+                                    <div class="modal-header pb-0 border-0 justify-content-end">
+                                        <!--begin::Close-->
+                                        <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                            data-bs-dismiss="modal">
+                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                        transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                        transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
                                         </div>
-                                        <!--begin::Modal header-->
-                                        <!--begin::Modal body-->
-                                        <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                        <!--end::Close-->
+                                    </div>
+                                    <!--begin::Modal header-->
+                                    <!--begin::Modal body-->
+                                    <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                        <form action="{{ url('/feedback') }}" method="POST" class="form">
+                                            @csrf
+                                            <input type="hidden" name="can_id" value="{{ $can_id }}">
                                             <!--begin::Heading-->
-                                            <h1 class="mb-3">{{ 'Q. ' . $val->questions }}</h1>
+                                            <h1 class="mb-3 text-center">Feedback Form</h1>
                                             <!--end::Heading-->
                                             <div class="d-flex flex-column mb-8 fv-row">
-                                                <h2>Ans:-</h2>
-                                                <textarea disabled class="form-control border-dark" placeholder="Leave a comment here" name="answer" id="answer"
-                                                    style=" white-space: nowrap; width: 500px; height: 300px;">{{ $val->answers }}</textarea>
+                                                <div class="col-md-6 fv-row mb-8">
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        for="result">Result</label>
+                                                    <!--begin::Select2-->
+                                                    <select name="result" id="result"
+                                                        class="form-control form-select form-select-solid" required>
+                                                        <option @if (empty($result) || $result == '3') selected @endif
+                                                            value="3">Pending...</option>
+                                                        <option @if ($result == '1') selected @endif
+                                                            value="1">Pass</option>
+                                                        <option @if ($result == '2') selected @endif
+                                                            value="2">Fail
+                                                        </option>
+                                                    </select>
+                                                    <!--end::Select2-->
+                                                </div>
+                                                <div class="col-md-12 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        for="result">Feedback</label>
+                                                    <textarea class="form-control border-dark w-100" placeholder="Leave a comment here" name="feedback" id="feedback"
+                                                        style=" white-space: nowrap;  height: 200px;">{{ !empty($feedback) ? $feedback : '' }}</textarea>
+                                                </div>
+
                                             </div>
                                             <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary"
+                                                    data-bs-dismiss="modal">Save</button>
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Close</button>
                                             </div>
-                                        </div>
-                                        <!--end::Modal body-->
+                                        </form>
                                     </div>
-                                    <!--end::Modal content-->
+                                    <!--end::Modal body-->
                                 </div>
-                                <!--end::Modal dialog-->
+                                <!--end::Modal content-->
                             </div>
-                        @endforeach
+                            <!--end::Modal dialog-->
+                        </div>
                     </div>
                     <!--end::Post-->
                 </div>

@@ -331,9 +331,270 @@ class AdminController extends Controller
     {
         if (Auth::check()) {
             $queans = $request->session()->get('queans');
-            return view('showanswers', compact('queans'));
+            $can_id = $queans[0]->candidate_id;
+            $query = DB::table('candidate')
+                ->select('name')
+                ->where('candidate_id', '=', $can_id)
+                ->first();
+            $cname = $query->name;
+
+            $query = DB::table('candidate_remark')
+                ->where('candidate_id', '=', $can_id)
+                ->first();
+
+            if (!empty($query)) {
+                $result = $query->result;
+                $feedback = $query->feedback;
+            } else {
+                $result = "";
+                $feedback = "";
+            }
+
+            return view('showanswers', compact('queans', 'cname', 'can_id', 'result', 'feedback'));
         } else {
             return redirect('/adminlogin');
         }
+    }
+
+    public function feedback(Request $request)
+    {
+        if (Auth::check()) {
+            $can_id = $request->can_id;
+            $result = $request->result;
+            $feedback = $request->feedback;
+            $query = DB::table('candidate_remark')
+                ->where('candidate_id', '=', $can_id)
+                ->first();
+
+            if (empty($query)) {
+
+                DB::table('candidate_remark')
+                    ->insert(['candidate_id' => $can_id, 'result' => $result, 'feedback' => $feedback]);
+            } else {
+
+                DB::table('candidate_remark')
+                    ->where('candidate_id', '=', $can_id)
+                    ->update(['result' => $result, 'feedback' => $feedback]);
+            }
+
+            return redirect()->back();
+        } else {
+            return redirect('/adminlogin');
+        }
+    }
+
+    public function categories(Request $request)
+    {
+        if (Auth::user()) {
+
+            $category = $this->getcattbl();
+            return view('categories', compact('category'));
+        } else {
+            return redirect('/adminlogin');
+        }
+    }
+
+    public function addcategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'duration' => 'required',
+            'description' => 'required',
+        ]);
+
+        $name = $request->name;
+        $duration = $request->duration;
+        $description = $request->description;
+
+        $query = DB::table('category')
+            ->where('category', '=', $name)
+            ->first();
+
+        if (empty($query)) {
+            DB::table('category')
+                ->insert(['category' => $name, 'time_period' => $duration, 'description' => $description]);
+        }
+        return redirect()->back();
+    }
+
+    public function change_cat_status($id)
+    {
+        $query = DB::table('category')
+            ->select('active')
+            ->where('id', '=', $id)
+            ->first();
+
+        $status = $query->active;
+
+        if ($status == 0) {
+            $status = 1;
+            DB::table('category')
+                ->where('id', '=', $id)
+                ->update(['active' => $status]);
+        } else {
+            $status = 0;
+            DB::table('category')
+                ->where('id', '=', $id)
+                ->update(['active' => $status]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function edit_category(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'duration' => 'required',
+            'description' => 'required',
+        ]);
+
+        $id = $request->id;
+        $name = $request->name;
+        $duration = $request->duration;
+        $description = $request->description;
+
+
+        DB::table('category')
+            ->where('id', '=', $id)
+            ->update(['category' => $name, 'time_period' => $duration, 'description' => $description]);
+
+        return redirect('/categories');
+    }
+
+    public function delete_category($id)
+    {
+        DB::table('category')
+            ->where('id', '=', $id)
+            ->delete();
+
+        return redirect('/categories');
+    }
+
+    public function getques(Request $request, $id)
+    {
+        if (Auth::check()) {
+            $request->session()->put('cat_id', $id);
+            return redirect('categoryques');
+        } else {
+            return redirect('/adminlogin');
+        }
+    }
+
+    public function questions(Request $request)
+    {
+        if (Auth::user()) {
+            $cat_id = $request->session()->get('cat_id');
+            $query = DB::table('questions')
+                ->join('category', 'questions.category_id', '=', 'category.id')
+                ->select('questions.id', 'questions.questions', 'questions.category_id', 'category.category', 'questions.type', 'questions.status')
+                ->where('category_id', '=', $cat_id)
+                ->get();
+
+            $questions = $query->all();
+
+            $query = DB::table('category')
+                ->select('category')
+                ->where('id', '=', $cat_id)
+                ->first();
+
+            $category = $query->category;
+            return view('categoryques', compact('questions', 'category', 'cat_id'));
+        } else {
+            return redirect('/adminlogin');
+        }
+    }
+
+    public function addquestion(Request $request)
+    {
+        $request->validate([
+            'cat_id' => 'required',
+            'type' => 'required',
+            'question' => 'required',
+        ]);
+
+        $cat_id = $request->cat_id;
+        $type_id = $request->type;
+
+        if ($type_id == 1) {
+            $type = "descriptive";
+        } else if ($type_id == 2) {
+            $type = "objective";
+        } else {
+            $type = "";
+        }
+
+        $question = $request->question;
+
+        $query = DB::table('questions')
+            ->where('questions', '=', $question)
+            ->where('category_id', '=', $cat_id)
+            ->first();
+
+        if (empty($query)) {
+            DB::table('questions')
+                ->insert(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
+        }
+        return redirect()->back();
+    }
+
+    public function change_que_status($id)
+    {
+        $query = DB::table('questions')
+            ->select('status')
+            ->where('id', '=', $id)
+            ->first();
+
+        $status = $query->status;
+
+        if ($status == 0) {
+            $status = 1;
+            DB::table('questions')
+                ->where('id', '=', $id)
+                ->update(['status' => $status]);
+        } else {
+            $status = 0;
+            DB::table('questions')
+                ->where('id', '=', $id)
+                ->update(['status' => $status]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function edit_question(Request $request)
+    {
+        $request->validate([
+            'question' => 'required',
+        ]);
+
+        $id = $request->id;
+        $cat_id = $request->cat_id;
+        $type_id = $request->type;
+        if ($type_id == 1) {
+            $type = "descriptive";
+        } else if ($type_id == 2) {
+            $type = "objective";
+        } else {
+            $type = "";
+        }
+
+        $question = $request->question;
+
+
+        DB::table('questions')
+            ->where('id', '=', $id)
+            ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
+
+        return redirect()->back();
+    }
+
+    public function delete_question($id)
+    {
+        DB::table('questions')
+            ->where('id', '=', $id)
+            ->delete();
+
+        return redirect()->back();
     }
 }

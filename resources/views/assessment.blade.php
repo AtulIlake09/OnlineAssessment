@@ -238,7 +238,10 @@
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#kt_modal_edit_link_{{ $val->id }}">
                                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
-                                                                            <span class="svg-icon svg-icon-3">
+                                                                            <span class="svg-icon svg-icon-3"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="top"
+                                                                                title="Edit Candidate Details">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
                                                                                     viewBox="0 0 24 24" fill="none">
@@ -252,8 +255,10 @@
                                                                             </span>
                                                                             <!--end::Svg Icon-->
                                                                         </a>
-                                                                        <a
-                                                                            class="delete btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                                                        <a class="delete btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            title="Delete Candidate">
                                                                             <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                                             <span class="svg-icon svg-icon-3">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
