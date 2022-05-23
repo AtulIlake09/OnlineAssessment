@@ -9,6 +9,7 @@ use Faker\Provider\bg_BG\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -171,6 +172,34 @@ class AdminController extends Controller
         return redirect('/generatelink');
     }
 
+    public function share_link(Request $request)
+    {
+        $email = $request->email;
+        $id = $request->id;
+        $query = DB::table('candidate_test_link')
+            ->where('id', '=', $id)
+            ->first();
+
+        $status = $query->status;
+
+        if ($status == 1) {
+
+            $link = $query->link;
+            $link = url('') . $link;
+            $data = array('link' => $link);
+
+            $subject = "Link for test ";
+            Mail::send('sharelink', $data, function ($message) use ($subject, $email) {
+                $message->to($email);
+                $message->subject($subject);
+            });
+
+            return redirect()->back()->with('msg', $status);
+        } else {
+            return redirect()->back()->with('msg', $status);
+        }
+    }
+
     public function change_status_glink($id)
     {
         $query = DB::table('candidate_test_link')
@@ -240,11 +269,25 @@ class AdminController extends Controller
 
     public function delete_can($id)
     {
-        DB::table('candidate')
+        $flag = 0;
+        $query = DB::table('candidate')
+            ->select('candidate_id')
             ->where('id', '=', $id)
-            ->delete();
+            ->first();
+        $can_id = $query->candidate_id;
 
-        return redirect()->back();
+        if (!empty($can_id)) {
+
+            DB::table('candidate_remark')
+                ->where('candidate_id', '=', $can_id)
+                ->delete();
+            DB::table('candidate')
+                ->where('id', '=', $id)
+                ->delete();
+            $flag = 1;
+        }
+
+        return $flag;
     }
 
     public function edit_link(Request $request)
@@ -262,17 +305,11 @@ class AdminController extends Controller
         $category_id = $request->category;
         $token = base64_encode(time());
 
-        $query = DB::table('category')
-            ->select('category')
-            ->where('id', '=', $category_id)
-            ->first();
-        $category = $query->category;
-
         $link = '/test/' . $token;
 
         DB::table('candidate_test_link')
             ->where('id', '=', $id)
-            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'category' => $category, 'candidate_id' => $token, 'link' => $link]);
+            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'candidate_id' => $token, 'link' => $link]);
 
         return redirect('/generatelink');
     }
@@ -298,10 +335,17 @@ class AdminController extends Controller
         return redirect('/assessment');
     }
 
-    public function assessment()
+    public function assessment(Request $request)
     {
-        if (Auth::check()) {
-            $candidates = $this->getcandtbl();
+        if (Auth::user()) {
+
+            $query = DB::table('candidate as cn')
+                ->join('category as ct', 'cn.category_id', '=', 'ct.id')
+                ->join('candidate_remark as cr', 'cn.candidate_id', '=', 'cr.candidate_id')
+                ->select('cn.id', 'cn.candidate_id', 'cn.name', 'cn.email', 'cn.mobile', 'cn.category_id', 'ct.category', 'cr.result', 'cn.resume', 'cn.link', 'cn.ip', 'cn.start_date_time', 'cn.end_date_time', 'cn.status')
+                ->get();
+
+            $candidates = $query->all();
             $query = DB::table('category')
                 ->select('id', 'category')
                 ->get();

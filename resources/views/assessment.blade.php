@@ -18,6 +18,7 @@
     <meta property="og:url" content="https://keenthemes.com/metronic" />
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
     <link rel="shortcut icon" href="images/metricoid-new-logo.png" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -43,13 +44,219 @@
         <!--begin::Page-->
         <div class="page d-flex flex-row flex-column-fluid">
             <!--begin::Aside-->
-            <x-sidebar />
+            <div id="kt_aside" class="aside aside-dark aside-hoverable" data-kt-drawer="true" data-kt-drawer-name="aside"
+                data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true"
+                data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start"
+                data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+                <!--begin::Brand-->
+                <div class="aside-logo flex-column-auto" id="kt_aside_logo">
+                    <!--begin::Logo-->
+                    <a href="{{ url('/dashboard') }}">
+                        <img alt="Logo" src="{{ url('images/Metricoid.png') }}" class="h-30px logo" />
+                    </a>
+                    <!--end::Logo-->
+                    <!--begin::Aside toggler-->
+                    <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
+                        data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
+                        data-kt-toggle-name="aside-minimize">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr079.svg-->
+                        <span class="svg-icon svg-icon-1 rotate-180">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <path opacity="0.5"
+                                    d="M14.2657 11.4343L18.45 7.25C18.8642 6.83579 18.8642 6.16421 18.45 5.75C18.0358 5.33579 17.3642 5.33579 16.95 5.75L11.4071 11.2929C11.0166 11.6834 11.0166 12.3166 11.4071 12.7071L16.95 18.25C17.3642 18.6642 18.0358 18.6642 18.45 18.25C18.8642 17.8358 18.8642 17.1642 18.45 16.75L14.2657 12.5657C13.9533 12.2533 13.9533 11.7467 14.2657 11.4343Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M8.2657 11.4343L12.45 7.25C12.8642 6.83579 12.8642 6.16421 12.45 5.75C12.0358 5.33579 11.3642 5.33579 10.95 5.75L5.40712 11.2929C5.01659 11.6834 5.01659 12.3166 5.40712 12.7071L10.95 18.25C11.3642 18.6642 12.0358 18.6642 12.45 18.25C12.8642 17.8358 12.8642 17.1642 12.45 16.75L8.2657 12.5657C7.95328 12.2533 7.95328 11.7467 8.2657 11.4343Z"
+                                    fill="currentColor" />
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Aside toggler-->
+                </div>
+                <!--end::Brand-->
+                <!--begin::Aside menu-->
+                <div class="aside-menu flex-column-fluid">
+                    <!--begin::Aside Menu-->
+                    <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true"
+                        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
+                        data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer"
+                        data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
+                        <!--begin::Menu-->
+                        <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                            id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
+                            <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none">
+                                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2"
+                                                    fill="currentColor" />
+                                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2"
+                                                    fill="currentColor" />
+                                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2"
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Dashboards</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="{{ url('/generatelink') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Generate Link</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link active" href="{{ url('/assessment') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Assessment</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="{{ url('/categories') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Categories</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-content">
+                                    <div class="separator mx-1 my-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Menu-->
+                    </div>
+                    <!--end::Aside Menu-->
+                </div>
+                <!--end::Aside menu-->
+            </div>
             <!--end::Aside-->
+
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
-                <x-header />
+                <div id="kt_header" style="" class="header align-items-stretch">
+                    <!--begin::Container-->
+                    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+                        <!--begin::Aside mobile toggle-->
+                        <div class="d-flex align-items-center d-lg-none ms-n2 me-2" title="Show aside menu">
+                            <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
+                                id="kt_aside_mobile_toggle">
+                                <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+                                <span class="svg-icon svg-icon-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <path
+                                            d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z"
+                                            fill="currentColor" />
+                                        <path opacity="0.3"
+                                            d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </div>
+                        </div>
+                        <!--end::Aside mobile toggle-->
+                        <!--begin::Mobile logo-->
+                        <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
+                            <a href="../../demo1/dist/index.html" class="d-lg-none">
+                                <img alt="Logo" src="assets/media/logos/logo-2.svg" class="h-30px" />
+                            </a>
+                        </div>
+                        <!--end::Mobile logo-->
+                        <!--begin::Wrapper-->
+                        <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+                            <!--begin::Navbar-->
+                            <div class="d-flex align-items-stretch" id="kt_header_nav">
+                                <!--begin::Menu wrapper-->
+                                <div class="header-menu align-items-stretch" data-kt-drawer="true"
+                                    data-kt-drawer-name="header-menu"
+                                    data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true"
+                                    data-kt-drawer-width="{default:'200px', '300px': '250px'}"
+                                    data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle"
+                                    data-kt-swapper="true" data-kt-swapper-mode="prepend"
+                                    data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+                                    <!--begin::Menu-->
+                                    <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
+                                        id="#kt_header_menu" data-kt-menu="true">
+                                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                                            class="menu-item here show menu-lg-down-accordion me-lg-1">
+                                            <span class="menu-link py-3">
+                                                <span class="menu-title">Dashboards</span>
+                                                <span class="menu-arrow d-lg-none"></span>
+                                            </span>
+                                            <div
+                                                class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+                                                <div class="menu-item">
+                                                    <a class="menu-link py-3" href="{{ url('/generatelink') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Generate Link</span>
+                                                    </a>
+                                                </div>
+                                                <div class="menu-item">
+                                                    <a class="menu-link active py-3" href="{{ url('/assessment') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Assessment</span>
+                                                    </a>
+                                                </div>
+                                                <div class="menu-item">
+                                                    <a class="menu-link py-3" href="{{ url('/categories') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Categories</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Menu-->
+                                </div>
+                                <!--end::Menu wrapper-->
+                            </div>
+                            <!--end::Navbar-->
+                            <!--begin::Toolbar wrapper-->
+                            <div class="d-flex align-items-stretch flex-shrink-0 ">
+                                <!--begin::Menu item-->
+                                <div class="mt-4">
+                                    <a href="{{ url('/logout') }}" class="btn btn-sm btn-primary">
+                                        <span class="menu-link py-3">
+                                            <span class="menu-title">Sign Out</span>
+                                            <span class="menu-arrow d-lg-none"></span>
+                                        </span>
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+                            </div>
+                            <!--end::Toolbar wrapper-->
+                        </div>
+                        <!--end::Wrapper-->
+                    </div>
+                    <!--end::Container-->
+                </div>
                 <!--end::Header-->
+
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                     <!--begin::Toolbar-->
@@ -117,13 +324,14 @@
                                                             <th class="min-w-150px">Email</th>
                                                             <th class="min-w-150px">Phone</th>
                                                             <th class="min-w-150px">category</th>
-                                                            <th class="min-w-150px">Resume</th>
                                                             <th class="min-w-150px">Test Link</th>
                                                             <th class="min-w-150px">IP address</th>
                                                             <th class="min-w-150px">start at</th>
                                                             <th class="min-w-150px">end at</th>
                                                             <th class="min-w-150px">Test</th>
                                                             <th class="min-w-100px text-center">Actions</th>
+                                                            <th class="min-w-150px text-center">Result</th>
+                                                            <th class="min-w-150px text-center">Resume</th>
                                                         </tr>
                                                     </thead>
                                                     <!--end::Table head-->
@@ -162,10 +370,6 @@
                                                                 <td>
                                                                     <label href="#"
                                                                         class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->resume }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
@@ -279,6 +483,41 @@
                                                                         </a>
                                                                     </div>
                                                                 </td>
+                                                                <td>
+                                                                    <div class="text-center"><span
+                                                                            @if ($val->result == 1) class="badge badge-light-success" @elseif($val->result == 2) class="badge badge-light-danger" @else class="badge badge-light-warning" @endif>
+                                                                            @php
+                                                                                if ($val->result == 1) {
+                                                                                    echo 'Pass';
+                                                                                } elseif ($val->result == 2) {
+                                                                                    echo 'Fail';
+                                                                                } else {
+                                                                                    echo 'Pending...';
+                                                                                }
+                                                                            @endphp</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-flex justify-content-center flex-shrink-0">
+                                                                        <a
+                                                                            href=@if (isset($val->resume) && !empty($val->resume)) {{ url('') . $val->resume }}  target="_blank" @endif>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="30" height="30"
+                                                                                fill=<?php if (isset($val->resume) && !empty($val->resume)) {
+                                                                                    echo 'red';
+                                                                                } else {
+                                                                                    echo 'gray';
+                                                                                }
+                                                                                ?>
+                                                                                class="bi bi-filetype-pdf"
+                                                                                viewBox="0 0 20 20">
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             @php $count++; @endphp
                                                         @endforeach
@@ -365,7 +604,8 @@
                                                             for="">Category</label>
                                                         <!--begin::Select2-->
                                                         <select name="category" disabled id="inputnCategory"
-                                                            class="form-control form-select form-select-solid" required>
+                                                            class="form-control form-select form-select-solid"
+                                                            required>
                                                             @php $i=1; @endphp
                                                             @foreach ($categories as $value)
                                                                 @if ($val->category_id == $value->id)
@@ -454,13 +694,22 @@
                             data: "",
                             success: function(data) {
                                 console.log(data);
+                                if (data == 1) {
+                                    swal("Yaa! candidate successfully deleted!", {
+                                        icon: "success",
+                                    });
+                                    window.location.reload();
+                                } else {
+                                    swal("User not deleted!", {
+                                        icon: "error",
+                                    });
+                                    window.location.reload();
+                                }
 
                             }
                         })
-                        swal("Yaa! candidate successfully deleted!", {
-                            icon: "success",
-                        });
-                        window.location.reload();
+
+
                     } else {
                         swal("User not deleted your candidate is safe!", {
                             icon: "error",

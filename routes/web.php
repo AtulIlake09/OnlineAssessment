@@ -17,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route::view('URI', 'admin');
 
 Route::get('test/{key}', [InfoController::class, 'index'])->name('test');
 Route::post('getinfo', [InfoController::class, 'info'])->name('getinfo');
@@ -53,6 +55,7 @@ Route::get('/logout', [AdminController::class, 'logot']);
 Route::get('/changeStatusglink/{id}', [AdminController::class, 'change_status_glink']);
 Route::get('/deletelink/{id}', [AdminController::class, 'delete_link']);
 Route::post('/edit_link', [AdminController::class, 'edit_link']);
+Route::post('/sharelink', [AdminController::class, 'share_link']);
 
 Route::get('/assessment', [AdminController::class, 'assessment']);
 Route::get('/changeStatuscan/{id}', [AdminController::class, 'change_status_candidate']);

@@ -239,9 +239,7 @@
                 if (!confirm('Are you sure that you want to submit the test'))
                     event.preventDefault();
             });
-            $('#txtInput').on("cut copy paste", function(e) {
-                e.preventDefault();
-            });
+
         });
     </script>
     <script>
@@ -255,11 +253,14 @@
             }
         });
     </script>
-    <script>
+    {{-- <script>
         $(document).bind("contextmenu", function(e) {
             return false;
+             $('#txtInput').on("cut copy paste", function(e) {
+                e.preventDefault();
+            });
         });
-    </script>
+    </script> --}}
 
 </body>
 
