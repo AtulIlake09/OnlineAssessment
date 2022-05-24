@@ -50,8 +50,7 @@
             document.getElementById("timer").innerHTML = minutes + " Min. " + seconds + " Sec.";
 
             if (count_timer <= 0) {
-                document.getElementById("next").id = "submit";
-                document.getElementById('submit').click();
+                document.getElementById('hidesubmitbtn').click();
             } else {
                 count_timer = count_timer - 1;
                 minutes = parseInt(count_timer / 60);
@@ -158,6 +157,8 @@
                                     } else {
                                         echo 'Next';
                                     } ?></button>
+                                <button type="submit" hidden id="hidesubmitbtn"
+                                    formaction="{{ url('/submit') }}">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -172,7 +173,6 @@
                         <div class="col-md-12">
                             <p>© 2022 All Rights Reserved by <a href="https://metricoidtech.com/"><u> Metricoid
                                         Technology Solutions Private Limited</u></a></p>
-
                         </div>
                     </div>
                 </div>
@@ -190,54 +190,33 @@
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script>
 
-    {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
-
-    {{-- <script type="text/javascript">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function() {
-            $("#submit").on("click", function() {
-
-                var currentRow = $(this).closest("tr");
-                var col1 = currentRow.find("td:eq(7)").text(); // get current row 1st TD value
-                var link = col1;
-
-                console.log(link)
-
+            $("#submit").click(function(event) {
+                // if (!confirm('Are you sure that you want to submit the test'))
+                event.preventDefault();
+                var form = $(this).parents('form');
                 swal({
                     title: "Are you sure!",
-                    text: "Do you really want to remove candidate!",
+                    text: "Do you really want to submit test!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
-                }).then((willDelete) => {
-                    if (willDelete) {
-                        $.ajax({
-                            type: "get",
-                            url: '/deletecan/' + link,
-                            data: "",
-                            success: function(data) {
-                                console.log(data);
-
-                            }
-                        })
-                        swal("Yaa! candidate successfully deleted!", {
+                }).then((willsubmit) => {
+                    if (willsubmit) {
+                        swal("Submitted successfully !", {
                             icon: "success",
                         });
-                        window.location.reload();
+                        // window.location.reload();
+                        $('#hidesubmitbtn').click();
                     } else {
-                        swal("User not deleted your candidate is safe!", {
+                        swal("Not Submitted!", {
                             icon: "error",
                         });
                     }
                 });
-            });
 
-        });
-    </script> --}}
-    <script>
-        $(document).ready(function() {
-            $("#submit").click(function(event) {
-                if (!confirm('Are you sure that you want to submit the test'))
-                    event.preventDefault();
             });
 
         });

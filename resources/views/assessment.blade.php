@@ -19,7 +19,7 @@
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
-    <link rel="shortcut icon" href="images/metricoid-new-logo.png" />
+    <link rel="shortcut icon" href="images/logometricoid.png" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -52,7 +52,7 @@
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                     <!--begin::Logo-->
                     <a href="{{ url('/dashboard') }}">
-                        <img alt="Logo" src="{{ url('images/Metricoid.png') }}" class="h-30px logo" />
+                        <img alt="Logo" src="{{ url('images/metricoidlogo.png') }}" class="h-35px logo" />
                     </a>
                     <!--end::Logo-->
                     <!--begin::Aside toggler-->

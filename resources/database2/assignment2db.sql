@@ -36,7 +36,7 @@ CREATE TABLE `candidate` (
   `end_date_time` datetime DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0 COMMENT '1:complete 0:incomplete',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=254 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=277 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,6 @@ CREATE TABLE `candidate` (
 
 LOCK TABLES `candidate` WRITE;
 /*!40000 ALTER TABLE `candidate` DISABLE KEYS */;
-INSERT INTO `candidate` VALUES (253,'MTY1MjcwNTkwOQ==','Atul','atul@metricoidtech.com',8695748569,1,'','/test/1/MTY1MjcwNTkwOQ==','127.0.0.1','2022-05-17 04:19:55','2022-05-17 04:23:16',1);
 /*!40000 ALTER TABLE `candidate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,10 +60,10 @@ CREATE TABLE `candidate_answers` (
   `candidate_id` varchar(255) NOT NULL,
   `ip_id` varchar(255) NOT NULL,
   `questions` text NOT NULL,
-  `answers` text NOT NULL,
+  `answers` text DEFAULT NULL,
   `time` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=624 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,8 +72,33 @@ CREATE TABLE `candidate_answers` (
 
 LOCK TABLES `candidate_answers` WRITE;
 /*!40000 ALTER TABLE `candidate_answers` DISABLE KEYS */;
-INSERT INTO `candidate_answers` VALUES (492,'MTY1Mjc3OTY3NQ==','404','What is the difference between list and tuples in Python?','feasegfasdfgadfg','2022-05-17 16:14:58'),(493,'MTY1Mjc3OTY3NQ==','404','Write a program to print star pattern in python ?','fsadfaefasef','2022-05-17 16:15:02'),(494,'MTY1Mjc3OTY3NQ==','404','Write a python program to print all even numbers between 1 to 100 ?','sgasdfgasdg','2022-05-17 16:15:08'),(495,'MTY1MjcwNTkwOQ==','405','How to print reverse number in PHP ?','wthwrthwrth','2022-05-17 16:20:02'),(496,'MTY1MjcwNTkwOQ==','405','How to find palindrome number in PHP ?','wthwrthwrth','2022-05-17 16:20:09'),(497,'MTY1MjcwNTkwOQ==','405','How to print Fibonacci series in PHP ?','wthwrthwrth','2022-05-17 16:20:25'),(498,'MTY1MjcwNTkwOQ==','405','How to print star pattern in PHP ?','wthwrthwrth','2022-05-17 16:20:45'),(499,'MTY1MjcwNTkwOQ==','405','How to find Armstrong number in PHP ?','wrthwrtwrthw','2022-05-17 16:21:14');
+INSERT INTO `candidate_answers` VALUES (619,'MTY1MzMxNDI2MQ==','429','How to print even numbers between two numbers in PHP ?','fsdfasdgardfgadfgadsfg','2022-05-23 19:28:20'),(620,'MTY1MzMxNDI2MQ==','429','How to print star pattern in PHP ?','hsdfhsdfhsfghsfghsfghsfhsdfhBJKGAGR\r\nGJABKRDKLARTF','2022-05-23 19:28:20'),(621,'MTY1MzMxNDI2MQ==','429','How to print reverse number in PHP ?','fgdsagadsgasdgadfgshsfhsf\r\n\r\n\r\nd,;AWR;her\r\nERFNJKWALEHGA','2022-05-23 19:28:20'),(622,'MTY1MzMxNDI2MQ==','429','How to print chessboard in PHP ?','dfgasdfgadsfgsdfhgdfghsdf\r\n\r\nfasldgioauyh;soih\r\nfmasdha;lusrhgta','2022-05-23 19:28:20'),(623,'MTY1MzMxNDI2MQ==','429','How to find palindrome number in PHP ?','gsdfgseyhrweruyhstdrhsyte','2022-05-23 19:28:20');
 /*!40000 ALTER TABLE `candidate_answers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `candidate_remark`
+--
+
+DROP TABLE IF EXISTS `candidate_remark`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `candidate_remark` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `candidate_id` varchar(255) NOT NULL,
+  `result` varchar(50) NOT NULL DEFAULT '3' COMMENT '1:pass\r\n2:fail\r\n3:pending',
+  `feedback` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `candidate_remark`
+--
+
+LOCK TABLES `candidate_remark` WRITE;
+/*!40000 ALTER TABLE `candidate_remark` DISABLE KEYS */;
+/*!40000 ALTER TABLE `candidate_remark` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -95,7 +119,7 @@ CREATE TABLE `candidate_test_link` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `status` int(11) NOT NULL DEFAULT 1 COMMENT '1:active 0:inactive',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +128,6 @@ CREATE TABLE `candidate_test_link` (
 
 LOCK TABLES `candidate_test_link` WRITE;
 /*!40000 ALTER TABLE `candidate_test_link` DISABLE KEYS */;
-INSERT INTO `candidate_test_link` VALUES (12,'Atul','atul@metricoidtech.com','8695748569',1,'MTY1MjcwNTkwOQ==','/test/1/MTY1MjcwNTkwOQ==','2022-05-16 18:28:29',1),(13,'Shubham','shubham@metricoidtech.com','9865748569',3,'MTY1Mjc3OTY3NQ==','/test/3/MTY1Mjc3OTY3NQ==','2022-05-17 14:57:55',0),(14,'Shubham','shubham@metricoidtech.com','9865748569',3,'MTY1Mjc4MzU5Mw==','/test/3/MTY1Mjc4MzU5Mw==','2022-05-17 16:03:13',0);
 /*!40000 ALTER TABLE `candidate_test_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,9 +143,9 @@ CREATE TABLE `category` (
   `category` varchar(30) NOT NULL,
   `time_period` int(11) NOT NULL COMMENT 'min',
   `description` text NOT NULL,
-  `active` int(2) NOT NULL,
+  `active` int(2) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +154,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'PHP',3,'',1),(2,'React_js',20,'',1),(3,'Python',30,'',0),(4,'JavaScript',20,'',0);
+INSERT INTO `category` VALUES (1,'PHP',20,'PHP Description\r\n\'a;sl;af;\r\nl;\'fsakflklf\'\r\nmsal;flka;jfd\r\nslAKDf\'jojfjaskfjksd',1),(2,'React_js',20,'React_js Description\r\nasdmkfd;ljkf;klasf\r\nsdfklajhnskj;asd\r\nskdjladhgjaskd\r\nmfnkjlas',1),(3,'Python',30,'',1),(4,'JavaScript',20,'javaScript\r\njbahkdsgldf\r\nskfdjbhjasdf\r\nsfdkjaskldfj\r\n',1);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,11 +196,12 @@ DROP TABLE IF EXISTS `ip_details`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ip_details` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `candidate_id` varchar(255) NOT NULL,
   `ip` varchar(255) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `date_time` datetime NOT NULL,
+  `date_time` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=406 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +210,7 @@ CREATE TABLE `ip_details` (
 
 LOCK TABLES `ip_details` WRITE;
 /*!40000 ALTER TABLE `ip_details` DISABLE KEYS */;
-INSERT INTO `ip_details` VALUES (355,'127.0.0.1',1,'2022-05-13 06:20:23'),(356,'127.0.0.1',1,'2022-05-13 06:39:48'),(357,'127.0.0.1',1,'2022-05-13 06:43:38'),(358,'127.0.0.1',1,'2022-05-13 06:47:26'),(359,'127.0.0.1',1,'2022-05-13 06:54:32'),(360,'127.0.0.1',1,'2022-05-13 06:58:12'),(361,'127.0.0.1',1,'2022-05-13 07:04:00'),(362,'127.0.0.1',1,'2022-05-13 07:16:23'),(363,'127.0.0.1',1,'2022-05-13 07:23:43'),(364,'127.0.0.1',1,'2022-05-13 07:27:26'),(365,'127.0.0.1',1,'2022-05-13 07:32:57'),(366,'127.0.0.1',2,'2022-05-13 07:37:30'),(367,'127.0.0.1',1,'2022-05-13 07:38:44'),(368,'127.0.0.1',1,'2022-05-16 05:49:29'),(369,'127.0.0.1',1,'2022-05-16 07:38:42'),(370,'127.0.0.1',1,'2022-05-16 07:45:28'),(371,'127.0.0.1',1,'2022-05-16 07:45:59'),(372,'127.0.0.1',1,'2022-05-16 07:49:32'),(373,'127.0.0.1',1,'2022-05-17 11:00:52'),(374,'127.0.0.1',1,'2022-05-17 11:09:05'),(375,'127.0.0.1',1,'2022-05-17 11:09:53'),(376,'127.0.0.1',1,'2022-05-17 11:47:59'),(377,'127.0.0.1',1,'2022-05-17 12:26:21'),(378,'127.0.0.1',1,'2022-05-17 12:27:36'),(379,'127.0.0.1',1,'2022-05-17 12:31:11'),(380,'127.0.0.1',1,'2022-05-17 12:32:23'),(381,'127.0.0.1',1,'2022-05-17 12:35:18'),(382,'127.0.0.1',1,'2022-05-17 12:37:37'),(383,'127.0.0.1',1,'2022-05-17 12:39:41'),(384,'127.0.0.1',1,'2022-05-17 12:44:37'),(385,'127.0.0.1',1,'2022-05-17 12:45:17'),(386,'127.0.0.1',1,'2022-05-17 12:47:43'),(387,'127.0.0.1',1,'2022-05-17 12:51:03'),(388,'127.0.0.1',1,'2022-05-17 12:52:48'),(389,'127.0.0.1',1,'2022-05-17 12:52:55'),(390,'127.0.0.1',1,'2022-05-17 12:56:48'),(391,'127.0.0.1',1,'2022-05-17 12:57:06'),(392,'127.0.0.1',1,'2022-05-17 01:07:50'),(393,'127.0.0.1',1,'2022-05-17 01:07:58'),(394,'127.0.0.1',1,'2022-05-17 01:08:25'),(395,'127.0.0.1',1,'2022-05-17 01:08:44'),(396,'127.0.0.1',1,'2022-05-17 02:00:03'),(397,'127.0.0.1',1,'2022-05-17 02:06:42'),(398,'127.0.0.1',1,'2022-05-17 02:17:35'),(399,'127.0.0.1',1,'2022-05-17 03:23:36'),(400,'127.0.0.1',1,'2022-05-17 03:33:05'),(401,'127.0.0.1',1,'2022-05-17 03:42:09'),(402,'127.0.0.1',3,'2022-05-17 03:52:17'),(403,'127.0.0.1',3,'2022-05-17 03:57:26'),(404,'127.0.0.1',3,'2022-05-17 04:05:49'),(405,'127.0.0.1',1,'2022-05-17 04:19:55');
+INSERT INTO `ip_details` VALUES (421,'MTY1Mjk2ODQ1NA==','127.0.0.1',1,'2022-05-19 07:25:47'),(422,'MTY1Mjk2ODk4Ng==','127.0.0.1',2,'2022-05-20 10:28:05'),(423,'MTY1MzAyOTgxNg==','127.0.0.1',1,'2022-05-20 12:30:41'),(424,'MTY1MzAzMjI2Mg==','127.0.0.1',1,'2022-05-20 06:27:16'),(425,'MTY1MzA1MjAyNA==','127.0.0.1',3,'2022-05-23 10:24:49'),(426,'MTY1MzA1MjIyNQ==','127.0.0.1',2,'2022-05-23 10:31:10'),(427,'MTY1MzMwOTUxMQ==','127.0.0.1',1,'2022-05-23 06:09:34'),(428,'MTY1MzMwOTUxMQ==','127.0.0.1',1,'2022-05-23 07:14:07'),(429,'MTY1MzMxNDI2MQ==','127.0.0.1',1,'2022-05-23 07:28:20');
 /*!40000 ALTER TABLE `ip_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -428,11 +452,11 @@ CREATE TABLE `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(10) NOT NULL,
   `questions` text NOT NULL,
-  `type` varchar(30) NOT NULL,
-  `status` int(2) NOT NULL COMMENT 'active-1\r\ninactive-0',
+  `type` varchar(30) DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT 1 COMMENT 'active-1\r\ninactive-0',
   PRIMARY KEY (`id`),
   KEY `questions` (`questions`(768))
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -441,7 +465,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,1,'How to print even numbers between two numbers in PHP ?','descriptive',1),(2,1,'How to print reverse number in PHP ?','descriptive',1),(3,1,'How to find palindrome number in PHP ?','descriptive',1),(4,1,'How to find Armstrong number in PHP ?','descriptive',1),(5,1,'How to print Fibonacci series in PHP ?','descriptive',1),(6,1,'How to print star pattern in PHP ?','descriptive',1),(7,1,'How to print chessboard in PHP ?','descriptive',1),(8,2,'What is an event in React?','descriptive',1),(9,2,'What are synthetic events in React?','descriptive',1),(10,2,'Why is there a need for using keys in Lists?','descriptive',1),(11,2,'What are the components in React?','descriptive',1),(12,2,'What is the use of render() in React?','descriptive',1),(13,3,'What is the difference between list and tuples in Python?','descriptive',0),(14,3,'Write a python program to print all even numbers between 1 to 100 ?','descriptive',0),(15,3,'Write a program to print star pattern in python ?','descriptive',0),(16,4,'Write a program to print Fibonacci series in javaScript ?\r\n','descriptive',1),(17,4,'Write a program to find palindrome number in javascript ?','descriptive',1);
+INSERT INTO `questions` VALUES (1,1,'How to print even numbers between two numbers in PHP ?','objective',1),(2,1,'How to print reverse number in PHP ?','descriptive',1),(3,1,'How to find palindrome number in PHP ?','descriptive',1),(4,1,'How to find Armstrong number in PHP ?','descriptive',1),(5,1,'How to print Fibonacci series in PHP ?','descriptive',1),(6,1,'How to print star pattern in PHP ?','descriptive',1),(7,1,'How to print chessboard in PHP ?','descriptive',1),(8,2,'What is an event in React?','descriptive',1),(9,2,'What are synthetic events in React?','descriptive',1),(10,2,'Why is there a need for using keys in Lists?','descriptive',1),(11,2,'What are the components in React?','descriptive',1),(12,2,'What is the use of render() in React?','descriptive',1),(13,3,'What is the difference between list and tuples in Python?','descriptive',0),(14,3,'Write a python program to print all even numbers between 1 to 100 ?','descriptive',0),(15,3,'Write a program to print star pattern in python ?','descriptive',0),(16,4,'Write a program to print Fibonacci series in javaScript ?\r\n','descriptive',1),(17,4,'Write a program to find palindrome number in javascript ?','descriptive',1);
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,7 +482,7 @@ CREATE TABLE `temp_queans` (
   `questions` text NOT NULL,
   `answers` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -511,4 +535,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17 16:59:49
+-- Dump completed on 2022-05-24 10:41:22
