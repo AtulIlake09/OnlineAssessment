@@ -276,7 +276,7 @@
                                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                 <!--begin::Title-->
                                 <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1" id="generateLink">
-                                    Categories
+                                    Tests
                                     <!--begin::Separator-->
                                     <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
                                     <!--end::Separator-->
@@ -302,7 +302,7 @@
                                     <!--begin::Header-->
                                     <div class="card-header border-0 pt-5">
                                         <h3 class="card-title align-items-start flex-column">
-                                            <span class="card-label fw-bolder fs-3 mb-1">Categories</span>
+                                            <span class="card-label fw-bolder fs-3 mb-1">Test Details</span>
                                             {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                                         </h3>
                                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -320,7 +320,7 @@
                                                             fill="currentColor" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->New Category
+                                                <!--end::Svg Icon-->New Test
                                             </a>
                                         </div>
                                     </div>
@@ -344,7 +344,7 @@
                                                             </div>
                                                         </th>
                                                         <th class="min-w-150px">ID</th>
-                                                        <th class="min-w-200px">Category</th>
+                                                        <th class="min-w-200px">Test</th>
                                                         <th class="min-w-150px text-center">Test duration</th>
                                                         <th class="min-w-150px text-center">Status</th>
                                                         <th class="min-w-100px text-center">Actions</th>
@@ -520,12 +520,12 @@
                                         <!--begin::Heading-->
                                         <div class="mb-13 text-center">
                                             <!--begin::Title-->
-                                            <h1 class="mb-3">New Category</h1>
+                                            <h1 class="mb-3">New Test</h1>
                                             <!--end::Title-->
                                         </div>
                                         <!--end::Heading-->
                                         <div class="d-flex flex-column mb-8 fv-row">
-                                            <label class="required fs-6 fw-bold mb-2" for="cname">Category Name</label>
+                                            <label class="required fs-6 fw-bold mb-2" for="cname">Test Name</label>
                                             <input type="text" class="form-control form-control-solid" name="name"
                                                 id="cname" placeholder="Name" required>
 
@@ -618,7 +618,7 @@
                                                 </div>
                                                 <div class="text-center">
                                                     <button type="submit" class="btn btn-primary">Update
-                                                        Category</button>
+                                                        Test</button>
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
                                                 </div>

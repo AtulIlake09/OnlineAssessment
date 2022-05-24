@@ -305,7 +305,7 @@
                                                         </div>
                                                         <div class="col-12 text-center"><a
                                                                 href="{{ url('/categories') }}"
-                                                                class="text-warning fw-bold fs-6">Categories</a></div>
+                                                                class="text-warning fw-bold fs-6">Tests</a></div>
                                                     </div>
                                                     <!--end::Col-->
                                                     <!--begin::Col-->
@@ -333,7 +333,7 @@
                                                         <div class="col-12 text-center"><a href="#"
                                                                 class="text-danger fw-bold fs-6 mt-2"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#kt_modal_new_category">New Category</a>
+                                                                data-bs-target="#kt_modal_new_category">New Test</a>
                                                         </div>
                                                     </div>
                                                     <!--end::Col-->

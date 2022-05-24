@@ -303,13 +303,10 @@ class AdminController extends Controller
         $email = $request->email;
         $phone = $request->phone;
         $category_id = $request->category;
-        $token = base64_encode(time());
-
-        $link = '/test/' . $token;
 
         DB::table('candidate_test_link')
             ->where('id', '=', $id)
-            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'candidate_id' => $token, 'link' => $link]);
+            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id]);
 
         return redirect('/generatelink');
     }
