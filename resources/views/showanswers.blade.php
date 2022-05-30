@@ -300,9 +300,20 @@
                                                 <span class="card-label fw-bolder fs-3 mb-1">Question and Answers</span>
                                             </h3>
                                             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                data-bs-trigger="hover" title="Write Feedback">
+                                                data-bs-trigger="hover" title="Write Feedback" style="display: grid;">
                                                 <a class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#kt_modal_feedback">Remarks</a>
+                                                    data-bs-target="#kt_modal_feedback">Feedback</a>
+                                                <span
+                                                    @if ($result == 1) class="badge badge-light-success" @elseif($result == 2) class="badge badge-light-danger" @else class="badge badge-light-warning" @endif>
+                                                    @php
+                                                        if ($result == 1) {
+                                                            echo 'Pass';
+                                                        } elseif ($result == 2) {
+                                                            echo 'Fail';
+                                                        } else {
+                                                            echo 'Pending...';
+                                                        }
+                                                    @endphp</span>
                                             </div>
                                         </div>
                                         <!--end::Header-->

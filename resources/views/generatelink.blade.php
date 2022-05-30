@@ -347,6 +347,7 @@
                                                         <th class="min-w-150px">Phone</th>
                                                         <th class="min-w-150px">category</th>
                                                         <th class="min-w-100px">Link</th>
+                                                        <th class="min-w-150px">Generated at</th>
                                                         <th class="min-w-150px text-center">Status</th>
                                                         <th class="min-w-100px text-center">Actions</th>
                                                     </tr>
@@ -396,6 +397,10 @@
                                                             <td>
                                                                 <label href="#"
                                                                     class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label href="#"
+                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->created_at }}</label>
                                                             </td>
                                                             <td class="text-center">
                                                                 <span

@@ -133,7 +133,7 @@ class AdminController extends Controller
         if (Auth::check()) {
             $query = DB::table('candidate_test_link as cl')
                 ->join('category as ct', 'cl.test_category_id', '=', 'ct.id')
-                ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'ct.category', 'cl.link', 'cl.status')
+                ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
                 ->orderBy('id', 'asc')
                 ->get();
 
@@ -169,7 +169,22 @@ class AdminController extends Controller
         DB::table('candidate_test_link')
             ->insert(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'candidate_id' => $token, 'link' => $link]);
 
-        return redirect('/generatelink');
+        $link = url('') . $link;
+        $data = array('link' => $link);
+
+        $subject = "Link for test ";
+        Mail::send('sharelink', $data, function ($message) use ($subject, $email) {
+            $message->to($email);
+            $message->subject($subject);
+        });
+
+        if (Mail::failures()) {
+            $status = 0;
+        } else {
+            $status = 1;
+        }
+        // return redirect()->back()->with('msg', $status);
+        return redirect('/generatelink')->with('msg', $status);
     }
 
     public function share_link(Request $request)
