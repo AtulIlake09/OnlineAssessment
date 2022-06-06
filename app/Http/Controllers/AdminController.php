@@ -154,7 +154,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'phone' => 'required',
         ]);
 
@@ -354,9 +354,10 @@ class AdminController extends Controller
             $query = DB::table('candidate as cn')
                 ->join('category as ct', 'cn.category_id', '=', 'ct.id')
                 ->join('candidate_remark as cr', 'cn.candidate_id', '=', 'cr.candidate_id')
-                ->select('cn.id', 'cn.candidate_id', 'cn.name', 'cn.email', 'cn.mobile', 'cn.category_id', 'ct.category', 'cr.result', 'cn.resume', 'cn.link', 'cn.ip', 'cn.start_date_time', 'cn.end_date_time', 'cn.status')
+                ->select('cn.id', 'cn.candidate_id', 'cn.name', 'cn.email', 'cn.mobile', 'cn.category_id', 'ct.category', 'cr.result', 'cr.feedback', 'cn.resume', 'cn.link', 'cn.ip', 'cn.start_date_time', 'cn.end_date_time', 'cn.status')
                 ->get();
 
+            // dd($query->all());
             $candidates = $query->all();
             $query = DB::table('category')
                 ->select('id', 'category')

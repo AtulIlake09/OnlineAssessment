@@ -62,21 +62,22 @@ class InfoController extends Controller
                         return view('AfterSubmit', compact('err'));
                     }
                 } else {
-                    $query = DB::table('candidate_test_link')
-                        ->select('name', 'email', 'phone', 'link')
-                        ->where('test_category_id', '=', $cat)
-                        ->where('candidate_id', '=', $key)
+                    $query = DB::table('candidate_test_link as cn')
+                        ->join('category as cat', 'cn.test_category_id', 'cat.id')
+                        ->select('cn.name', 'cn.email', 'cn.phone', 'cn.link', 'cat.description')
+                        ->where('cn.test_category_id', '=', $cat)
+                        ->where('cn.candidate_id', '=', $key)
                         ->first();
-
+                    dd($query);
                     $name = $query->name;
                     $email = $query->email;
                     $phone = $query->phone;
                     $link = $query->link;
 
-                    $query = DB::table('category')
-                        ->select('description')
-                        ->where('id', '=', $cat)
-                        ->first();
+                    // $query = DB::table('category')
+                    //     ->select('description')
+                    //     ->where('id', '=', $cat)
+                    //     ->first();
 
                     $descrip = $query->description;
 

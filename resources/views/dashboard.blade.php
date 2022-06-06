@@ -51,7 +51,7 @@
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                     <!--begin::Logo-->
                     <a href="{{ url('/dashboard') }}">
-                        <img alt="Logo" src="{{ url('images/metricoidlogo.png') }}" class="h-35px logo" />
+                        <img alt="Logo" src="images/metricoidlogo.png" class="h-35px logo" />
                     </a>
                     <!--end::Logo-->
                     <!--begin::Aside toggler-->
@@ -128,7 +128,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Categories</span>
+                                            <span class="menu-title">Tests</span>
                                         </a>
                                     </div>
                                 </div>
@@ -175,8 +175,8 @@
                         <!--end::Aside mobile toggle-->
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                            <a href="../../demo1/dist/index.html" class="d-lg-none">
-                                <img alt="Logo" src="assets/media/logos/logo-2.svg" class="h-30px" />
+                            <a href="{{ url('/dashboard') }}" class="d-lg-none">
+                                <img alt="Logo" src="images/logometricoid.png" class="h-30px" />
                             </a>
                         </div>
                         <!--end::Mobile logo-->
@@ -224,7 +224,7 @@
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                                        <span class="menu-title">Categories</span>
+                                                        <span class="menu-title">Tests</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -383,29 +383,28 @@
                                                 <!--begin::Heading-->
                                                 <div class="mb-13 text-center">
                                                     <!--begin::Title-->
-                                                    <h1 class="mb-3">New Category</h1>
+                                                    <h1 class="mb-3">New Test</h1>
                                                     <!--end::Title-->
                                                 </div>
                                                 <!--end::Heading-->
                                                 <div class="d-flex flex-column mb-8 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" for="cname">Category
-                                                        Name</label>
-                                                    <input type="text" class="form-control form-control-solid"
+                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="cname">Test
+                                                        Name</label> --}}
+                                                    <input type="text" class="form-control form-control-solid mb-4"
                                                         name="name" id="cname" placeholder="Name" required>
 
-                                                    <label class="required fs-6 fw-bold mb-2" for="duration">Test
-                                                        Duration (in minutes)</label>
+                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="duration">Test
+                                                        Duration (in minutes)</label> --}}
                                                     <input type="number" class="form-control form-control-solid"
-                                                        name="duration" id="duration" placeholder="Test Duration"
-                                                        required>
+                                                        name="duration" id="duration"
+                                                        placeholder="Test Duration (in minutes)" required>
                                                 </div>
                                                 <div class="row g-9 mb-8">
                                                     <div class="col-md-12 fv-row">
-                                                        <label class="required fs-6 fw-bold mb-2"
-                                                            for="description">Description</label>
+                                                        {{-- <label class="required fs-6 fw-bold mb-2"
+                                                            for="description">Description</label> --}}
                                                         <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="description"
-                                                            placeholder="Test Description" id="description"
-                                                            required></textarea>
+                                                            placeholder="Test Description" id="description" required></textarea>
                                                     </div>
                                                     <div class="text-center">
                                                         <button type="submit" class="btn btn-primary">Add</button>

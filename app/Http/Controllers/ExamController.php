@@ -500,17 +500,17 @@ class ExamController extends Controller
                 array_push($answers, $val->answers);
             }
 
-            // $que_ans = array_combine($questions, $answers);
-            // $queAns = ['que_ans' => $que_ans];
-            // $email = "amarjit@metricoidtech.com";
-            // $email_cc = "reena@metricoidtech.com";
-            // $email_bcc = 'atul@metricoidtech.com';
+            $que_ans = array_combine($questions, $answers);
+            $queAns = ['que_ans' => $que_ans];
+            $email = "amarjit@metricoidtech.com";
+            $email_cc = "reena@metricoidtech.com";
+            $email_bcc = 'atul@metricoidtech.com';
 
-            // $subject = "Test Submitted by " . $user_name;
-            // Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
-            //     $message->to($email_bcc);
-            //     $message->subject($subject);
-            // });
+            $subject = "Test Submitted by " . $user_name;
+            Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
+                $message->to($email_bcc);
+                $message->subject($subject);
+            });
 
             $timezone = 'ASIA/KOLKATA';
             $date = new DateTime('now', new DateTimeZone($timezone));

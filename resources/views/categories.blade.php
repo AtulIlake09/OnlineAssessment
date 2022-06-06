@@ -36,7 +36,6 @@
             -webkit-appearance: none;
             margin: 0;
         }
-
     </style>
 </head>
 <!--end::Head-->
@@ -136,7 +135,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Categories</span>
+                                            <span class="menu-title">Tests</span>
                                         </a>
                                     </div>
                                 </div>
@@ -183,8 +182,8 @@
                         <!--end::Aside mobile toggle-->
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                            <a href="../../demo1/dist/index.html" class="d-lg-none">
-                                <img alt="Logo" src="assets/media/logos/logo-2.svg" class="h-30px" />
+                            <a href="{{ url('/dashboard') }}" class="d-lg-none">
+                                <img alt="Logo" src="images/logometricoid.png" class="h-30px" />
                             </a>
                         </div>
                         <!--end::Mobile logo-->
@@ -232,7 +231,7 @@
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                                        <span class="menu-title">Categories</span>
+                                                        <span class="menu-title">Tests</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -371,8 +370,11 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div
                                                                         class="d-flex justify-content-start flex-column">
-                                                                        <a href="#"
-                                                                            class="text-dark fw-bolder text-hover-primary fs-6">{{ $val->category }}</a>
+                                                                        <a href="{{ url('/getques/' . $val->id) }}"
+                                                                            class="text-dark fw-bolder text-hover-primary fs-6"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            title="view Questions">{{ $val->category }}</a>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -470,6 +472,31 @@
                                                                         </span>
                                                                         <!--end::Svg Icon-->
                                                                     </a>
+                                                                    <a href="#"
+                                                                        class="category_modal btn btn-sm btn-light btn-active-primary"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#generatelinkmodal"
+                                                                        style="padding-right: 10px; margin-left: 6px;">
+                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                                                        <span class="svg-icon svg-icon-3"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            title="Generate New Link">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24"
+                                                                                viewBox="0 0 24 24" fill="none">
+                                                                                <rect opacity="0.5" x="11.364"
+                                                                                    y="20.364" width="16" height="2"
+                                                                                    rx="1"
+                                                                                    transform="rotate(-90 11.364 20.364)"
+                                                                                    fill="currentColor" />
+                                                                                <rect x="4.36396" y="11.364" width="16"
+                                                                                    height="2" rx="1"
+                                                                                    fill="currentColor" />
+                                                                            </svg>
+                                                                        </span>
+                                                                        <!--end::Svg Icon-->
+                                                                    </a>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -555,6 +582,88 @@
                         </div>
                         <!--end::Modal dialog-->
                     </div>
+                    <div class="modal fade" id="generatelinkmodal" tabindex="-1" aria-hidden="true">
+                        <!--begin::Modal dialog-->
+                        <div class="modal-dialog mw-650px">
+                            <!--begin::Modal content-->
+                            <div class="modal-content">
+                                <!--begin::Modal header-->
+                                <div class="modal-header pb-0 border-0 justify-content-end">
+                                    <!--begin::Close-->
+                                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                        <span class="svg-icon svg-icon-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none">
+                                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                    transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </div>
+                                    <!--end::Close-->
+                                </div>
+                                <!--begin::Modal header-->
+                                <!--begin::Modal body-->
+                                <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                    <form action="{{ url('/linkgenerate') }}" method="POST" class="form">
+                                        @csrf
+                                        <!--begin::Heading-->
+                                        <div class="mb-13 text-center">
+                                            <!--begin::Title-->
+                                            <h1 class="mb-3">Candidate Details</h1>
+                                            <!--end::Title-->
+                                        </div>
+                                        <!--end::Heading-->
+                                        <div class="d-flex flex-column mb-8 fv-row">
+                                            <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
+                                            <input type="text" class="form-control form-control-solid" name="name"
+                                                id="cname" placeholder="Name" required>
+
+                                            <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label>
+                                            <input type="email" class="form-control form-control-solid" name="email"
+                                                id="inputEmail4" placeholder="Email" required>
+                                        </div>
+                                        <div class="row g-9 mb-8">
+                                            <div class="col-md-6 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
+                                                <input type="number" class="form-control form-control-solid"
+                                                    name="phone" placeholder="phone" id="phone" required>
+                                                <input type="hidden" name="category" id="category">
+                                            </div>
+                                            {{-- <div class="col-md-6 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2"
+                                                    for="inputCategory">Category</label>
+                                                <!--begin::Select2-->
+                                                <select name="category" id="inputCategory"
+                                                    class="form-control form-select form-select-solid" required>
+                                                    <option selected>Choose...</option>
+
+                                                    @php $i=1; @endphp
+                                                    @foreach ($categories as $val)
+                                                        <option value="{{ $i }}">{{ $val->category }}
+                                                        </option>
+                                                        @php $i++; @endphp
+                                                    @endforeach
+
+                                                </select>
+                                                <!--end::Select2-->
+                                            </div> --}}
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary mt-5">Generate
+                                                    Link</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--end::Modal body-->
+                            </div>
+                            <!--end::Modal content-->
+                        </div>
+                        <!--end::Modal dialog-->
+                    </div>
                     @foreach ($category as $val)
                         <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
                             aria-hidden="true">
@@ -613,8 +722,7 @@
                                                     <label class="required fs-6 fw-bold mb-2"
                                                         for="description">Description</label>
                                                     <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="description" id="description"
-                                                        placeholder="Test Description"
-                                                        required>{{ empty($val->description) ? '' : $val->description }}</textarea>
+                                                        placeholder="Test Description" required>{{ empty($val->description) ? '' : $val->description }}</textarea>
                                                 </div>
                                                 <div class="text-center">
                                                     <button type="submit" class="btn btn-primary">Update
@@ -708,6 +816,30 @@
 
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.category_modal').click(function() {
+
+                var currentRow = $(this).closest("tr");
+                var col1 = currentRow.find("td:eq(1)").text();
+                var id = col1.trim();
+
+                $('#category').val(id);
+
+            });
+        });
+    </script>
+    @if ($errors->has('email'))
+        <script>
+            $(document).ready(function() {
+                var error = "<?php echo $errors->first('email'); ?>";
+                console.log(error, '///');
+
+                swal("error !", error, "error");
+
+            });
+        </script>
+    @endif
 
 </body>
 <!--end::Body-->

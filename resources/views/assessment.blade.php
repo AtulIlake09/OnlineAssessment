@@ -129,7 +129,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Categories</span>
+                                            <span class="menu-title">Tests</span>
                                         </a>
                                     </div>
                                 </div>
@@ -176,8 +176,8 @@
                         <!--end::Aside mobile toggle-->
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                            <a href="../../demo1/dist/index.html" class="d-lg-none">
-                                <img alt="Logo" src="assets/media/logos/logo-2.svg" class="h-30px" />
+                            <a href="{{ url('/dashboard') }}" class="d-lg-none">
+                                <img alt="Logo" src="images/logometricoid.png" class="h-30px" />
                             </a>
                         </div>
                         <!--end::Mobile logo-->
@@ -225,7 +225,7 @@
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                                        <span class="menu-title">Categories</span>
+                                                        <span class="menu-title">Tests</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -392,18 +392,22 @@
                                                                         @if ($val->status == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val->status == 1 ? 'complete' : 'In-complete' }}</span>
                                                                 </td>
                                                                 <td>
-                                                                    <div class="text-center"><span
-                                                                            @if ($val->result == 1) class="badge badge-light-success" @elseif($val->result == 2) class="badge badge-light-danger" @else class="badge badge-light-warning" @endif>
-                                                                            @php
-                                                                                if ($val->result == 1) {
-                                                                                    echo 'Pass';
-                                                                                } elseif ($val->result == 2) {
-                                                                                    echo 'Fail';
-                                                                                } else {
-                                                                                    echo 'Pending...';
-                                                                                }
-                                                                            @endphp</span>
-                                                                    </div>
+                                                                    <a
+                                                                        href="{{ url('/getqueans/' . $val->candidate_id) }}">
+                                                                        <div class="text-center"><span
+                                                                                @if ($val->result == 1) class="badge badge-light-success" @elseif($val->result == 2) class="badge badge-light-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                            title="{{ $val->feedback }}" @else class="badge badge-light-warning" @endif>
+                                                                                @php
+                                                                                    if ($val->result == 1) {
+                                                                                        echo 'Pass';
+                                                                                    } elseif ($val->result == 2) {
+                                                                                        echo 'Fail';
+                                                                                    } else {
+                                                                                        echo 'Pending...';
+                                                                                    }
+                                                                                @endphp</span>
+                                                                        </div>
+                                                                    </a>
                                                                 </td>
                                                                 <td>
                                                                     <div
