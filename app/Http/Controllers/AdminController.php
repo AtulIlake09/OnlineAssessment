@@ -141,6 +141,7 @@ class AdminController extends Controller
 
             $query = DB::table('category')
                 ->select('id', 'category')
+                ->where('active', 1)
                 ->get();
 
             $categories = $query->all();
@@ -285,6 +286,7 @@ class AdminController extends Controller
     public function delete_can($id)
     {
         $flag = 0;
+
         $query = DB::table('candidate')
             ->select('candidate_id')
             ->where('id', '=', $id)
@@ -293,12 +295,22 @@ class AdminController extends Controller
 
         if (!empty($can_id)) {
 
+            DB::table('candidate')
+                ->where('candidate_id', '=', $can_id)
+                ->delete();
+
             DB::table('candidate_remark')
                 ->where('candidate_id', '=', $can_id)
                 ->delete();
-            DB::table('candidate')
-                ->where('id', '=', $id)
+
+            DB::table('candidate_answers')
+                ->where('candidate_id', '=', $can_id)
                 ->delete();
+
+            DB::table('ip_details')
+                ->where('candidate_id', '=', $can_id)
+                ->delete();
+
             $flag = 1;
         }
 

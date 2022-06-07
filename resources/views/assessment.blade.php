@@ -706,7 +706,7 @@
                             success: function(data) {
                                 console.log(data);
                                 if (data == 1) {
-                                    swal("Yaa! candidate successfully deleted!", {
+                                    swal("candidate successfully deleted!", {
                                         icon: "success",
                                     });
                                     window.location.reload();
@@ -722,7 +722,7 @@
 
 
                     } else {
-                        swal("User not deleted your candidate is safe!", {
+                        swal("Your candidate is safe!", {
                             icon: "error",
                         });
                     }

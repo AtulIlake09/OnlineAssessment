@@ -58,27 +58,23 @@ class InfoController extends Controller
 
                         return view('login', compact('name', 'email', 'phone', 'cat', 'key', 'link', 'descrip'));
                     } else {
+
                         $err = "You can not give a test !";
                         return view('AfterSubmit', compact('err'));
                     }
                 } else {
+
                     $query = DB::table('candidate_test_link as cn')
                         ->join('category as cat', 'cn.test_category_id', 'cat.id')
                         ->select('cn.name', 'cn.email', 'cn.phone', 'cn.link', 'cat.description')
                         ->where('cn.test_category_id', '=', $cat)
                         ->where('cn.candidate_id', '=', $key)
                         ->first();
-                    dd($query);
+
                     $name = $query->name;
                     $email = $query->email;
                     $phone = $query->phone;
                     $link = $query->link;
-
-                    // $query = DB::table('category')
-                    //     ->select('description')
-                    //     ->where('id', '=', $cat)
-                    //     ->first();
-
                     $descrip = $query->description;
 
                     return view('login', compact('name', 'email', 'phone', 'cat', 'key', 'link', 'descrip'));
@@ -94,7 +90,7 @@ class InfoController extends Controller
             'Name' => 'required',
             'Email' => 'required|email',
             'Phone_Number' => 'required',
-            'file' => 'mimes:csv,txt,xlx,xls,pdf|max:2048'
+            'file' => 'mimes:doc,docx,csv,txt,xlx,xls,pdf|max:2048'
         ]);
 
         if ($request->file('file')) {
@@ -109,7 +105,6 @@ class InfoController extends Controller
         $link = $request->link;
         $category_id = $request->cat_id;
         $candidate_id = $request->can_id;
-
         $timezone = 'ASIA/KOLKATA';
         $date = new DateTime('now', new DateTimeZone($timezone));
         $localtime = $date->format('Y-m-d h:i:s');
@@ -118,6 +113,7 @@ class InfoController extends Controller
         $query = DB::table('candidate')
             ->where('candidate_id', '=', $candidate_id)
             ->first();
+
 
         if (!empty($query)) {
             $starttime = $query->start_date_time;
@@ -142,6 +138,7 @@ class InfoController extends Controller
                 return view('AfterSubmit', compact('err'));
             }
         } else {
+
             DB::table('ip_details')
                 ->insert(['ip' => $ip, 'candidate_id' => $candidate_id, 'category_id' => $category_id, 'date_time' => $localtime]);
 

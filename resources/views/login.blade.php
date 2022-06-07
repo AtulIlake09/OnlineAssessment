@@ -134,7 +134,8 @@
                                     </span>
                                     <label for="formFile" class="form-label text-white-custom-colour">Upload
                                         Resume:</label>
-                                    <input class="form-control" type="file" id="formFile" name='file'>
+                                    <input class="form-control" type="file" id="formFile" name='file'
+                                        accept=".docx,.doc,.txt,.xlx,.xls,.pdf">
                                 </div>
                             </div>
                             <div class="col-sm-12">

@@ -305,7 +305,7 @@
                                             {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                                         </h3>
                                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-trigger="hover" title="Click to add a category">
+                                            data-bs-trigger="hover" title="Click to add a Test">
                                             <a href="#" class="btn btn-sm btn-light btn-active-primary"
                                                 data-bs-toggle="modal" data-bs-target="#kt_modal_new_category">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
@@ -436,8 +436,7 @@
                                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                         <span class="svg-icon svg-icon-3"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="top"
-                                                                            title="Edit Category">
+                                                                            data-bs-placement="top" title="Edit Tests">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="24" height="24"
                                                                                 viewBox="0 0 24 24" fill="none">
@@ -453,7 +452,7 @@
                                                                     </a>
                                                                     <a class="delete btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                        title="Delete Category">
+                                                                        title="Delete Tests">
                                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                                         <span class="svg-icon svg-icon-3">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -633,24 +632,6 @@
                                                     name="phone" placeholder="phone" id="phone" required>
                                                 <input type="hidden" name="category" id="category">
                                             </div>
-                                            {{-- <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2"
-                                                    for="inputCategory">Category</label>
-                                                <!--begin::Select2-->
-                                                <select name="category" id="inputCategory"
-                                                    class="form-control form-select form-select-solid" required>
-                                                    <option selected>Choose...</option>
-
-                                                    @php $i=1; @endphp
-                                                    @foreach ($categories as $val)
-                                                        <option value="{{ $i }}">{{ $val->category }}
-                                                        </option>
-                                                        @php $i++; @endphp
-                                                    @endforeach
-
-                                                </select>
-                                                <!--end::Select2-->
-                                            </div> --}}
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary mt-5">Generate
                                                     Link</button>

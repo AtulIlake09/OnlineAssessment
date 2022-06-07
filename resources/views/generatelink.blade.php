@@ -538,25 +538,29 @@
                                         </div>
                                         <!--end::Heading-->
                                         <div class="d-flex flex-column mb-8 fv-row">
-                                            <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
-                                            <input type="text" class="form-control form-control-solid" name="name"
-                                                id="cname" placeholder="Name" required>
+                                            {{-- <label class="required fs-6 fw-bold mb-2" for="cname">Name</label> --}}
+                                            <input type="text" class="form-control text-center form-control-solid mb-5"
+                                                name="name" id="cname" placeholder="Name" style="cursor: pointer;"
+                                                required>
 
-                                            <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label>
-                                            <input type="email" class="form-control form-control-solid" name="email"
-                                                id="inputEmail4" placeholder="Email" required>
+                                            {{-- <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label> --}}
+                                            <input type="email"
+                                                class="form-control text-center form-control-solid mb-2"
+                                                style="cursor: pointer;" name="email" id="inputEmail4"
+                                                placeholder="Email" required>
                                         </div>
                                         <div class="row g-9 mb-8">
                                             <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
+                                                {{-- <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label> --}}
                                                 <input type="number" class="form-control form-control-solid"
-                                                    name="phone" placeholder="phone" id="phone" required>
+                                                    name="phone" style="cursor: pointer;" placeholder="phone" id="phone"
+                                                    required>
                                             </div>
                                             <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2"
-                                                    for="inputCategory">Category</label>
+                                                {{-- <label class="required fs-6 fw-bold mb-2"
+                                                    for="inputCategory">Category</label> --}}
                                                 <!--begin::Select2-->
-                                                <select name="category" id="inputCategory"
+                                                <select name="category" style="cursor: pointer;" id="inputCategory"
                                                     class="form-control form-select form-select-solid" required>
                                                     <option selected>Choose...</option>
 
@@ -623,28 +627,32 @@
                                             <!--end::Heading-->
                                             <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
                                             <div class="d-flex flex-column mb-8 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
-                                                <input type="text" class="form-control form-control-solid" name="name"
-                                                    id="cname" placeholder="Name"
+                                                {{-- <label class="required fs-6 fw-bold mb-2" for="cname">Name</label> --}}
+                                                <input type="text"
+                                                    class="form-control text-center form-control-solid mb-5"
+                                                    style="cursor: pointer;" name="name" id="cname" placeholder="Name"
                                                     value="{{ empty($val->name) ? '' : $val->name }}" required>
 
-                                                <label class="required fs-6 fw-bold mb-2"
-                                                    for="inputEmail4">Email</label>
-                                                <input type="email" class="form-control form-control-solid"
-                                                    name="email" id="cemail" placeholder="Email"
+                                                {{-- <label class="required fs-6 fw-bold mb-2"
+                                                for="inputEmail4">Email</label> --}}
+                                                <input type="email"
+                                                    class="form-control text-center form-control-solid mb-2"
+                                                    name="email" style="cursor: pointer;" id="cemail"
+                                                    placeholder="Email"
                                                     value="{{ empty($val->email) ? '' : $val->email }}" required>
                                             </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label>
+                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label> --}}
                                                     <input type="number" class="form-control form-control-solid"
-                                                        name="phone" id="cphone" placeholder="phone"
+                                                        name="phone" style="cursor: pointer;" id="cphone"
+                                                        placeholder="phone"
                                                         value="{{ empty($val->phone) ? '' : $val->phone }}" required>
                                                 </div>
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" for="">Category</label>
+                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="">Category</label> --}}
                                                     <!--begin::Select2-->
-                                                    <select name="category" id="inputnCategory"
+                                                    <select name="category" id="inputnCategory" style="cursor: pointer;"
                                                         class="form-control form-select form-select-solid" required>
                                                         @php $i=1; @endphp
                                                         @foreach ($categories as $value)
