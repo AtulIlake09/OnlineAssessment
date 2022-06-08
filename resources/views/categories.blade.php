@@ -114,6 +114,16 @@
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    @if ($flag == 1)
+                                        <div class="menu-item">
+                                            <a class="menu-link" href="{{ url('/superadmin') }}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Users</span>
+                                            </a>
+                                        </div>
+                                    @endif
                                     <div class="menu-item">
                                         <a class="menu-link" href="{{ url('/generatelink') }}">
                                             <span class="menu-bullet">
@@ -210,6 +220,16 @@
                                             </span>
                                             <div
                                                 class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+                                                @if ($flag == 1)
+                                                    <div class="menu-item">
+                                                        <a class="menu-link py-3" href="{{ url('/superadmin') }}">
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot"></span>
+                                                            </span>
+                                                            <span class="menu-title">Users</span>
+                                                        </a>
+                                                    </div>
+                                                @endif
                                                 <div class="menu-item">
                                                     <a class="menu-link py-3" href="{{ url('/generatelink') }}">
                                                         <span class="menu-bullet">
@@ -227,7 +247,8 @@
                                                     </a>
                                                 </div>
                                                 <div class="menu-item">
-                                                    <a class="menu-link  active py-3" href="{{ url('/categories') }}">
+                                                    <a class="menu-link  active py-3"
+                                                        href="{{ url('/categories') }}">
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>

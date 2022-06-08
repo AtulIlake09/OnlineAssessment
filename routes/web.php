@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -79,3 +80,5 @@ Route::post('/addquestion', [AdminController::class, 'addquestion']);
 Route::get('/changequestatus/{id}', [AdminController::class, 'change_que_status']);
 Route::get('/deletequestion/{id}', [AdminController::class, 'delete_question']);
 Route::post('/editquestion', [AdminController::class, 'edit_question']);
+
+Route::get('/superadmin', [SuperAdminController::class, 'superAdmin_view']);

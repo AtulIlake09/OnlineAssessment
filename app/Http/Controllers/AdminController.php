@@ -16,9 +16,7 @@ class AdminController extends Controller
     public function view_admin(Request $request)
     {
         if (Auth::user()) {
-            $category = $this->getcattbl();
-            $question = $this->getquetbl();
-            $candidate = $this->getcandtbl();
+
             $qurey = DB::table('category')
                 ->count();
             $cat = $qurey;
@@ -27,7 +25,9 @@ class AdminController extends Controller
                 ->count();
             $can = $qurey;
 
-            return view('dashboard', compact('category', 'question', 'candidate', 'cat', 'can'));
+            $flag = $request->session()->get('flag');
+
+            return view('dashboard', compact('cat', 'can', 'flag'));
         } else {
             return redirect('/adminlogin');
         }
@@ -66,14 +66,10 @@ class AdminController extends Controller
 
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
 
-            $categories = DB::table('category')
-                ->count();
+            $user = User::where('email', $request->email)->first();
+            $flag = $user->user;
 
-            $candidtes = DB::table('candidate')
-                ->count();
-
-            $request->session()->put('cd', $candidtes);
-            $request->session()->put('ct', $categories);
+            $request->session()->put('flag', $flag);
 
             return redirect('dashboard');
         } else {
@@ -144,8 +140,10 @@ class AdminController extends Controller
                 ->where('active', 1)
                 ->get();
 
+            $flag = $request->session()->get('flag');
+
             $categories = $query->all();
-            return view('generatelink', compact('data', 'categories'));
+            return view('generatelink', compact('data', 'categories', 'flag'));
         } else {
             return redirect('/adminlogin');
         }
@@ -375,8 +373,10 @@ class AdminController extends Controller
                 ->select('id', 'category')
                 ->get();
 
+            $flag = $request->session()->get('flag');
+
             $categories = $query->all();
-            return view('assessment', compact('candidates', 'categories'));
+            return view('assessment', compact('candidates', 'categories', 'flag'));
         } else {
             return redirect('/adminlogin');
         }
@@ -390,6 +390,7 @@ class AdminController extends Controller
                 ->get();
             $queans = $query->all();
             $request->session()->put('queans', $queans);
+
             return redirect('showanswers');
         } else {
             return redirect('/adminlogin');
@@ -419,7 +420,9 @@ class AdminController extends Controller
                 $feedback = "";
             }
 
-            return view('showanswers', compact('queans', 'cname', 'can_id', 'result', 'feedback'));
+            $flag = $request->session()->get('flag');
+
+            return view('showanswers', compact('queans', 'cname', 'can_id', 'result', 'feedback', 'flag'));
         } else {
             return redirect('/adminlogin');
         }
@@ -457,7 +460,9 @@ class AdminController extends Controller
         if (Auth::user()) {
 
             $category = $this->getcattbl();
-            return view('categories', compact('category'));
+            $flag = $request->session()->get('flag');
+
+            return view('categories', compact('category', 'flag'));
         } else {
             return redirect('/adminlogin');
         }
@@ -568,7 +573,9 @@ class AdminController extends Controller
                 ->first();
 
             $category = $query->category;
-            return view('categoryques', compact('questions', 'category', 'cat_id'));
+            $flag = $request->session()->get('flag');
+
+            return view('categoryques', compact('questions', 'category', 'cat_id', 'flag'));
         } else {
             return redirect('/adminlogin');
         }

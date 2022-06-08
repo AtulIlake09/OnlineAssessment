@@ -109,6 +109,16 @@
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    @if ($flag == 1)
+                                        <div class="menu-item">
+                                            <a class="menu-link" href="{{ url('/superadmin') }}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Users</span>
+                                            </a>
+                                        </div>
+                                    @endif
                                     <div class="menu-item">
                                         <a class="menu-link" href="{{ url('/generatelink') }}">
                                             <span class="menu-bullet">
@@ -204,6 +214,16 @@
                                             </span>
                                             <div
                                                 class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+                                                @if ($flag == 1)
+                                                    <div class="menu-item">
+                                                        <a class="menu-link py-3" href="{{ url('/superadmin') }}">
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot"></span>
+                                                            </span>
+                                                            <span class="menu-title">Users</span>
+                                                        </a>
+                                                    </div>
+                                                @endif
                                                 <div class="menu-item">
                                                     <a class="menu-link py-3" href="{{ url('/generatelink') }}">
                                                         <span class="menu-bullet">
@@ -299,8 +319,9 @@
                                             <h3 class="card-title align-items-start flex-column">
                                                 <span class="card-label fw-bolder fs-3 mb-1">Question and Answers</span>
                                             </h3>
-                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                data-bs-trigger="hover" title="Write Feedback" style="display: grid;">
+                                            <div class="card-toolbar" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-trigger="hover" title="Write Feedback"
+                                                style="display: grid;">
                                                 <a class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                                     data-bs-target="#kt_modal_feedback">Feedback</a>
                                                 <span
