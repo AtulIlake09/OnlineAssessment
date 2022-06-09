@@ -108,24 +108,22 @@
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    @if ($flag == 1)
-                                        <div class="menu-item">
-                                            <a class="menu-link" href="{{ url('/companies') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Companies</span>
-                                            </a>
-                                        </div>
-                                        <div class="menu-item">
-                                            <a class="menu-link" href="{{ url('/users') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Users</span>
-                                            </a>
-                                        </div>
-                                    @endif
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="{{ url('/companies') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Companies</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link active" href="{{ url('/users') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Users</span>
+                                        </a>
+                                    </div>
                                     <div class="menu-item">
                                         <a class="menu-link" href="{{ url('/generatelink') }}">
                                             <span class="menu-bullet">
@@ -135,7 +133,7 @@
                                         </a>
                                     </div>
                                     <div class="menu-item">
-                                        <a class="menu-link active" href="{{ url('/assessment') }}">
+                                        <a class="menu-link " href="{{ url('/assessment') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
@@ -222,24 +220,22 @@
                                             </span>
                                             <div
                                                 class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
-                                                @if ($flag == 1)
-                                                    <div class="menu-item">
-                                                        <a class="menu-link py-3" href="{{ url('/companies') }}">
-                                                            <span class="menu-bullet">
-                                                                <span class="bullet bullet-dot"></span>
-                                                            </span>
-                                                            <span class="menu-title">Companies</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="menu-item">
-                                                        <a class="menu-link py-3" href="{{ url('/users') }}">
-                                                            <span class="menu-bullet">
-                                                                <span class="bullet bullet-dot"></span>
-                                                            </span>
-                                                            <span class="menu-title">Users</span>
-                                                        </a>
-                                                    </div>
-                                                @endif
+                                                <div class="menu-item">
+                                                    <a class="menu-link py-3" href="{{ url('/companies') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Companies</span>
+                                                    </a>
+                                                </div>
+                                                <div class="menu-item">
+                                                    <a class="menu-link active py-3" href="{{ url('/users') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Users</span>
+                                                    </a>
+                                                </div>
                                                 <div class="menu-item">
                                                     <a class="menu-link py-3" href="{{ url('/generatelink') }}">
                                                         <span class="menu-bullet">
@@ -249,7 +245,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="menu-item">
-                                                    <a class="menu-link active py-3" href="{{ url('/assessment') }}">
+                                                    <a class="menu-link py-3" href="{{ url('/assessment') }}">
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
@@ -304,7 +300,7 @@
                                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                 <!--begin::Title-->
-                                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Assessment
+                                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Users
                                     <!--begin::Separator-->
                                     <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
                                     <!--end::Separator-->
@@ -332,8 +328,7 @@
                                         <!--begin::Header-->
                                         <div class="card-header border-0 pt-5">
                                             <h3 class="card-title align-items-start flex-column">
-                                                <span class="card-label fw-bolder fs-3 mb-1">Candidates</span>
-                                                {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
+                                                <span class="card-label fw-bolder fs-3 mb-1">All Users</span>
                                             </h3>
                                         </div>
                                         <!--end::Header-->
@@ -358,23 +353,15 @@
                                                             <th class="min-w-50px">ID</th>
                                                             <th class="min-w-150px">Name</th>
                                                             <th class="min-w-150px">Email</th>
-                                                            <th class="min-w-150px">Phone</th>
-                                                            <th class="min-w-150px">category</th>
-                                                            <th class="min-w-150px">Test Link</th>
-                                                            <th class="min-w-150px">IP address</th>
-                                                            <th class="min-w-150px">start at</th>
-                                                            <th class="min-w-150px">end at</th>
-                                                            <th class="min-w-150px">Test</th>
-                                                            <th class="min-w-150px text-center">Result</th>
+                                                            <th class="min-w-150px">Company</th>
                                                             <th class="min-w-100px text-center">Actions</th>
-                                                            <th class="min-w-150px text-center">Resume</th>
                                                         </tr>
                                                     </thead>
                                                     <!--end::Table head-->
                                                     <!--begin::Table body-->
                                                     <tbody>
                                                         @php $count=1; @endphp
-                                                        @foreach ($candidates as $val)
+                                                        @foreach ($users as $val)
                                                             <tr>
                                                                 <td>
                                                                     <div
@@ -385,93 +372,28 @@
                                                                 </td>
                                                                 <td style="display:none;">
                                                                     <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val['id'] }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
                                                                         class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ url('/getqueans/' . $val->candidate_id) }}"
-                                                                        class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val->name }}</a>
+                                                                    <label href="#"
+                                                                        class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val['name'] }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
+                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val['email'] }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->mobile }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->ip }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->start_date_time }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->end_date_time }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <span
-                                                                        @if ($val->status == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val->status == 1 ? 'complete' : 'In-complete' }}</span>
-                                                                </td>
-                                                                <td>
-                                                                    <a
-                                                                        href="{{ url('/getqueans/' . $val->candidate_id) }}">
-                                                                        <div class="text-center"><span
-                                                                                @if ($val->result == 1) class="badge badge-light-success" @elseif($val->result == 2) class="badge badge-light-danger" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                            title="{{ $val->feedback }}" @else class="badge badge-light-warning" @endif>
-                                                                                @php
-                                                                                    if ($val->result == 1) {
-                                                                                        echo 'Pass';
-                                                                                    } elseif ($val->result == 2) {
-                                                                                        echo 'Fail';
-                                                                                    } else {
-                                                                                        echo 'Pending...';
-                                                                                    }
-                                                                                @endphp</span>
-                                                                        </div>
-                                                                    </a>
+                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val['company'] }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <div
                                                                         class="d-flex justify-content-end flex-shrink-0">
-                                                                        <a id="viewanswers"
-                                                                            href="{{ url('/getqueans/' . $val->candidate_id) }}"
-                                                                            type="button"
-                                                                            class="btn btn-sm btn-icon btn-light btn-active-color-primary btn-sm me-1"
-                                                                            data-bs-toggle="tooltip"
-                                                                            data-bs-placement="top"
-                                                                            title="view Answers">
-                                                                            <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
-                                                                            <span
-                                                                                class="svg-icon svg-icon-2 svg-icon-gray-400">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
-                                                                                    <path
-                                                                                        d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z"
-                                                                                        fill="currentColor" />
-                                                                                    <path opacity="0.3"
-                                                                                        d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z"
-                                                                                        fill="currentColor" />
-                                                                                </svg>
-                                                                            </span>
-                                                                            <!--end::Svg Icon-->
-                                                                        </a>
-                                                                        <a href="{{ url('/changeStatuscan/' . $val->id) }}"
+                                                                        <a href=""
                                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="tooltip"
                                                                             data-bs-placement="top"
@@ -494,7 +416,7 @@
                                                                         <a href="#"
                                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="modal"
-                                                                            data-bs-target="#kt_modal_edit_link_{{ $val->id }}">
+                                                                            data-bs-target="#kt_modal_edit_link_{{ $val['id'] }}">
                                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                             <span class="svg-icon svg-icon-3"
                                                                                 data-bs-toggle="tooltip"
@@ -537,34 +459,6 @@
                                                                         </a>
                                                                     </div>
                                                                 </td>
-                                                                <td>
-                                                                    <div
-                                                                        class="d-flex justify-content-center flex-shrink-0">
-                                                                        <a
-                                                                            @if (isset($val->resume) && !empty($val->resume)) href={{ url('') . $val->resume }}  target="_blank" @endif>
-                                                                            <?php if (isset($val->resume) && !empty($val->resume)) {?>
-                                                                            {{-- <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                width="30" height="30"
-                                                                                fill={{"red"}}
-                                                                                class="bi bi-filetype-pdf"
-                                                                                viewBox="0 0 20 20">
-                                                                                <path fill-rule="evenodd"
-                                                                                    d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
-                                                                            </svg> --}}
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                width="30" height="30"
-                                                                                fill={{ 'red' }}
-                                                                                class="bi bi-download"
-                                                                                viewBox="0 0 20 20">
-                                                                                <path
-                                                                                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                                                                                <path
-                                                                                    d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                                                            </svg>
-                                                                            <?php }else{ echo "NA";}?>
-                                                                        </a>
-                                                                    </div>
-                                                                </td>
                                                             </tr>
                                                             @php $count++; @endphp
                                                         @endforeach
@@ -585,7 +479,7 @@
 
                         </div>
                         <!--end::Container-->
-                        @foreach ($candidates as $val)
+                        {{-- @foreach ($candidates as $val)
                             <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
                                 aria-hidden="true">
                                 <!--begin::Modal dialog-->
@@ -680,7 +574,7 @@
                                 </div>
                                 <!--end::Modal dialog-->
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
                     <!--end::Post-->
                 </div>
@@ -716,7 +610,7 @@
     <!--end::Page Custom Javascript-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $(document).ready(function() {
             $(".delete").on("click", function() {
 
@@ -766,7 +660,7 @@
             });
 
         });
-    </script>
+    </script> --}}
     <!--end::Javascript-->
 </body>
 <!--end::Body-->

@@ -111,7 +111,15 @@
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
                                     @if ($flag == 1)
                                         <div class="menu-item">
-                                            <a class="menu-link" href="{{ url('/superadmin') }}">
+                                            <a class="menu-link" href="{{ url('/companies') }}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Companies</span>
+                                            </a>
+                                        </div>
+                                        <div class="menu-item">
+                                            <a class="menu-link" href="{{ url('/users') }}">
                                                 <span class="menu-bullet">
                                                     <span class="bullet bullet-dot"></span>
                                                 </span>
@@ -140,7 +148,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Categories</span>
+                                            <span class="menu-title">Tests</span>
                                         </a>
                                     </div>
                                 </div>
@@ -216,7 +224,15 @@
                                                 class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                                                 @if ($flag == 1)
                                                     <div class="menu-item">
-                                                        <a class="menu-link py-3" href="{{ url('/superadmin') }}">
+                                                        <a class="menu-link py-3" href="{{ url('/companies') }}">
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot"></span>
+                                                            </span>
+                                                            <span class="menu-title">Companies</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="menu-item">
+                                                        <a class="menu-link py-3" href="{{ url('/users') }}">
                                                             <span class="menu-bullet">
                                                                 <span class="bullet bullet-dot"></span>
                                                             </span>
@@ -245,7 +261,7 @@
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                                        <span class="menu-title">Categories</span>
+                                                        <span class="menu-title">Tests</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -317,7 +333,8 @@
                                         <!--begin::Header-->
                                         <div class="card-header border-0 pt-5">
                                             <h3 class="card-title align-items-start flex-column">
-                                                <span class="card-label fw-bolder fs-3 mb-1">Question and Answers</span>
+                                                <span class="card-label fw-bolder fs-3 mb-1">Question and
+                                                    Answers</span>
                                             </h3>
                                             <div class="card-toolbar" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" data-bs-trigger="hover" title="Write Feedback"

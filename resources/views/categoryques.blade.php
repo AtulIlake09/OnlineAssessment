@@ -109,7 +109,15 @@
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
                                     @if ($flag == 1)
                                         <div class="menu-item">
-                                            <a class="menu-link" href="{{ url('/superadmin') }}">
+                                            <a class="menu-link" href="{{ url('/companies') }}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Companies</span>
+                                            </a>
+                                        </div>
+                                        <div class="menu-item">
+                                            <a class="menu-link" href="{{ url('/users') }}">
                                                 <span class="menu-bullet">
                                                     <span class="bullet bullet-dot"></span>
                                                 </span>
@@ -138,7 +146,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Categories</span>
+                                            <span class="menu-title">Tests</span>
                                         </a>
                                     </div>
                                 </div>
@@ -214,7 +222,15 @@
                                                 class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                                                 @if ($flag == 1)
                                                     <div class="menu-item">
-                                                        <a class="menu-link py-3" href="{{ url('/superadmin') }}">
+                                                        <a class="menu-link py-3" href="{{ url('/companies') }}">
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot"></span>
+                                                            </span>
+                                                            <span class="menu-title">Companies</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="menu-item">
+                                                        <a class="menu-link py-3" href="{{ url('/users') }}">
                                                             <span class="menu-bullet">
                                                                 <span class="bullet bullet-dot"></span>
                                                             </span>
@@ -243,7 +259,7 @@
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                                        <span class="menu-title">Categories</span>
+                                                        <span class="menu-title">Tests</span>
                                                     </a>
                                                 </div>
                                             </div>

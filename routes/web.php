@@ -81,4 +81,10 @@ Route::get('/changequestatus/{id}', [AdminController::class, 'change_que_status'
 Route::get('/deletequestion/{id}', [AdminController::class, 'delete_question']);
 Route::post('/editquestion', [AdminController::class, 'edit_question']);
 
-Route::get('/superadmin', [SuperAdminController::class, 'superAdmin_view']);
+Route::get('/users', [SuperAdminController::class, 'users_view']);
+Route::get('/cusers/{id}', [SuperAdminController::class, 'company_users_view']);
+Route::get('/companies', [SuperAdminController::class, 'companies_view']);
+Route::post('/update_company', [SuperAdminController::class, 'edit_company_details']);
+Route::get('/delete_company/{id}', [SuperAdminController::class, 'delete_company']);
+Route::post('/add_company', [SuperAdminController::class, 'add_company']);
+Route::get('/company_status/{id}', [SuperAdminController::class, 'company_status']);
