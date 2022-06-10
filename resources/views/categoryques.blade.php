@@ -724,6 +724,17 @@
 
         });
     </script>
+
+    @if (session()->has('msg'))
+        @php $msg=session()->get('msg'); @endphp
+        <script>
+            var msg = "<?php echo "$msg"; ?>";
+            console.log(msg);
+            swal(msg, {
+                icon: "success",
+            });
+        </script>
+    @endif
 </body>
 <!--end::Body-->
 

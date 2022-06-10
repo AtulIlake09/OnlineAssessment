@@ -330,6 +330,25 @@
                                             <h3 class="card-title align-items-start flex-column">
                                                 <span class="card-label fw-bolder fs-3 mb-1">All Users</span>
                                             </h3>
+                                            <div class="card-toolbar" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-trigger="hover"
+                                                title="Click to Add User">
+                                                <a href="#" class="btn btn-sm btn-light btn-active-primary"
+                                                    data-bs-toggle="modal" data-bs-target="#kt_modal_users">
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                                    <span class="svg-icon svg-icon-3">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none">
+                                                            <rect opacity="0.5" x="11.364" y="20.364" width="16"
+                                                                height="2" rx="1" transform="rotate(-90 11.364 20.364)"
+                                                                fill="currentColor" />
+                                                            <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
+                                                                fill="currentColor" />
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->Add User
+                                                </a>
+                                            </div>
                                         </div>
                                         <!--end::Header-->
                                         <!--begin::Body-->
@@ -354,6 +373,7 @@
                                                             <th class="min-w-150px">Name</th>
                                                             <th class="min-w-150px">Email</th>
                                                             <th class="min-w-150px">Company</th>
+                                                            <th class="min-w-150px text-center">Status</th>
                                                             <th class="min-w-100px text-center">Actions</th>
                                                         </tr>
                                                     </thead>
@@ -390,10 +410,14 @@
                                                                     <label href="#"
                                                                         class="text-muted fw-bolder d-block fs-6">{{ $val['company'] }}</label>
                                                                 </td>
+                                                                <td class="text-center">
+                                                                    <span
+                                                                        @if ($val['status'] == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val['status'] == 1 ? 'Active' : 'Inactive' }}</span>
+                                                                </td>
                                                                 <td>
                                                                     <div
                                                                         class="d-flex justify-content-end flex-shrink-0">
-                                                                        <a href=""
+                                                                        <a href="{{ url('/user_status/' . $val['id']) }}"
                                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="tooltip"
                                                                             data-bs-placement="top"
@@ -416,12 +440,12 @@
                                                                         <a href="#"
                                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="modal"
-                                                                            data-bs-target="#kt_modal_edit_link_{{ $val['id'] }}">
+                                                                            data-bs-target="#kt_modal_edit_user_{{ $val['id'] }}">
                                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                             <span class="svg-icon svg-icon-3"
                                                                                 data-bs-toggle="tooltip"
                                                                                 data-bs-placement="top"
-                                                                                title="Edit Candidate Details">
+                                                                                title="Edit User Details">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
                                                                                     viewBox="0 0 24 24" fill="none">
@@ -437,8 +461,7 @@
                                                                         </a>
                                                                         <a class="delete btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="top"
-                                                                            title="Delete Candidate">
+                                                                            data-bs-placement="top" title="Delete User">
                                                                             <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                                             <span class="svg-icon svg-icon-3">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -476,11 +499,90 @@
                                 <!--end::Col-->
                             </div>
                             <!--end::Row-->
-
                         </div>
                         <!--end::Container-->
-                        {{-- @foreach ($candidates as $val)
-                            <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
+                        <div class="modal fade" id="kt_modal_users" tabindex="-1" aria-hidden="true">
+                            <!--begin::Modal dialog-->
+                            <div class="modal-dialog mw-650px">
+                                <!--begin::Modal content-->
+                                <div class="modal-content">
+                                    <!--begin::Modal header-->
+                                    <div class="modal-header pb-0 border-0 justify-content-end">
+                                        <!--begin::Close-->
+                                        <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                            data-bs-dismiss="modal">
+                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                        transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                        transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
+                                        </div>
+                                        <!--end::Close-->
+                                    </div>
+                                    <!--begin::Modal header-->
+                                    <!--begin::Modal body-->
+                                    <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                        <form id="add_form" action="{{ url('/add_users') }}" method="POST">
+                                            @csrf
+                                            <!--begin::Heading-->
+                                            <div class="mb-13 text-center">
+                                                <!--begin::Title-->
+                                                <h1 class="mb-3">User Details</h1>
+                                                <!--end::Title-->
+                                            </div>
+                                            <!--end::Heading-->
+                                            <div class="d-flex flex-column mb-8 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" for="name"
+                                                    style="margin-left: 5px">Name</label>
+                                                <input type="text" class="form-control form-control-solid mb-8"
+                                                    name="name" id="uname" placeholder="User Name" required>
+
+                                                <label class="required fs-6 fw-bold mb-2" for="email"
+                                                    style="margin-left: 5px">Email</label>
+                                                <input type="email" class="form-control form-control-solid mb-8"
+                                                    name="email" id="uemail" placeholder="User Email" required>
+                                                <label class="required fs-6 fw-bold mb-2" for="password"
+                                                    style="margin-left: 5px">Password</label>
+                                                <input type="password" class="form-control form-control-solid"
+                                                    name="password" id="upassword" placeholder="User Password"
+                                                    value="{{ rand(10000000, 999999999) }}" required>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-12 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                        for="company">Company</label>
+                                                    <!--begin::Select2-->
+                                                    <select name="company_id" id="company_id" style="cursor: pointer;"
+                                                        class="form-control form-select form-select-solid" required>
+                                                        <option value="">Choose Company...</option>
+                                                        @foreach ($companies as $val)
+                                                            <option value="{{ $val->id }}">{{ $val->cname }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <!--end::Select2-->
+                                                </div>
+                                                <div class="text-center">
+                                                    <button id="adduser" type="submit" class="btn btn-primary mt-5">Add
+                                                        User</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--end::Modal body-->
+                                </div>
+                                <!--end::Modal content-->
+                            </div>
+                            <!--end::Modal dialog-->
+                        </div>
+                        @foreach ($users as $val)
+                            <div class="modal fade" id="kt_modal_edit_user_{{ $val['id'] }}" tabindex="-1"
                                 aria-hidden="true">
                                 <!--begin::Modal dialog-->
                                 <div class="modal-dialog mw-650px">
@@ -509,61 +611,58 @@
                                         <!--begin::Modal header-->
                                         <!--begin::Modal body-->
                                         <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                            <form action="{{ url('/edit_can') }}" method="POST">
+                                            <form id="update_form" action="{{ url('/edit_users') }}" method="POST">
                                                 @csrf
                                                 <!--begin::Heading-->
                                                 <div class="mb-13 text-center">
                                                     <!--begin::Title-->
-                                                    <h1 class="mb-3">Candidate Details</h1>
+                                                    <h1 class="mb-3">User Details</h1>
                                                     <!--end::Title-->
                                                 </div>
                                                 <!--end::Heading-->
-                                                <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
+                                                <input type="hidden" name="id" id="cid" value="{{ $val['id'] }}">
                                                 <div class="d-flex flex-column mb-8 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" for="cname">Name</label>
-                                                    <input type="text" class="form-control form-control-solid"
-                                                        name="name" id="cname" placeholder="Name"
-                                                        value="{{ empty($val->name) ? '' : $val->name }}" required>
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                        for="name">Name</label>
+                                                    <input type="text" class="form-control form-control-solid mb-8"
+                                                        name="name" id="name" placeholder="Name"
+                                                        value="{{ empty($val['name']) ? '' : $val['name'] }}"
+                                                        required>
 
-                                                    <label class="required fs-6 fw-bold mb-2"
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
                                                         for="inputEmail4">Email</label>
                                                     <input type="email" class="form-control form-control-solid"
                                                         name="email" id="cemail" placeholder="Email"
-                                                        value="{{ empty($val->email) ? '' : $val->email }}" required>
+                                                        value="{{ empty($val['email']) ? '' : $val['email'] }}"
+                                                        required>
                                                 </div>
                                                 <div class="row g-9 mb-8">
-                                                    <div class="col-md-6 fv-row">
+                                                    <div class="col-md-12 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
-                                                            for="phone">Phone</label>
-                                                        <input type="text" class="form-control form-control-solid"
-                                                            name="phone" id="cphone" placeholder="phone"
-                                                            value="{{ empty($val->mobile) ? '' : $val->mobile }}"
-                                                            required>
-                                                    </div>
-                                                    <div class="col-md-6 fv-row">
-                                                        <label class="required fs-6 fw-bold mb-2"
-                                                            for="">Category</label>
+                                                            style="margin-left: 5px" for="company">Company</label>
                                                         <!--begin::Select2-->
-                                                        <select name="category" disabled id="inputnCategory"
+                                                        <select name="company_id" id="company_id"
+                                                            style="cursor: pointer;"
                                                             class="form-control form-select form-select-solid"
                                                             required>
-                                                            @php $i=1; @endphp
-                                                            @foreach ($categories as $value)
-                                                                @if ($val->category_id == $value->id)
-                                                                    <option value="{{ $i }}" selected>
-                                                                        {{ $value->category }}</option>
+                                                            @foreach ($companies as $value)
+                                                                @if ($value->id == $val['company_id'])
+                                                                    <option selected value="{{ $value->id }}">
+                                                                        {{ $value->cname }}
+                                                                    </option>
                                                                 @else
-                                                                    <option value="{{ $i }}">
-                                                                        {{ $value->category }}</option>
+                                                                    <option value="{{ $value->id }}">
+                                                                        {{ $value->cname }}
+                                                                    </option>
                                                                 @endif
-                                                                @php $i++; @endphp
                                                             @endforeach
                                                         </select>
                                                         <!--end::Select2-->
                                                     </div>
                                                     <div class="text-center">
-                                                        <button type="submit" class="btn btn-primary mt-5">Update
-                                                            Link</button>
+                                                        <button type="submit" id="update"
+                                                            class="btn btn-primary mt-5">Update
+                                                            User</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -574,7 +673,7 @@
                                 </div>
                                 <!--end::Modal dialog-->
                             </div>
-                        @endforeach --}}
+                        @endforeach
                     </div>
                     <!--end::Post-->
                 </div>
@@ -610,19 +709,19 @@
     <!--end::Page Custom Javascript-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    {{-- <script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function() {
             $(".delete").on("click", function() {
 
                 var currentRow = $(this).closest("tr");
                 var col1 = currentRow.find("td:eq(1)").text(); // get current row 1st TD value
                 var id = col1.trim();
-                var string_url = '/deletecan/' + id;
+                var string_url = '/deleteuser/' + id;
                 console.log(string_url)
 
                 swal({
                     title: "Are you sure!",
-                    text: "Do you really want to remove candidate!",
+                    text: "Do you really want to remove User!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -636,23 +735,20 @@
                             success: function(data) {
                                 console.log(data);
                                 if (data == 1) {
-                                    swal("candidate successfully deleted!", {
+                                    swal("User successfully deleted!", {
                                         icon: "success",
                                     });
-                                    window.location.reload();
+                                    currentRow.remove();
                                 } else {
                                     swal("User not deleted!", {
                                         icon: "error",
                                     });
-                                    window.location.reload();
                                 }
-
                             }
                         })
 
-
                     } else {
-                        swal("Your candidate is safe!", {
+                        swal("User is safe!", {
                             icon: "error",
                         });
                     }
@@ -660,8 +756,90 @@
             });
 
         });
-    </script> --}}
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#update").on("click", function(e) {
+
+                e.preventDefault();
+
+                swal({
+                    title: "Are you sure!",
+                    text: "Do you really want to update user Details!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willupdate) => {
+                    if (willupdate) {
+
+                        $('#update_form').submit();
+
+                    } else {
+                        swal("Update cancel!", {
+                            icon: "error",
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
     <!--end::Javascript-->
+    @if (session()->has('success_msg'))
+        @php $msg=session()->get('success_msg'); @endphp
+        <script>
+            var success_msg = "<?php echo "$msg"; ?>";
+            console.log(success_msg);
+            swal(success_msg, {
+                icon: "success",
+            });
+        </script>
+    @elseif(session()->has('error_msg'))
+        @php $msg=session()->get('error_msg'); @endphp
+        <script>
+            var error_msg = "<?php echo "$msg"; ?>";
+            console.log(error_msg);
+            swal(error_msg, {
+                icon: "error",
+            });
+        </script>
+    @endif
+
+    @error('email')
+        <script>
+            var error = "<?php echo "$message"; ?>";
+            swal(error, {
+                icon: "error",
+            });
+        </script>
+    @enderror
+
+    @error('name')
+        <script>
+            var error = "<?php echo "$message"; ?>";
+            swal(error, {
+                icon: "error",
+            });
+        </script>
+    @enderror
+    @error('usertype')
+        <script>
+            var error = "<?php echo "$message"; ?>";
+            swal(error, {
+                icon: "error",
+            });
+        </script>
+    @enderror
+    @error('company_id')
+        <script>
+            var error = "<?php echo "$message"; ?>";
+            swal(error, {
+                icon: "error",
+            });
+        </script>
+    @enderror
+
 </body>
 <!--end::Body-->
 

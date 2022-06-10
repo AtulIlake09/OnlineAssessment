@@ -598,7 +598,7 @@
                                                 <!--begin::Select2-->
                                                 <select name="category" style="cursor: pointer;" id="inputCategory"
                                                     class="form-control form-select form-select-solid" required>
-                                                    <option selected>Choose...</option>
+                                                    <option value="">Choose...</option>
 
                                                     @php $i=1; @endphp
                                                     @foreach ($categories as $val)
@@ -800,36 +800,6 @@
         });
     </script>
 
-    <?php
-        if (session()->has('msg')) {
-            $msg = session()->get('msg');
-
-            if($msg==1)
-            {
-    ?>
-    <script>
-        $(document).ready(function() {
-
-            swal("Link Send!", "Link shared successfully!", "success");
-
-        });
-    </script>
-    <?php
-            }
-            else
-            {
-        ?>
-    <script>
-        $(document).ready(function() {
-
-            swal("Link not send!", "Please check link active or not", "error");
-
-        });
-    </script>
-    <?php
-            }
-        }
-    ?>
     <script>
         $(document).ready(function() {
             $('.copylink').click(function() {
@@ -849,6 +819,40 @@
             });
         });
     </script>
+
+    <?php
+        if (session()->has('msg')) {
+            $msg = session()->get('msg');
+
+            if($msg==1)
+            {
+    ?>
+    <script>
+        $(document).ready(function() {
+
+            swal("Link Send!", "Link shared successfully!", "success");
+
+        });
+    </script>
+    <?php
+            }
+            elseif($msg==0)
+            {
+        ?>
+    <script>
+        $(document).ready(function() {
+
+            swal("Link not send!", "Please check link active or not", "error");
+
+        });
+    </script>
+    <?php
+            }
+        }
+    ?>
+
+
+
     @if ($errors->has('email'))
         <script>
             $(document).ready(function() {
@@ -857,6 +861,17 @@
 
                 swal("error !", error, "error");
 
+            });
+        </script>
+    @endif
+
+    @if (session()->has('new_msg'))
+        @php $msg=session()->get('new_msg'); @endphp
+        <script>
+            var new_msg = "<?php echo "$msg"; ?>";
+            console.log(new_msg);
+            swal(new_msg, {
+                icon: "success",
             });
         </script>
     @endif

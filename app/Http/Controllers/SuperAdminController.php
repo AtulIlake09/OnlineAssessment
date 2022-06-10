@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class SuperAdminController extends Controller
 {
@@ -12,16 +13,43 @@ class SuperAdminController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
+            'email' => 'required|email|unique:users,email',
+            'company_id' => 'required',
+            'password' => 'required'
         ]);
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
-        $success['name'] =  $user->name;
-        return response()->json(['success' => $success], $this->successStatus);
+
+        $name = $request->name;
+        $email = $request->email;
+        $password = $request->password;
+        $company_id = $request->company_id;
+        $pass = bcrypt($password);
+
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $pass,
+            'company_id' => $company_id,
+            'user' => 0
+        ];
+
+        $query = User::insert($data);
+
+        if ($query == true) {
+            $array = ['email' => $email, 'password' => $password];
+
+            Mail::send('sendpassword', $array, function ($message) use ($email) {
+                $message->to($email);
+                $message->subject('Login Details');
+            });
+
+            if (Mail::failures()) {
+                return redirect()->back()->with('error_msg', "User Created But Password Not Send");
+            }
+        } else {
+            return redirect()->back()->with('error_msg', "User Not Created");
+        }
+
+        return redirect()->back()->with('success_msg', "User Created Successfully");
     }
 
     public function users_view(Request $request)
@@ -31,8 +59,10 @@ class SuperAdminController extends Controller
         if ($flag == 1) {
 
             $query = User::join('companies', 'users.company_id', 'companies.id')
-                ->select('users.id', 'users.name', 'users.email', 'companies.cname')
-                ->whereIn('users.status', [0, 1]);
+                ->select('users.id', 'users.name', 'users.email', 'users.password', 'users.company_id', 'companies.cname', 'users.status', 'users.user')
+                ->whereIn('users.status', [0, 1])
+                ->where('companies.status', '!=', 2)
+                ->where('users.user', '!=', 1);
 
             if (session()->has('company_id')) {
                 $id = $request->session()->get('company_id');
@@ -43,20 +73,92 @@ class SuperAdminController extends Controller
             $query = $query->get();
 
             $records = $query->all();
+
             $users = [];
             foreach ($records as $val) {
+
                 $users[] = [
                     'id' => $val->id,
                     'name' => $val->name,
                     'email' => $val->email,
-                    'company' => $val->cname
+                    'company_id' => $val->company_id,
+                    'company' => $val->cname,
+                    'status' => $val->status,
+                    'user' => $val->user
                 ];
             }
 
-            return view('users', compact('users'));
+
+            $companies = DB::table('companies')
+                ->select('id', 'cname')
+                ->whereIn('status', [0, 1])
+                ->get();
+
+            return view('users', compact('users', 'companies'));
         }
 
         return redirect()->back();
+    }
+
+    public function change_user_status($id)
+    {
+        $query = User::select('status', 'name')
+            ->where('id', $id)
+            ->first();
+
+        if ($query->status == 1) {
+            $status = User::where('id', $id)->update(['status' => 0]);
+        } elseif ($query->status == 0) {
+            $status = User::where('id', $id)->update(['status' => 1]);
+        }
+
+        if ($status == true) {
+            return redirect()->back()->with('success_msg', "Status Changed !");
+        } else {
+            return redirect()->back()->with('error_msg', "Status Not Changed !");
+        }
+    }
+
+    public function edit_user_details(Request $request)
+    {
+        $flag = $request->session()->get('flag');
+
+        if ($flag == 1) {
+
+            $request->validate([
+                'name' => 'required',
+                'company_id' => 'required'
+            ]);
+
+            $id = $request->id;
+            $time = date('Y-m-d h:i:s');
+
+            $data = [
+                'name' => $request->name,
+                'company_id' => $request->company_id,
+                'updated_at' => $time
+            ];
+
+            $query = User::where('id', $id)
+                ->update($data);
+
+            if ($query == true) {
+                return redirect()->back()->with('success_msg', "User Updated Successfully");
+            }
+            return redirect()->back()->with('error_msg', "User Updated Successfully");
+        }
+    }
+
+    public function delete_user($id)
+    {
+        $query = User::where('id', $id)->update(['status' => 2]);
+        $flag = 0;
+        if ($query == true) {
+            $flag = 1;
+            return $flag;
+        }
+
+        return $flag;
     }
 
     public function company_users_view(Request $request, $id)
@@ -97,9 +199,9 @@ class SuperAdminController extends Controller
     {
         $flag = $request->session()->get('flag');
 
-        $result = 0;
-
         if ($flag == 1) {
+
+            $result = 0;
 
             $request->validate([
                 'name' => 'required',
@@ -107,7 +209,7 @@ class SuperAdminController extends Controller
             ]);
 
             $id = $request->id;
-            $time = date('Y-m-d');
+            $time = date('Y-m-d h:i:s');
 
             $data = [
                 'cname' => $request->name,
@@ -122,9 +224,8 @@ class SuperAdminController extends Controller
             if ($query == true) {
                 $result = 1;
             }
+            return redirect()->back()->with('updated', $result);
         }
-
-        return redirect()->back()->with('updated', $result);
     }
 
     public function delete_company(Request $request, $id)
@@ -133,11 +234,11 @@ class SuperAdminController extends Controller
         $result = 0;
         if ($flag == 1) {
 
-            User::where('company_id', $id)->update(['status' => 2]);
+            User::where('company_id', $id)->update(['status' => 0]);
 
             $query = DB::table('companies')
                 ->where('id', $id)
-                ->update(['status' => 2]);
+                ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
             if ($query == true) {
                 $result = 1;

@@ -88,3 +88,7 @@ Route::post('/update_company', [SuperAdminController::class, 'edit_company_detai
 Route::get('/delete_company/{id}', [SuperAdminController::class, 'delete_company']);
 Route::post('/add_company', [SuperAdminController::class, 'add_company']);
 Route::get('/company_status/{id}', [SuperAdminController::class, 'company_status']);
+Route::post('/add_users', [SuperAdminController::class, 'register']);
+Route::get('/user_status/{id}', [SuperAdminController::class, 'change_user_status']);
+Route::get('/deleteuser/{id}', [SuperAdminController::class, 'delete_user']);
+Route::post('/edit_users', [SuperAdminController::class, 'edit_user_details']);

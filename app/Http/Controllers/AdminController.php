@@ -66,7 +66,12 @@ class AdminController extends Controller
 
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
 
-            $user = User::where('email', $request->email)->first();
+            $user = User::where(['email' => $request->email, 'status' => 1])->first();
+            if (empty($user)) {
+                Auth::logout();
+                // return redirect()->back()->with('error_msg', "Not Allowed");
+                return redirect('/adminlogin')->with('fail', 'Login Not Allowed');
+            }
             $flag = $user->user;
 
             $request->session()->put('flag', $flag);
@@ -130,6 +135,7 @@ class AdminController extends Controller
             $query = DB::table('candidate_test_link as cl')
                 ->join('category as ct', 'cl.test_category_id', '=', 'ct.id')
                 ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
+                ->whereIn('cl.status', [0, 1])
                 ->orderBy('id', 'asc')
                 ->get();
 
@@ -155,6 +161,7 @@ class AdminController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'phone' => 'required',
+            'category' => 'required'
         ]);
 
         $name = $request->name;
@@ -276,7 +283,7 @@ class AdminController extends Controller
     {
         DB::table('candidate_test_link')
             ->where('id', '=', $id)
-            ->delete();
+            ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
         return redirect()->back();
     }
@@ -295,19 +302,15 @@ class AdminController extends Controller
 
             DB::table('candidate')
                 ->where('candidate_id', '=', $can_id)
-                ->delete();
+                ->update(['active_status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
             DB::table('candidate_remark')
                 ->where('candidate_id', '=', $can_id)
-                ->delete();
+                ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
             DB::table('candidate_answers')
                 ->where('candidate_id', '=', $can_id)
-                ->delete();
-
-            DB::table('ip_details')
-                ->where('candidate_id', '=', $can_id)
-                ->delete();
+                ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
             $flag = 1;
         }
@@ -331,9 +334,9 @@ class AdminController extends Controller
 
         DB::table('candidate_test_link')
             ->where('id', '=', $id)
-            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id]);
+            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'updated_at' => date('Y-m-d h:i:s')]);
 
-        return redirect('/generatelink');
+        return redirect()->back()->with('new_msg', "Link Updated Successfully");
     }
 
     public function edit_can(Request $request)
@@ -354,7 +357,7 @@ class AdminController extends Controller
             ->where('id', '=', $id)
             ->update(['name' => $name, 'email' => $email, 'phone' => $phone]);
 
-        return redirect('/assessment');
+        return redirect()->back()->with('new_msg', 'Candidate Details Updated Successfully');
     }
 
     public function assessment(Request $request)
@@ -563,6 +566,7 @@ class AdminController extends Controller
                 ->join('category', 'questions.category_id', '=', 'category.id')
                 ->select('questions.id', 'questions.questions', 'questions.category_id', 'category.category', 'questions.type', 'questions.status')
                 ->where('category_id', '=', $cat_id)
+                ->whereIn('status', [0, 1])
                 ->get();
 
             $questions = $query->all();
@@ -635,7 +639,7 @@ class AdminController extends Controller
                 ->update(['status' => $status]);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('msg', 'Status Changed Successfully');
     }
 
     public function edit_question(Request $request)
@@ -660,16 +664,17 @@ class AdminController extends Controller
 
         DB::table('questions')
             ->where('id', '=', $id)
-            ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
+            ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type, 'updated_at' => date('Y-m-d h:i:s')]);
 
-        return redirect()->back();
+        return redirect()->back()->with('msg', 'Question Updated Successfully');
     }
 
     public function delete_question($id)
     {
         DB::table('questions')
             ->where('id', '=', $id)
-            ->delete();
+            ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
+
 
         return redirect()->back();
     }

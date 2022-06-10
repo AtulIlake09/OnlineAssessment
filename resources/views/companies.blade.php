@@ -732,14 +732,13 @@
                                     swal("company successfully deleted!", {
                                         icon: "success",
                                     });
-
+                                    currentRow.remove();
                                 } else {
                                     swal("company not deleted!", {
                                         icon: "error",
                                     });
 
                                 }
-                                window.location.reload();
                             }
                         })
 
