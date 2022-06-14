@@ -84,7 +84,12 @@ class SuperAdminController extends Controller
 
             if ($request->ajax()) {
                 $id = $request->company_id;
-                $query = $query->where('users.company_id', $id)->get();
+                if ($id != 0 && $id != null) {
+                    $query = $query->where('users.company_id', $id)->get();
+                } else {
+                    $query = $query->get();
+                }
+
                 $users = [];
                 foreach ($query->all() as $val) {
 
