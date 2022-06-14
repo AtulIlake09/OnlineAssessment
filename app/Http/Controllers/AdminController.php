@@ -69,12 +69,14 @@ class AdminController extends Controller
             $user = User::where(['email' => $request->email, 'status' => 1])->first();
             if (empty($user)) {
                 Auth::logout();
-                // return redirect()->back()->with('error_msg', "Not Allowed");
                 return redirect('/adminlogin')->with('fail', 'Login Not Allowed');
             }
+
             $flag = $user->user;
+            $company_id = $user->company_id;
 
             $request->session()->put('flag', $flag);
+            $request->session()->put('company_id', $company_id);
 
             return redirect('dashboard');
         } else {
@@ -89,11 +91,14 @@ class AdminController extends Controller
         return redirect('/adminlogin');
     }
 
-    public function getcattbl()
+    public function getcattbl($flag = null, $id = null)
     {
-        $qurey = DB::table('category')
-            ->get();
-        $category = $qurey->all();
+        $query = DB::table('category');
+        if ($id != 0 && $id != null) {
+            $query->where('company_id', $id);
+        }
+        $query = $query->get();
+        $category = $query->all();
 
         return $category;
     }
@@ -117,16 +122,6 @@ class AdminController extends Controller
 
         $candidate = $query->all();
         return $candidate;
-    }
-
-    public function tables(Request $request)
-    {
-        if (Auth::check()) {
-            $data = $this->getcattbl();
-            return view('tables', compact('data'));
-        } else {
-            return redirect('/adminlogin');
-        }
     }
 
     public function glink(Request $request)
@@ -460,12 +455,39 @@ class AdminController extends Controller
 
     public function categories(Request $request)
     {
-        if (Auth::user()) {
+        if (Auth::user() && session()->has('flag')) {
 
-            $category = $this->getcattbl();
             $flag = $request->session()->get('flag');
 
-            return view('categories', compact('category', 'flag'));
+            if ($flag == 0) {
+
+                $company_id = $request->session()->get('company_id');
+                $category = $this->getcattbl($flag, $company_id);
+
+                return view('categories', compact('category', 'flag', 'company_id'));
+            } elseif ($flag == 1) {
+
+                if ($request->ajax()) {
+
+                    $company_id = $request->company_id;
+                    $category = $this->getcattbl($flag, $company_id);
+                    $companies = DB::table('companies')
+                        ->select('id', 'cname')
+                        ->whereIn('status', [0, 1])
+                        ->get();
+
+                    $view = view("categoryviewajax", compact('category'))->render();
+                    return $view;
+                }
+                $category = $this->getcattbl($flag);
+
+                $companies = DB::table('companies')
+                    ->select('id', 'cname')
+                    ->whereIn('status', [0, 1])
+                    ->get();
+
+                return view('categories', compact('category', 'flag', 'companies'));
+            }
         } else {
             return redirect('/adminlogin');
         }
@@ -476,22 +498,28 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required',
             'duration' => 'required',
+            'company_id' => 'required',
             'description' => 'required',
         ]);
 
         $name = $request->name;
+        $company_id = $request->company_id;
         $duration = $request->duration;
         $description = $request->description;
 
         $query = DB::table('category')
             ->where('category', '=', $name)
+            ->where('company_id', $company_id)
             ->first();
 
         if (empty($query)) {
-            DB::table('category')
-                ->insert(['category' => $name, 'time_period' => $duration, 'description' => $description]);
+            $query = DB::table('category')
+                ->insert(['category' => $name, 'time_period' => $duration, 'description' => $description, 'company_id' => $company_id]);
+            if ($query == true) {
+                return redirect()->back()->with('success_msg', "Test Created!");
+            }
         }
-        return redirect()->back();
+        return redirect()->back()->with('error_msg', "Test already exists!");
     }
 
     public function change_cat_status($id)
@@ -505,47 +533,54 @@ class AdminController extends Controller
 
         if ($status == 0) {
             $status = 1;
-            DB::table('category')
-                ->where('id', '=', $id)
-                ->update(['active' => $status]);
-        } else {
+        } elseif ($status == 1) {
             $status = 0;
-            DB::table('category')
-                ->where('id', '=', $id)
-                ->update(['active' => $status]);
         }
 
-        return redirect()->back();
+        $result = DB::table('category')
+            ->where('id', '=', $id)
+            ->update(['active' => $status]);
+
+        if ($result == true) {
+            return redirect()->back()->with('success_msg', "Status Changed!");
+        } else {
+            return redirect()->back()->with('error_msg', "Failed to change Status!");
+        }
     }
 
     public function edit_category(Request $request)
     {
         $request->validate([
             'name' => 'required',
+            'company_id' => 'required',
             'duration' => 'required',
             'description' => 'required',
         ]);
 
         $id = $request->id;
         $name = $request->name;
+        $company_id = $request->company_id;
         $duration = $request->duration;
         $description = $request->description;
 
 
-        DB::table('category')
+        $query = DB::table('category')
             ->where('id', '=', $id)
-            ->update(['category' => $name, 'time_period' => $duration, 'description' => $description]);
+            ->update(['category' => $name, 'time_period' => $duration, 'description' => $description, 'company_id' => $company_id]);
 
-        return redirect('/categories');
+        if ($query == true) {
+            return redirect()->back()->with('success_msg', "Test Updated!");
+        }
+        return redirect()->back()->with('error_msg', "Test not Updated!");
     }
 
     public function delete_category($id)
     {
-        DB::table('category')
+        $query = DB::table('category')
             ->where('id', '=', $id)
-            ->delete();
+            ->update(['active' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
-        return redirect('/categories');
+        return $query;
     }
 
     public function getques(Request $request, $id)
@@ -629,17 +664,17 @@ class AdminController extends Controller
 
         if ($status == 0) {
             $status = 1;
-            DB::table('questions')
-                ->where('id', '=', $id)
-                ->update(['status' => $status]);
-        } else {
+        } elseif ($status == 1) {
             $status = 0;
-            DB::table('questions')
-                ->where('id', '=', $id)
-                ->update(['status' => $status]);
         }
+        $result = DB::table('questions')
+            ->where('id', '=', $id)
+            ->update(['status' => $status]);
 
-        return redirect()->back()->with('msg', 'Status Changed Successfully');
+        if ($result == true) {
+            return redirect()->back()->with('success_msg', 'Status Changed Successfully');
+        }
+        return redirect()->back()->with('error_msg', "Status not Changed!");
     }
 
     public function edit_question(Request $request)
@@ -661,21 +696,22 @@ class AdminController extends Controller
 
         $question = $request->question;
 
-
-        DB::table('questions')
+        $query = DB::table('questions')
             ->where('id', '=', $id)
             ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type, 'updated_at' => date('Y-m-d h:i:s')]);
 
-        return redirect()->back()->with('msg', 'Question Updated Successfully');
+        if ($query == true) {
+            return redirect()->back()->with('success_msg', 'Question Updated Successfully!');
+        }
+        return redirect()->back()->with('error_msg', 'Question not Updated!');
     }
 
     public function delete_question($id)
     {
-        DB::table('questions')
+        $result = DB::table('questions')
             ->where('id', '=', $id)
             ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
-
-        return redirect()->back();
+        return $result;
     }
 }

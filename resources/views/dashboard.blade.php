@@ -116,15 +116,15 @@
                                                 <span class="menu-title">Companies</span>
                                             </a>
                                         </div>
-                                        <div class="menu-item">
-                                            <a class="menu-link" href="{{ url('/users') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Users</span>
-                                            </a>
-                                        </div>
                                     @endif
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="{{ url('/users') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Users</span>
+                                        </a>
+                                    </div>
                                     <div class="menu-item">
                                         <a class="menu-link" href="{{ url('/generatelink') }}">
                                             <span class="menu-bullet">
@@ -230,15 +230,15 @@
                                                             <span class="menu-title">Companies</span>
                                                         </a>
                                                     </div>
-                                                    <div class="menu-item">
-                                                        <a class="menu-link py-3" href="{{ url('/users') }}">
-                                                            <span class="menu-bullet">
-                                                                <span class="bullet bullet-dot"></span>
-                                                            </span>
-                                                            <span class="menu-title">Users</span>
-                                                        </a>
-                                                    </div>
                                                 @endif
+                                                <div class="menu-item">
+                                                    <a class="menu-link py-3" href="{{ url('/users') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Users</span>
+                                                    </a>
+                                                </div>
                                                 <div class="menu-item">
                                                     <a class="menu-link py-3" href="{{ url('/generatelink') }}">
                                                         <span class="menu-bullet">

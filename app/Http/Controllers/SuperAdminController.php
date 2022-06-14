@@ -14,12 +14,16 @@ class SuperAdminController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
+            'address' => 'required',
             'company_id' => 'required',
             'password' => 'required'
         ]);
 
         $name = $request->name;
         $email = $request->email;
+        $phone = $request->phone;
+        $address = $request->address;
         $password = $request->password;
         $company_id = $request->company_id;
         $pass = bcrypt($password);
@@ -27,6 +31,8 @@ class SuperAdminController extends Controller
         $data = [
             'name' => $name,
             'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
             'password' => $pass,
             'company_id' => $company_id,
             'user' => 0
@@ -34,20 +40,20 @@ class SuperAdminController extends Controller
 
         $query = User::insert($data);
 
-        if ($query == true) {
-            $array = ['email' => $email, 'password' => $password];
+        // if ($query == true) {
+        //     $array = ['email' => $email, 'password' => $password];
 
-            Mail::send('sendpassword', $array, function ($message) use ($email) {
-                $message->to($email);
-                $message->subject('Login Details');
-            });
+        //     Mail::send('sendpassword', $array, function ($message) use ($email) {
+        //         $message->to($email);
+        //         $message->subject('Login Details');
+        //     });
 
-            if (Mail::failures()) {
-                return redirect()->back()->with('error_msg', "User Created But Password Not Send");
-            }
-        } else {
-            return redirect()->back()->with('error_msg', "User Not Created");
-        }
+        //     if (Mail::failures()) {
+        //         return redirect()->back()->with('error_msg', "User Created But Password Not Send");
+        //     }
+        // } else {
+        //     return redirect()->back()->with('error_msg', "User Not Created");
+        // }
 
         return redirect()->back()->with('success_msg', "User Created Successfully");
     }
@@ -56,48 +62,88 @@ class SuperAdminController extends Controller
     {
         $flag = $request->session()->get('flag');
 
+        $query = User::join('companies', 'users.company_id', 'companies.id')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.email',
+                'users.password',
+                'users.company_id',
+                'companies.cname',
+                'users.status',
+                'users.user',
+                'users.phone',
+                'users.address'
+            )
+            ->whereIn('users.status', [0, 1])
+            ->where('companies.status', '!=', 2)
+            ->where('users.user', '!=', 1);
+
+        $id = 0;
         if ($flag == 1) {
 
-            $query = User::join('companies', 'users.company_id', 'companies.id')
-                ->select('users.id', 'users.name', 'users.email', 'users.password', 'users.company_id', 'companies.cname', 'users.status', 'users.user')
-                ->whereIn('users.status', [0, 1])
-                ->where('companies.status', '!=', 2)
-                ->where('users.user', '!=', 1);
+            if ($request->ajax()) {
+                $id = $request->company_id;
+                $query = $query->where('users.company_id', $id)->get();
+                $users = [];
+                foreach ($query->all() as $val) {
 
-            if (session()->has('company_id')) {
-                $id = $request->session()->get('company_id');
-                $query->where('users.company_id', $id)
-                    ->get();
+                    $users[] = [
+                        'id' => $val->id,
+                        'name' => $val->name,
+                        'email' => $val->email,
+                        'phone' => $val->phone,
+                        'address' => $val->address,
+                        'company_id' => $val->company_id,
+                        'company' => $val->cname,
+                        'status' => $val->status,
+                        'user' => $val->user
+                    ];
+                }
+
+                $view = view("userviewajax", compact('users'))->render();
+                return $view;
             }
+            // if (session()->has('com_id')) {
+            //     $id = $request->session()->get('com_id');
+            //     if ($id != 0) {
 
-            $query = $query->get();
-
-            $records = $query->all();
-
-            $users = [];
-            foreach ($records as $val) {
-
-                $users[] = [
-                    'id' => $val->id,
-                    'name' => $val->name,
-                    'email' => $val->email,
-                    'company_id' => $val->company_id,
-                    'company' => $val->cname,
-                    'status' => $val->status,
-                    'user' => $val->user
-                ];
-            }
-
-
+            //         $query->where('users.company_id', $id);
+            //     }
+            // }
             $companies = DB::table('companies')
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
                 ->get();
-
-            return view('users', compact('users', 'companies'));
+        } elseif ($flag == 0) {
+            $id = $request->session()->get('company_id');
+            $query->where('users.company_id', $id);
         }
 
-        return redirect()->back();
+        $query = $query->get();
+
+        $users = [];
+        foreach ($query->all() as $val) {
+
+            $users[] = [
+                'id' => $val->id,
+                'name' => $val->name,
+                'email' => $val->email,
+                'phone' => $val->phone,
+                'address' => $val->address,
+                'company_id' => $val->company_id,
+                'company' => $val->cname,
+                'status' => $val->status,
+                'user' => $val->user
+            ];
+        }
+
+
+        if ($flag == 1) {
+            return view('users', compact('users', 'companies', 'flag'));
+        } elseif ($flag == 0) {
+            return view('users', compact('users', 'id', 'flag'));
+        }
     }
 
     public function change_user_status($id)
@@ -122,12 +168,12 @@ class SuperAdminController extends Controller
     public function edit_user_details(Request $request)
     {
         $flag = $request->session()->get('flag');
-
-        if ($flag == 1) {
-
+        if ($flag == 1 || $flag == 0) {
             $request->validate([
                 'name' => 'required',
-                'company_id' => 'required'
+                'company_id' => 'required',
+                'phone' => 'required',
+                'address' => 'required',
             ]);
 
             $id = $request->id;
@@ -136,6 +182,8 @@ class SuperAdminController extends Controller
             $data = [
                 'name' => $request->name,
                 'company_id' => $request->company_id,
+                'phone' => $request->phone,
+                'address' => $request->address,
                 'updated_at' => $time
             ];
 
@@ -163,7 +211,11 @@ class SuperAdminController extends Controller
 
     public function company_users_view(Request $request, $id)
     {
-        $request->session()->flash('company_id', $id);
+        if ($request->ajax()) {
+            $request->session()->flash('com_id', $id);
+            return $id;
+        }
+        $request->session()->flash('com_id', $id);
         return redirect('/users');
     }
 
@@ -189,7 +241,7 @@ class SuperAdminController extends Controller
                 ];
             }
 
-            return view('companies', compact('companies'));
+            return view('companies', compact('companies', 'flag'));
         }
 
         return redirect()->back();

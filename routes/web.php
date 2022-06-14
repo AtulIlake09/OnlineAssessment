@@ -46,8 +46,8 @@ Route::post('/addquestion', [AdminController::class, 'store']);
 
 Route::get('/category', [AdminController::class, 'getcattbl']);
 
-Route::view('/index', 'dashboard');
-Route::get('/tables', [AdminController::class, 'tables']);
+// Route::view('/index', 'dashboard');
+// Route::get('/tables', [AdminController::class, 'tables']);
 
 Route::get('/generatelink', [AdminController::class, 'glink']);
 Route::post('/linkgenerate', [AdminController::class, 'generatelink']);

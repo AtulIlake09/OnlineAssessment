@@ -59,6 +59,24 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
+                        @if ($flag == 1)
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{ url('/companies') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Companies</span>
+                                </a>
+                            </div>
+                        @endif
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ url('/users') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Users</span>
+                            </a>
+                        </div>
                         <div class="menu-item">
                             <a class="menu-link active" href="{{ url('/generatelink') }}">
                                 <span class="menu-bullet">

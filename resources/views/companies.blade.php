@@ -108,14 +108,16 @@
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    <div class="menu-item">
-                                        <a class="menu-link active" href="{{ url('/companies') }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot"></span>
-                                            </span>
-                                            <span class="menu-title">Companies</span>
-                                        </a>
-                                    </div>
+                                    @if ($flag == 1)
+                                        <div class="menu-item">
+                                            <a class="menu-link active" href="{{ url('/companies') }}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">Companies</span>
+                                            </a>
+                                        </div>
+                                    @endif
                                     <div class="menu-item">
                                         <a class="menu-link" href="{{ url('/users') }}">
                                             <span class="menu-bullet">
@@ -220,14 +222,17 @@
                                             </span>
                                             <div
                                                 class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
-                                                <div class="menu-item">
-                                                    <a class="menu-link active py-3" href="{{ url('/companies') }}">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                                                        <span class="menu-title">Companies</span>
-                                                    </a>
-                                                </div>
+                                                @if ($flag == 1)
+                                                    <div class="menu-item">
+                                                        <a class="menu-link active py-3"
+                                                            href="{{ url('/companies') }}">
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot"></span>
+                                                            </span>
+                                                            <span class="menu-title">Companies</span>
+                                                        </a>
+                                                    </div>
+                                                @endif
                                                 <div class="menu-item">
                                                     <a class="menu-link py-3" href="{{ url('/users') }}">
                                                         <span class="menu-bullet">

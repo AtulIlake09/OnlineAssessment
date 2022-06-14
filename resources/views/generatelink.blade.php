@@ -123,15 +123,15 @@
                                                 <span class="menu-title">Companies</span>
                                             </a>
                                         </div>
-                                        <div class="menu-item">
-                                            <a class="menu-link" href="{{ url('/users') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Users</span>
-                                            </a>
-                                        </div>
                                     @endif
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="{{ url('/users') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Users</span>
+                                        </a>
+                                    </div>
                                     <div class="menu-item">
                                         <a class="menu-link active" href="{{ url('/generatelink') }}">
                                             <span class="menu-bullet">
@@ -236,15 +236,15 @@
                                                             <span class="menu-title">Companies</span>
                                                         </a>
                                                     </div>
-                                                    <div class="menu-item">
-                                                        <a class="menu-link py-3" href="{{ url('/users') }}">
-                                                            <span class="menu-bullet">
-                                                                <span class="bullet bullet-dot"></span>
-                                                            </span>
-                                                            <span class="menu-title">Users</span>
-                                                        </a>
-                                                    </div>
                                                 @endif
+                                                <div class="menu-item">
+                                                    <a class="menu-link py-3" href="{{ url('/users') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Users</span>
+                                                    </a>
+                                                </div>
                                                 <div class="menu-item">
                                                     <a class="menu-link active py-3"
                                                         href="{{ url('/generatelink') }}">
@@ -575,13 +575,11 @@
                                         <!--end::Heading-->
                                         <div class="d-flex flex-column mb-8 fv-row">
                                             {{-- <label class="required fs-6 fw-bold mb-2" for="cname">Name</label> --}}
-                                            <input type="text" class="form-control text-center form-control-solid mb-5"
-                                                name="name" id="cname" placeholder="Name" style="cursor: pointer;"
-                                                required>
+                                            <input type="text" class="form-control form-control-solid mb-5" name="name"
+                                                id="cname" placeholder="Name" style="cursor: pointer;" required>
 
                                             {{-- <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label> --}}
-                                            <input type="email"
-                                                class="form-control text-center form-control-solid mb-2"
+                                            <input type="email" class="form-control form-control-solid mb-2"
                                                 style="cursor: pointer;" name="email" id="inputEmail4"
                                                 placeholder="Email" required>
                                         </div>

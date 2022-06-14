@@ -116,15 +116,15 @@
                                                 <span class="menu-title">Companies</span>
                                             </a>
                                         </div>
-                                        <div class="menu-item">
-                                            <a class="menu-link" href="{{ url('/users') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Users</span>
-                                            </a>
-                                        </div>
                                     @endif
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="{{ url('/users') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Users</span>
+                                        </a>
+                                    </div>
                                     <div class="menu-item">
                                         <a class="menu-link" href="{{ url('/generatelink') }}">
                                             <span class="menu-bullet">
@@ -229,15 +229,15 @@
                                                             <span class="menu-title">Companies</span>
                                                         </a>
                                                     </div>
-                                                    <div class="menu-item">
-                                                        <a class="menu-link py-3" href="{{ url('/users') }}">
-                                                            <span class="menu-bullet">
-                                                                <span class="bullet bullet-dot"></span>
-                                                            </span>
-                                                            <span class="menu-title">Users</span>
-                                                        </a>
-                                                    </div>
                                                 @endif
+                                                <div class="menu-item">
+                                                    <a class="menu-link py-3" href="{{ url('/users') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                                                        <span class="menu-title">Users</span>
+                                                    </a>
+                                                </div>
                                                 <div class="menu-item">
                                                     <a class="menu-link py-3" href="{{ url('/generatelink') }}">
                                                         <span class="menu-bullet">
@@ -375,12 +375,13 @@
                                                         {{-- <th class="min-w-150px text-center">Category</th> --}}
                                                         <th class="min-w-150px text-center">Type</th>
                                                         <th class="min-w-150px text-center">Status</th>
-                                                        <th class="min-w-100px text-end">Actions</th>
+                                                        <th class="min-w-100px text-center">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <!--end::Table head-->
                                                 <!--begin::Table body-->
                                                 <tbody>
+                                                    @php $count=1; @endphp
                                                     @foreach ($questions as $val)
                                                         <tr>
                                                             <td>
@@ -390,9 +391,15 @@
                                                                         type="checkbox" value="1" />
                                                                 </div>
                                                             </td>
+                                                            <td style="display: none;">
+                                                                <label style="display: none"
+                                                                    class="text-dark fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
+                                                            </td>
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-dark fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                    class="text-dark fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                @php $count++ @endphp
                                                                 {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
                                                             <td>
@@ -535,7 +542,8 @@
                                         <!--end::Heading-->
                                         <div class="row g-9 mb-8">
                                             <div class="col-md-6 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2" for="inputType">Type</label>
+                                                <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                    for="inputType">Type</label>
                                                 <!--begin::Select2-->
                                                 <select name="type" id="inputType"
                                                     class="form-control form-select form-select-solid" required>
@@ -549,7 +557,8 @@
                                         </div>
                                         <div class="row g-9 mb-8">
                                             <div class="col-md-12 fv-row">
-                                                <label class="required fs-6 fw-bold mb-2" for="question">Add
+                                                <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                    for="question">Add
                                                     Question</label>
                                                 <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="question" placeholder="Test Question"
                                                     id="question" required></textarea>
@@ -609,7 +618,7 @@
                                             <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2"
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
                                                         for="inputType">Type</label>
                                                     <!--begin::Select2-->
                                                     <select name="type" id="inputType"
@@ -627,7 +636,8 @@
                                             </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-12 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" for="question">Edit
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                        for="question">Edit
                                                         Question</label>
                                                     <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="question" placeholder="Test Question"
                                                         id="question" required>{{ $val->questions }}</textarea>
@@ -695,7 +705,7 @@
 
                 swal({
                     title: "Are you sure!",
-                    text: "Do you really want to remove user!",
+                    text: "Do you really want to remove question!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -707,15 +717,23 @@
                             data: "",
                             success: function(data) {
                                 console.log(data);
+                                if (data == 1) {
+                                    swal("Question successfully deleted!", {
+                                        icon: "success",
+                                    });
+                                    currentRow.remove();
+                                } else {
+                                    swal("Failed to deleted!", {
+                                        icon: "error",
+                                    });
+                                }
 
                             }
                         })
-                        swal("Yaa! User successfully deleted!", {
-                            icon: "success",
-                        });
-                        window.location.reload();
+
+
                     } else {
-                        swal("User not deleted your user is safe!", {
+                        swal("Question not deleted!", {
                             icon: "error",
                         });
                     }
@@ -725,13 +743,22 @@
         });
     </script>
 
-    @if (session()->has('msg'))
-        @php $msg=session()->get('msg'); @endphp
+    @if (session()->has('success_msg'))
+        @php $msg=session()->get('success_msg'); @endphp
         <script>
-            var msg = "<?php echo "$msg"; ?>";
-            console.log(msg);
-            swal(msg, {
+            var success_msg = "<?php echo "$msg"; ?>";
+            console.log(success_msg);
+            swal(success_msg, {
                 icon: "success",
+            });
+        </script>
+    @elseif(session()->has('error_msg'))
+        @php $msg=session()->get('error_msg'); @endphp
+        <script>
+            var error_msg = "<?php echo "$msg"; ?>";
+            console.log(error_msg);
+            swal(error_msg, {
+                icon: "error",
             });
         </script>
     @endif
