@@ -127,6 +127,7 @@ class AdminController extends Controller
     //Generate Link
     public function glink(Request $request)
     {
+
         $flag = $request->session()->get('flag');
         $company_id = $request->session()->get('company_id');
 
@@ -139,6 +140,18 @@ class AdminController extends Controller
 
             if ($flag == 0) {
                 $query->where('cl.company_id', $company_id);
+            } elseif ($request->ajax()) {
+
+                $company_id = $request->company_id;
+                if ($company_id != 0 && $company_id != null) {
+                    $query = $query->where('cl.company_id', $company_id)->get();
+                } else {
+                    $query = $query->get();
+                }
+
+                $data = $query->all();
+                $view = view("generatelinkviewajax", compact('data'))->render();
+                return $view;
             }
 
             $query = $query->get();
@@ -307,24 +320,62 @@ class AdminController extends Controller
     //Candidate Assessment
     public function assessment(Request $request)
     {
+        $flag = $request->session()->get('flag');
+        $company_id = $request->session()->get('company_id');
         if (Auth::user()) {
 
             $query = DB::table('candidate as cn')
                 ->join('category as ct', 'cn.category_id', '=', 'ct.id')
                 ->join('candidate_remark as cr', 'cn.candidate_id', '=', 'cr.candidate_id')
-                ->select('cn.id', 'cn.candidate_id', 'cn.name', 'cn.email', 'cn.mobile', 'cn.category_id', 'ct.category', 'cr.result', 'cr.feedback', 'cn.resume', 'cn.link', 'cn.ip', 'cn.start_date_time', 'cn.end_date_time', 'cn.status')
-                ->get();
+                ->select(
+                    'cn.id',
+                    'cn.candidate_id',
+                    'cn.name',
+                    'cn.email',
+                    'cn.mobile',
+                    'cn.category_id',
+                    'ct.category',
+                    'cr.result',
+                    'cr.feedback',
+                    'cn.resume',
+                    'cn.link',
+                    'cn.ip',
+                    'cn.start_date_time',
+                    'cn.end_date_time',
+                    'cn.status'
+                );
 
-            // dd($query->all());
+
+            if ($flag == 0) {
+                $query->where('cn.company_id', $company_id);
+            } elseif ($request->ajax()) {
+
+                $company_id = $request->company_id;
+                if ($company_id != 0 && $company_id != null) {
+                    $query = $query->where('cn.company_id', $company_id)->get();
+                } else {
+                    $query = $query->get();
+                }
+                $candidates = $query->all();
+
+                $view = view("assessmentviewajax", compact('candidates'))->render();
+                return $view;
+            }
+            $query = $query->get();
             $candidates = $query->all();
+
             $query = DB::table('category')
                 ->select('id', 'category')
                 ->get();
 
-            $flag = $request->session()->get('flag');
-
             $categories = $query->all();
-            return view('assessment', compact('candidates', 'categories', 'flag'));
+
+            $companies = DB::table('companies')
+                ->select('id', 'cname')
+                ->whereIn('status', [0, 1])
+                ->get();
+
+            return view('assessment', compact('candidates', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
         }
@@ -335,7 +386,7 @@ class AdminController extends Controller
         $query = DB::table('candidate')
             ->where('id', '=', $id)
             ->first();
-        // dd($query->start_date_time);
+
         $status = $query->status;
 
         if ($status == 1) {
@@ -357,11 +408,10 @@ class AdminController extends Controller
                 DB::table('candidate')
                     ->where('id', '=', $id)
                     ->update(['status' => $status]);
-            } else {
+                return redirect()->back()->with('success_msg', "Status Changed");
             }
         }
-
-        return redirect()->back();
+        return redirect()->back()->with('error_msg', "Time is over");
     }
 
     public function edit_can(Request $request)
@@ -377,17 +427,22 @@ class AdminController extends Controller
         $email = $request->email;
         $phone = $request->phone;
 
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'mobile' => $phone
+        ];
 
         DB::table('candidate')
             ->where('id', '=', $id)
-            ->update(['name' => $name, 'email' => $email, 'phone' => $phone]);
+            ->update($data);
 
-        return redirect()->back()->with('new_msg', 'Candidate Details Updated Successfully');
+        return redirect()->back()->with('success_msg', 'Candidate Details Updated Successfully');
     }
 
     public function delete_can($id)
     {
-        $flag = 0;
+        $result = 0;
 
         $query = DB::table('candidate')
             ->select('candidate_id')
@@ -397,7 +452,7 @@ class AdminController extends Controller
 
         if (!empty($can_id)) {
 
-            DB::table('candidate')
+            $result = DB::table('candidate')
                 ->where('candidate_id', '=', $can_id)
                 ->update(['active_status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
 
@@ -408,11 +463,9 @@ class AdminController extends Controller
             DB::table('candidate_answers')
                 ->where('candidate_id', '=', $can_id)
                 ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
-
-            $flag = 1;
         }
 
-        return $flag;
+        return $result;
     }
 
     public function getqueans(Request $request, $id)

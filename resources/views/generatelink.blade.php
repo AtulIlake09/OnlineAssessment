@@ -1034,6 +1034,32 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!--end::Javascript-->
 
+    <script>
+        $(document).ready(function() {
+            $('#company').change(function(e) {
+                e.preventDefault();
+                var company_id = $(this).val();
+
+                $.ajax({
+                    type: "get",
+                    url: "generatelink",
+                    data: {
+                        'company_id': company_id
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('#mytable').empty();
+                        $('#mytable').html(response);
+
+                    },
+                    error: function(e) {
+                        console.log(e)
+                    }
+                });
+            });
+        });
+    </script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $(".delete").on("click", function() {
