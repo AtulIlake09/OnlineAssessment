@@ -352,7 +352,7 @@
                                                         value="{{ empty($id) ? '0' : $id }}">
                                                     <select name="company_id" id="company" style="cursor: pointer;"
                                                         class="form-control form-select form-select-solid" required>
-                                                        <option value="0">Choose Company...</option>
+                                                        <option value="0">Filter By Company...</option>
                                                         @foreach ($companies as $val)
                                                             <option value="{{ $val->id }}">
                                                                 {{ $val->cname }}
@@ -1229,7 +1229,6 @@
             $('#company').change(function(e) {
                 e.preventDefault();
                 var company_id = $(this).val();
-                // console.log(company_id, '///')
 
                 $.ajax({
                     type: "get",
@@ -1241,7 +1240,6 @@
                         console.log(response);
                         $('#users_table').empty();
                         $('#users_table').html(response);
-                        // window.location.reload();
 
                     },
                     error: function(e) {

@@ -338,6 +338,23 @@
                                             <span class="card-label fw-bolder fs-3 mb-1">Candidates Links</span>
                                             {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                                         </h3>
+                                        @if ($flag == 1)
+                                            <div class="card-toolbar" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-trigger="hover"
+                                                title="Choose company name">
+                                                <input type="hidden" name="company" id="tempcomid"
+                                                    value="{{ empty($id) ? '0' : $id }}">
+                                                <select name="company_id" id="company" style="cursor: pointer;"
+                                                    class="form-control form-select form-select-solid" required>
+                                                    <option value="0">Filter By Company...</option>
+                                                    @foreach ($companies as $val)
+                                                        <option value="{{ $val->id }}">
+                                                            {{ $val->cname }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        @endif
                                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-trigger="hover" title="Click to Generate Link">
                                             <a href="#" class="btn btn-sm btn-light btn-active-primary"
@@ -538,92 +555,8 @@
                         </div>
                     </div>
                     <!--end::Container-->
-                    <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
-                        <!--begin::Modal dialog-->
-                        <div class="modal-dialog mw-650px">
-                            <!--begin::Modal content-->
-                            <div class="modal-content">
-                                <!--begin::Modal header-->
-                                <div class="modal-header pb-0 border-0 justify-content-end">
-                                    <!--begin::Close-->
-                                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                        <span class="svg-icon svg-icon-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none">
-                                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                                    transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                    transform="rotate(45 7.41422 6)" fill="currentColor" />
-                                            </svg>
-                                        </span>
-                                        <!--end::Svg Icon-->
-                                    </div>
-                                    <!--end::Close-->
-                                </div>
-                                <!--begin::Modal header-->
-                                <!--begin::Modal body-->
-                                <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                    <form action="{{ url('/linkgenerate') }}" method="POST" class="form">
-                                        @csrf
-                                        <!--begin::Heading-->
-                                        <div class="mb-13 text-center">
-                                            <!--begin::Title-->
-                                            <h1 class="mb-3">Candidate Details</h1>
-                                            <!--end::Title-->
-                                        </div>
-                                        <!--end::Heading-->
-                                        <div class="d-flex flex-column mb-8 fv-row">
-                                            {{-- <label class="required fs-6 fw-bold mb-2" for="cname">Name</label> --}}
-                                            <input type="text" class="form-control form-control-solid mb-5" name="name"
-                                                id="cname" placeholder="Name" style="cursor: pointer;" required>
-
-                                            {{-- <label class="required fs-6 fw-bold mb-2" for="inputEmail4">Email</label> --}}
-                                            <input type="email" class="form-control form-control-solid mb-2"
-                                                style="cursor: pointer;" name="email" id="inputEmail4"
-                                                placeholder="Email" required>
-                                        </div>
-                                        <div class="row g-9 mb-8">
-                                            <div class="col-md-6 fv-row">
-                                                {{-- <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label> --}}
-                                                <input type="number" class="form-control form-control-solid"
-                                                    name="phone" style="cursor: pointer;" placeholder="phone" id="phone"
-                                                    required>
-                                            </div>
-                                            <div class="col-md-6 fv-row">
-                                                {{-- <label class="required fs-6 fw-bold mb-2"
-                                                    for="inputCategory">Category</label> --}}
-                                                <!--begin::Select2-->
-                                                <select name="category" style="cursor: pointer;" id="inputCategory"
-                                                    class="form-control form-select form-select-solid" required>
-                                                    <option value="">Choose...</option>
-
-                                                    @php $i=1; @endphp
-                                                    @foreach ($categories as $val)
-                                                        <option value="{{ $i }}">{{ $val->category }}
-                                                        </option>
-                                                        @php $i++; @endphp
-                                                    @endforeach
-
-                                                </select>
-                                                <!--end::Select2-->
-                                            </div>
-                                            <div class="text-center">
-                                                <button type="submit" class="btn btn-primary mt-5">Generate
-                                                    Link</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!--end::Modal body-->
-                            </div>
-                            <!--end::Modal content-->
-                        </div>
-                        <!--end::Modal dialog-->
-                    </div>
-                    @foreach ($data as $val)
-                        <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
-                            aria-hidden="true">
+                    @if ($flag == 1)
+                        <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
                             <!--begin::Modal dialog-->
                             <div class="modal-dialog mw-650px">
                                 <!--begin::Modal content-->
@@ -650,7 +583,8 @@
                                     <!--begin::Modal header-->
                                     <!--begin::Modal body-->
                                     <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                        <form action="{{ url('/edit_link') }}" method="POST">
+                                        <form action="{{ url('/linkgenerate') }}" method="POST"
+                                            class="form">
                                             @csrf
                                             <!--begin::Heading-->
                                             <div class="mb-13 text-center">
@@ -659,55 +593,67 @@
                                                 <!--end::Title-->
                                             </div>
                                             <!--end::Heading-->
-                                            <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
                                             <div class="d-flex flex-column mb-8 fv-row">
-                                                {{-- <label class="required fs-6 fw-bold mb-2" for="cname">Name</label> --}}
-                                                <input type="text"
-                                                    class="form-control text-center form-control-solid mb-5"
-                                                    style="cursor: pointer;" name="name" id="cname" placeholder="Name"
-                                                    value="{{ empty($val->name) ? '' : $val->name }}" required>
-
-                                                {{-- <label class="required fs-6 fw-bold mb-2"
-                                                for="inputEmail4">Email</label> --}}
-                                                <input type="email"
-                                                    class="form-control text-center form-control-solid mb-2"
-                                                    name="email" style="cursor: pointer;" id="cemail"
-                                                    placeholder="Email"
-                                                    value="{{ empty($val->email) ? '' : $val->email }}" required>
+                                                <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                    for="cname">Name</label>
+                                                <input type="text" class="form-control form-control-solid" name="name"
+                                                    id="cname" placeholder="Name" style="cursor: pointer;" required>
+                                                <input type="hidden" name="company_id" id="company"
+                                                    value="{{ $company_id }}">
                                             </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
-                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="phone">Phone</label> --}}
-                                                    <input type="number" class="form-control form-control-solid"
-                                                        name="phone" style="cursor: pointer;" id="cphone"
-                                                        placeholder="phone"
-                                                        value="{{ empty($val->phone) ? '' : $val->phone }}" required>
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="inputEmail4">Email</label>
+                                                    <input type="email" class="form-control form-control-solid"
+                                                        style="cursor: pointer;" name="email" id="inputEmail4"
+                                                        placeholder="Email" required>
                                                 </div>
                                                 <div class="col-md-6 fv-row">
-                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="">Category</label> --}}
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="phone">Phone</label>
+                                                    <input type="number" class="form-control form-control-solid"
+                                                        name="phone" style="cursor: pointer;" placeholder="phone"
+                                                        id="phone" required>
+                                                </div>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                        for="company">Company</label>
                                                     <!--begin::Select2-->
-                                                    <select name="category" id="inputnCategory" style="cursor: pointer;"
+                                                    <select name="company_id" id="company_id" style="cursor: pointer;"
                                                         class="form-control form-select form-select-solid" required>
-                                                        @php $i=1; @endphp
-                                                        @foreach ($categories as $value)
-                                                            @if ($val->test_category_id == $value->id)
-                                                                <option value="{{ $i }}" selected>
-                                                                    {{ $value->category }}</option>
-                                                            @else
-                                                                <option value="{{ $i }}">
-                                                                    {{ $value->category }}</option>
-                                                            @endif
-                                                            @php $i++; @endphp
+                                                        <option value="">Choose Company...</option>
+                                                        @foreach ($companies as $val)
+                                                            <option value="{{ $val->id }}">
+                                                                {{ $val->cname }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                     <!--end::Select2-->
                                                 </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="inputCategory">Category</label>
+                                                    <!--begin::Select2-->
+                                                    <select name="category" style="cursor: pointer;" id="inputCategory"
+                                                        class="form-control form-select form-select-solid mb-8"
+                                                        required>
+                                                        <option value="">Choose...</option>
+
+                                                        @php $i=1; @endphp
+                                                        @foreach ($categories as $val)
+                                                            <option value="{{ $i }}">{{ $val->category }}
+                                                            </option>
+                                                            @php $i++; @endphp
+                                                        @endforeach
+
+                                                    </select>
+                                                    <!--end::Select2-->
+                                                </div>
                                                 <div class="text-center">
-                                                    <button type="submit" class="btn btn-primary mt-5">Update
-                                                        Link</button>
-                                                    <button type="submit" id='sharelinkbtn'
-                                                        class="btn btn-primary mt-5"
-                                                        formaction="{{ url('/sharelink') }}">Share
+                                                    <button type="submit" class="btn btn-primary mt-5">Generate
                                                         Link</button>
                                                 </div>
                                             </div>
@@ -719,7 +665,339 @@
                             </div>
                             <!--end::Modal dialog-->
                         </div>
-                    @endforeach
+                        @foreach ($data as $val)
+                            <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
+                                aria-hidden="true">
+                                <!--begin::Modal dialog-->
+                                <div class="modal-dialog mw-650px">
+                                    <!--begin::Modal content-->
+                                    <div class="modal-content">
+                                        <!--begin::Modal header-->
+                                        <div class="modal-header pb-0 border-0 justify-content-end">
+                                            <!--begin::Close-->
+                                            <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                data-bs-dismiss="modal">
+                                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                <span class="svg-icon svg-icon-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                                            rx="1" transform="rotate(-45 6 17.3137)"
+                                                            fill="currentColor" />
+                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                            transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </div>
+                                            <!--end::Close-->
+                                        </div>
+                                        <!--begin::Modal header-->
+                                        <!--begin::Modal body-->
+                                        <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                            <form action="{{ url('/edit_link') }}" method="POST">
+                                                @csrf
+                                                <!--begin::Heading-->
+                                                <div class="mb-13 text-center">
+                                                    <!--begin::Title-->
+                                                    <h1 class="mb-3">Candidate Details</h1>
+                                                    <!--end::Title-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
+                                                <div class="d-flex flex-column mb-8 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="cname">Name</label>
+                                                    <input type="text" class="form-control form-control-solid mb-8"
+                                                        style="cursor: pointer;" name="name" id="cname"
+                                                        placeholder="Name"
+                                                        value="{{ empty($val->name) ? '' : $val->name }}" required>
+                                                    <input type="hidden" name="company_id" value="{{ $company_id }}">
+                                                </div>
+                                                <div class="row g-9 mb-8">
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px;" for="inputEmail4">Email</label>
+                                                        <input type="email" readonly
+                                                            class="form-control form-control-solid" name="email"
+                                                            style="cursor: pointer;" id="cemail" placeholder="Email"
+                                                            value="{{ empty($val->email) ? '' : $val->email }}"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px;" for="phone">Phone</label>
+                                                        <input type="number"
+                                                            class="form-control form-control-solid mb-8" name="phone"
+                                                            style="cursor: pointer;" id="cphone" placeholder="phone"
+                                                            value="{{ empty($val->phone) ? '' : $val->phone }}"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-9 mb-8">
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px" for="company">Company</label>
+                                                        <!--begin::Select2-->
+                                                        <select name="company_id" style="cursor: pointer;"
+                                                            class="form-control form-select form-select-solid"
+                                                            required>
+                                                            <option value="">Choose Company...</option>
+                                                            @foreach ($companies as $value)
+                                                                @if ($val->company_id == $value->id)
+                                                                    <option selected value="{{ $value->id }}">
+                                                                        {{ $value->cname }}
+                                                                    </option>
+                                                                @else
+                                                                    <option value="{{ $value->id }}">
+                                                                        {{ $value->cname }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px;" for="">Category</label>
+                                                        <!--begin::Select2-->
+                                                        <select name="category" id="inputnCategory"
+                                                            style="cursor: pointer;"
+                                                            class="form-control form-select form-select-solid mb-8"
+                                                            required>
+                                                            @php $i=1; @endphp
+                                                            @foreach ($categories as $value)
+                                                                @if ($val->test_category_id == $value->id)
+                                                                    <option value="{{ $i }}" selected>
+                                                                        {{ $value->category }}</option>
+                                                                @else
+                                                                    <option value="{{ $i }}">
+                                                                        {{ $value->category }}</option>
+                                                                @endif
+                                                                @php $i++; @endphp
+                                                            @endforeach
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <button type="submit" class="btn btn-primary mt-5">Update
+                                                            Link</button>
+                                                        <button type="submit" id='sharelinkbtn'
+                                                            class="btn btn-primary mt-5"
+                                                            formaction="{{ url('/sharelink') }}">Share
+                                                            Link</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--end::Modal body-->
+                                    </div>
+                                    <!--end::Modal content-->
+                                </div>
+                                <!--end::Modal dialog-->
+                            </div>
+                        @endforeach
+                    @elseif($flag == 0)
+                        <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
+                            <!--begin::Modal dialog-->
+                            <div class="modal-dialog mw-650px">
+                                <!--begin::Modal content-->
+                                <div class="modal-content">
+                                    <!--begin::Modal header-->
+                                    <div class="modal-header pb-0 border-0 justify-content-end">
+                                        <!--begin::Close-->
+                                        <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                            data-bs-dismiss="modal">
+                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                        transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                        transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
+                                        </div>
+                                        <!--end::Close-->
+                                    </div>
+                                    <!--begin::Modal header-->
+                                    <!--begin::Modal body-->
+                                    <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                        <form action="{{ url('/linkgenerate') }}" method="POST"
+                                            class="form">
+                                            @csrf
+                                            <!--begin::Heading-->
+                                            <div class="mb-13 text-center">
+                                                <!--begin::Title-->
+                                                <h1 class="mb-3">Candidate Details</h1>
+                                                <!--end::Title-->
+                                            </div>
+                                            <!--end::Heading-->
+                                            <div class="d-flex flex-column mb-8 fv-row">
+                                                <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                    for="cname">Name</label>
+                                                <input type="text" class="form-control form-control-solid mb-8"
+                                                    name="name" id="cname" placeholder="Name" style="cursor: pointer;"
+                                                    required>
+                                                <input type="hidden" name="company_id" id="company"
+                                                    value="{{ $company_id }}">
+
+                                                <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                    for="inputEmail4">Email</label>
+                                                <input type="email" class="form-control form-control-solid"
+                                                    style="cursor: pointer;" name="email" id="inputEmail4"
+                                                    placeholder="Email" required>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="phone">Phone</label>
+                                                    <input type="number" class="form-control form-control-solid mb-8"
+                                                        name="phone" style="cursor: pointer;" placeholder="phone"
+                                                        id="phone" required>
+                                                </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="inputCategory">Category</label>
+                                                    <!--begin::Select2-->
+                                                    <select name="category" style="cursor: pointer;" id="inputCategory"
+                                                        class="form-control form-select form-select-solid mb-8"
+                                                        required>
+                                                        <option value="">Choose...</option>
+
+                                                        @php $i=1; @endphp
+                                                        @foreach ($categories as $val)
+                                                            <option value="{{ $i }}">{{ $val->category }}
+                                                            </option>
+                                                            @php $i++; @endphp
+                                                        @endforeach
+
+                                                    </select>
+                                                    <!--end::Select2-->
+                                                </div>
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-primary mt-5">Generate
+                                                        Link</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--end::Modal body-->
+                                </div>
+                                <!--end::Modal content-->
+                            </div>
+                            <!--end::Modal dialog-->
+                        </div>
+                        @foreach ($data as $val)
+                            <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
+                                aria-hidden="true">
+                                <!--begin::Modal dialog-->
+                                <div class="modal-dialog mw-650px">
+                                    <!--begin::Modal content-->
+                                    <div class="modal-content">
+                                        <!--begin::Modal header-->
+                                        <div class="modal-header pb-0 border-0 justify-content-end">
+                                            <!--begin::Close-->
+                                            <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                data-bs-dismiss="modal">
+                                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                <span class="svg-icon svg-icon-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                                            rx="1" transform="rotate(-45 6 17.3137)"
+                                                            fill="currentColor" />
+                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                            transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </div>
+                                            <!--end::Close-->
+                                        </div>
+                                        <!--begin::Modal header-->
+                                        <!--begin::Modal body-->
+                                        <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                                            <form action="{{ url('/edit_link') }}" method="POST">
+                                                @csrf
+                                                <!--begin::Heading-->
+                                                <div class="mb-13 text-center">
+                                                    <!--begin::Title-->
+                                                    <h1 class="mb-3">Candidate Details</h1>
+                                                    <!--end::Title-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
+                                                <div class="d-flex flex-column mb-8 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="cname">Name</label>
+                                                    <input type="text" class="form-control form-control-solid mb-8"
+                                                        style="cursor: pointer;" name="name" id="cname"
+                                                        placeholder="Name"
+                                                        value="{{ empty($val->name) ? '' : $val->name }}" required>
+                                                    <input type="hidden" name="company_id" value="{{ $company_id }}">
+
+                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
+                                                        for="inputEmail4">Email</label>
+                                                    <input type="email" readonly
+                                                        class="form-control form-control-solid" name="email"
+                                                        style="cursor: pointer;" id="cemail" placeholder="Email"
+                                                        value="{{ empty($val->email) ? '' : $val->email }}" required>
+                                                </div>
+                                                <div class="row g-9 mb-8">
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px;" for="phone">Phone</label>
+                                                        <input type="number"
+                                                            class="form-control form-control-solid mb-8" name="phone"
+                                                            style="cursor: pointer;" id="cphone" placeholder="phone"
+                                                            value="{{ empty($val->phone) ? '' : $val->phone }}"
+                                                            required>
+                                                    </div>
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px;" for="">Category</label>
+                                                        <!--begin::Select2-->
+                                                        <select name="category" id="inputnCategory"
+                                                            style="cursor: pointer;"
+                                                            class="form-control form-select form-select-solid mb-8"
+                                                            required>
+                                                            @php $i=1; @endphp
+                                                            @foreach ($categories as $value)
+                                                                @if ($val->test_category_id == $value->id)
+                                                                    <option value="{{ $i }}" selected>
+                                                                        {{ $value->category }}</option>
+                                                                @else
+                                                                    <option value="{{ $i }}">
+                                                                        {{ $value->category }}</option>
+                                                                @endif
+                                                                @php $i++; @endphp
+                                                            @endforeach
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <button type="submit" class="btn btn-primary mt-5">Update
+                                                            Link</button>
+                                                        <button type="submit" id='sharelinkbtn'
+                                                            class="btn btn-primary mt-5"
+                                                            formaction="{{ url('/sharelink') }}">Share
+                                                            Link</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--end::Modal body-->
+                                    </div>
+                                    <!--end::Modal content-->
+                                </div>
+                                <!--end::Modal dialog-->
+                            </div>
+                        @endforeach
+                    @endif
+
                 </div>
                 <!--end::Content-->
                 <!--begin::Footer-->
@@ -768,7 +1046,7 @@
 
                 swal({
                     title: "Are you sure!",
-                    text: "Do you really want to remove user!",
+                    text: "Do you really want to remove Link!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -780,15 +1058,24 @@
                             data: "",
                             success: function(data) {
                                 console.log(data);
+                                if (data == 1) {
+                                    swal("Link successfully deleted!", {
+                                        icon: "success",
+                                    });
+
+                                    currentRow.remove();
+                                } else {
+                                    swal("Failed to delete!", {
+                                        icon: "error",
+                                    });
+                                }
 
                             }
                         })
-                        swal("Yaa! User successfully deleted!", {
-                            icon: "success",
-                        });
-                        window.location.reload();
+
+
                     } else {
-                        swal("User not deleted your user is safe!", {
+                        swal("Link not deleted!", {
                             icon: "error",
                         });
                     }
@@ -863,13 +1150,33 @@
         </script>
     @endif
 
-    @if (session()->has('new_msg'))
-        @php $msg=session()->get('new_msg'); @endphp
+    @if (session()->has('linkUpdate_msg'))
+        @php $msg=session()->get('linkUpdate_msg'); @endphp
         <script>
-            var new_msg = "<?php echo "$msg"; ?>";
-            console.log(new_msg);
-            swal(new_msg, {
+            var linkUpdate_msg = "<?php echo "$msg"; ?>";
+            console.log(linkUpdate_msg);
+            swal(linkUpdate_msg, {
                 icon: "success",
+            });
+        </script>
+    @endif
+
+    @if (session()->has('success_msg'))
+        @php $msg=session()->get('success_msg'); @endphp
+        <script>
+            var success_msg = "<?php echo "$msg"; ?>";
+            console.log(success_msg);
+            swal(success_msg, {
+                icon: "success",
+            });
+        </script>
+    @elseif(session()->has('error_msg'))
+        @php $msg=session()->get('error_msg'); @endphp
+        <script>
+            var error_msg = "<?php echo "$msg"; ?>";
+            console.log(error_msg);
+            swal(error_msg, {
+                icon: "error",
             });
         </script>
     @endif

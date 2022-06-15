@@ -344,7 +344,7 @@
                                                     title="Choose Company Name">
                                                     <select name="company_id" id="company" style="cursor: pointer;"
                                                         class="form-control form-select form-select-solid" required>
-                                                        <option value="0">Choose Company...</option>
+                                                        <option value="0">Filter By Company...</option>
                                                         @foreach ($companies as $val)
                                                             <option value="{{ $val->id }}">
                                                                 {{ $val->cname }}

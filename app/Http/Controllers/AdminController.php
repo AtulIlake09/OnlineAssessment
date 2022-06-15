@@ -124,16 +124,24 @@ class AdminController extends Controller
         return $candidate;
     }
 
+    //Generate Link
     public function glink(Request $request)
     {
+        $flag = $request->session()->get('flag');
+        $company_id = $request->session()->get('company_id');
+
         if (Auth::check()) {
             $query = DB::table('candidate_test_link as cl')
                 ->join('category as ct', 'cl.test_category_id', '=', 'ct.id')
-                ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
+                ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'cl.company_id', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
                 ->whereIn('cl.status', [0, 1])
-                ->orderBy('id', 'asc')
-                ->get();
+                ->orderBy('id', 'asc');
 
+            if ($flag == 0) {
+                $query->where('cl.company_id', $company_id);
+            }
+
+            $query = $query->get();
             $data = $query->all();
 
             $query = DB::table('category')
@@ -141,10 +149,12 @@ class AdminController extends Controller
                 ->where('active', 1)
                 ->get();
 
-            $flag = $request->session()->get('flag');
-
             $categories = $query->all();
-            return view('generatelink', compact('data', 'categories', 'flag'));
+            $companies = DB::table('companies')
+                ->select('id', 'cname')
+                ->whereIn('status', [0, 1])
+                ->get();
+            return view('generatelink', compact('data', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
         }
@@ -154,21 +164,33 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:candidate_test_link,email',
+            'company_id' => 'required',
             'phone' => 'required',
             'category' => 'required'
         ]);
 
         $name = $request->name;
         $email = $request->email;
+        $company_id = $request->company_id;
         $phone = $request->phone;
         $category_id = $request->category;
         $token = base64_encode(time());
 
         $link = '/test/' . $token;
 
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'company_id' => $company_id,
+            'phone' => $phone,
+            'test_category_id' => $category_id,
+            'candidate_id' => $token,
+            'link' => $link
+        ];
+
         DB::table('candidate_test_link')
-            ->insert(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'candidate_id' => $token, 'link' => $link]);
+            ->insert($data);
 
         $link = url('') . $link;
         $data = array('link' => $link);
@@ -227,17 +249,85 @@ class AdminController extends Controller
 
         if ($status == 0) {
             $status = 1;
-            DB::table('candidate_test_link')
-                ->where('id', '=', $id)
-                ->update(['status' => $status]);
-        } else {
+        } elseif ($status == 1) {
             $status = 0;
-            DB::table('candidate_test_link')
-                ->where('id', '=', $id)
-                ->update(['status' => $status]);
         }
 
-        return redirect()->back();
+        $result = DB::table('candidate_test_link')
+            ->where('id', '=', $id)
+            ->update(['status' => $status]);
+
+        if ($result == false) {
+            return redirect()->back()->with('error_msg', "Status Not changed!");
+        }
+        return redirect()->back()->with('success_msg', "Status changed!");
+    }
+
+    public function edit_link(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'company_id' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'category' => 'required'
+        ]);
+
+        $id = $request->id;
+        $name = $request->name;
+        $email = $request->email;
+        $phone = $request->phone;
+        $company_id = $request->company_id;
+        $category_id = $request->category;
+
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'company_id' => $company_id,
+            'test_category_id' => $category_id,
+            'updated_at' => date('Y-m-d h:i:s')
+        ];
+        DB::table('candidate_test_link')
+            ->where('id', '=', $id)
+            ->update($data);
+
+        return redirect()->back()->with('linkUpdate_msg', "Link Updated Successfully!");
+    }
+
+    public function delete_link($id)
+    {
+        $result = DB::table('candidate_test_link')
+            ->where('id', '=', $id)
+            ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
+
+        return $result;
+    }
+
+    //Candidate Assessment
+    public function assessment(Request $request)
+    {
+        if (Auth::user()) {
+
+            $query = DB::table('candidate as cn')
+                ->join('category as ct', 'cn.category_id', '=', 'ct.id')
+                ->join('candidate_remark as cr', 'cn.candidate_id', '=', 'cr.candidate_id')
+                ->select('cn.id', 'cn.candidate_id', 'cn.name', 'cn.email', 'cn.mobile', 'cn.category_id', 'ct.category', 'cr.result', 'cr.feedback', 'cn.resume', 'cn.link', 'cn.ip', 'cn.start_date_time', 'cn.end_date_time', 'cn.status')
+                ->get();
+
+            // dd($query->all());
+            $candidates = $query->all();
+            $query = DB::table('category')
+                ->select('id', 'category')
+                ->get();
+
+            $flag = $request->session()->get('flag');
+
+            $categories = $query->all();
+            return view('assessment', compact('candidates', 'categories', 'flag'));
+        } else {
+            return redirect('/adminlogin');
+        }
     }
 
     public function change_status_candidate($id)
@@ -274,13 +364,25 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    public function delete_link($id)
+    public function edit_can(Request $request)
     {
-        DB::table('candidate_test_link')
-            ->where('id', '=', $id)
-            ->update(['status' => 2, 'deleted_at' => date('Y-m-d h:i:s')]);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
 
-        return redirect()->back();
+        $id = $request->id;
+        $name = $request->name;
+        $email = $request->email;
+        $phone = $request->phone;
+
+
+        DB::table('candidate')
+            ->where('id', '=', $id)
+            ->update(['name' => $name, 'email' => $email, 'phone' => $phone]);
+
+        return redirect()->back()->with('new_msg', 'Candidate Details Updated Successfully');
     }
 
     public function delete_can($id)
@@ -311,73 +413,6 @@ class AdminController extends Controller
         }
 
         return $flag;
-    }
-
-    public function edit_link(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-        ]);
-
-        $id = $request->id;
-        $name = $request->name;
-        $email = $request->email;
-        $phone = $request->phone;
-        $category_id = $request->category;
-
-        DB::table('candidate_test_link')
-            ->where('id', '=', $id)
-            ->update(['name' => $name, 'email' => $email, 'phone' => $phone, 'test_category_id' => $category_id, 'updated_at' => date('Y-m-d h:i:s')]);
-
-        return redirect()->back()->with('new_msg', "Link Updated Successfully");
-    }
-
-    public function edit_can(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-        ]);
-
-        $id = $request->id;
-        $name = $request->name;
-        $email = $request->email;
-        $phone = $request->phone;
-
-
-        DB::table('candidate')
-            ->where('id', '=', $id)
-            ->update(['name' => $name, 'email' => $email, 'phone' => $phone]);
-
-        return redirect()->back()->with('new_msg', 'Candidate Details Updated Successfully');
-    }
-
-    public function assessment(Request $request)
-    {
-        if (Auth::user()) {
-
-            $query = DB::table('candidate as cn')
-                ->join('category as ct', 'cn.category_id', '=', 'ct.id')
-                ->join('candidate_remark as cr', 'cn.candidate_id', '=', 'cr.candidate_id')
-                ->select('cn.id', 'cn.candidate_id', 'cn.name', 'cn.email', 'cn.mobile', 'cn.category_id', 'ct.category', 'cr.result', 'cr.feedback', 'cn.resume', 'cn.link', 'cn.ip', 'cn.start_date_time', 'cn.end_date_time', 'cn.status')
-                ->get();
-
-            // dd($query->all());
-            $candidates = $query->all();
-            $query = DB::table('category')
-                ->select('id', 'category')
-                ->get();
-
-            $flag = $request->session()->get('flag');
-
-            $categories = $query->all();
-            return view('assessment', compact('candidates', 'categories', 'flag'));
-        } else {
-            return redirect('/adminlogin');
-        }
     }
 
     public function getqueans(Request $request, $id)
@@ -453,6 +488,7 @@ class AdminController extends Controller
         }
     }
 
+    //Test Category
     public function categories(Request $request)
     {
         if (Auth::user() && session()->has('flag')) {
@@ -583,6 +619,7 @@ class AdminController extends Controller
         return $query;
     }
 
+    //Category Questions
     public function getques(Request $request, $id)
     {
         if (Auth::check()) {

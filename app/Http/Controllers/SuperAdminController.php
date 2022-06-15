@@ -109,13 +109,13 @@ class SuperAdminController extends Controller
                 $view = view("userviewajax", compact('users'))->render();
                 return $view;
             }
-            // if (session()->has('com_id')) {
-            //     $id = $request->session()->get('com_id');
-            //     if ($id != 0) {
+            if (session()->has('com_id')) {
+                $id = $request->session()->get('com_id');
+                if ($id != 0 && $id != null) {
 
-            //         $query->where('users.company_id', $id);
-            //     }
-            // }
+                    $query->where('users.company_id', $id);
+                }
+            }
             $companies = DB::table('companies')
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
