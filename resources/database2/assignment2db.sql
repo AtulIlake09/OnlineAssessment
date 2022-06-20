@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `candidate`;
 CREATE TABLE `candidate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `candidate_id` varchar(255) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `mobile` bigint(10) NOT NULL,
@@ -35,8 +36,10 @@ CREATE TABLE `candidate` (
   `start_date_time` datetime DEFAULT NULL,
   `end_date_time` datetime DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0 COMMENT '1:complete 0:incomplete',
+  `active_status` int(2) NOT NULL DEFAULT 1 COMMENT '1-active 0-inactive 2-deleted',
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=277 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +48,7 @@ CREATE TABLE `candidate` (
 
 LOCK TABLES `candidate` WRITE;
 /*!40000 ALTER TABLE `candidate` DISABLE KEYS */;
+INSERT INTO `candidate` VALUES (302,'MTY1MzM3MTAwMQ==',2,'Shubham','shubham@metricoidtech.com',9865748569,2,'','/test/MTY1MzM3MTAwMQ==','127.0.0.1','2022-06-07 07:09:22','2022-06-07 07:09:58',0,1,'2022-06-15 05:55:32'),(303,'MTY1MzM3Njk4Nw==',6,'jivan','jivan123@gmail.com',8695748567,3,'','/test/MTY1MzM3Njk4Nw==','127.0.0.1','2022-06-07 07:20:10','2022-06-07 07:25:01',0,1,NULL);
 /*!40000 ALTER TABLE `candidate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,8 +66,10 @@ CREATE TABLE `candidate_answers` (
   `questions` text NOT NULL,
   `answers` text DEFAULT NULL,
   `time` datetime NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT 1 COMMENT '1-acticve 2-deleted',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=624 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=730 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +78,7 @@ CREATE TABLE `candidate_answers` (
 
 LOCK TABLES `candidate_answers` WRITE;
 /*!40000 ALTER TABLE `candidate_answers` DISABLE KEYS */;
-INSERT INTO `candidate_answers` VALUES (619,'MTY1MzMxNDI2MQ==','429','How to print even numbers between two numbers in PHP ?','fsdfasdgardfgadfgadsfg','2022-05-23 19:28:20'),(620,'MTY1MzMxNDI2MQ==','429','How to print star pattern in PHP ?','hsdfhsdfhsfghsfghsfghsfhsdfhBJKGAGR\r\nGJABKRDKLARTF','2022-05-23 19:28:20'),(621,'MTY1MzMxNDI2MQ==','429','How to print reverse number in PHP ?','fgdsagadsgasdgadfgshsfhsf\r\n\r\n\r\nd,;AWR;her\r\nERFNJKWALEHGA','2022-05-23 19:28:20'),(622,'MTY1MzMxNDI2MQ==','429','How to print chessboard in PHP ?','dfgasdfgadsfgsdfhgdfghsdf\r\n\r\nfasldgioauyh;soih\r\nfmasdha;lusrhgta','2022-05-23 19:28:20'),(623,'MTY1MzMxNDI2MQ==','429','How to find palindrome number in PHP ?','gsdfgseyhrweruyhstdrhsyte','2022-05-23 19:28:20');
+INSERT INTO `candidate_answers` VALUES (722,'MTY1MzM3MTAwMQ==','455','What is an event in React?','dafasdfasgddsafg','2022-06-07 19:09:26','2022-06-15 05:55:32',2),(723,'MTY1MzM3MTAwMQ==','455','What are synthetic events in React?','uyddtuydtyyutedyuedtyu','2022-06-07 19:09:36','2022-06-15 05:55:32',2),(724,'MTY1MzM3MTAwMQ==','455','What is the use of render() in React?','tydutyuedt75uedtyd','2022-06-07 19:09:41','2022-06-15 05:55:32',2),(725,'MTY1MzM3MTAwMQ==','455','What are the components in React?','tuydtyudtyjhdyut57yjd','2022-06-07 19:09:47','2022-06-15 05:55:32',2),(726,'MTY1MzM3MTAwMQ==','455','Why is there a need for using keys in Lists?','ujdtyjuyhfhdtyjdsrtgjhdfxjdfyj','2022-06-07 19:09:54','2022-06-15 05:55:32',2),(727,'MTY1MzM3Njk4Nw==','456','Write a program to print star pattern in python ?','rwtegaertaert4qe5ty','2022-06-07 19:24:16',NULL,1),(728,'MTY1MzM3Njk4Nw==','456','What is the difference between list and tuples in Python?','fawetgaertgaer','2022-06-07 19:24:43',NULL,1),(729,'MTY1MzM3Njk4Nw==','456','Write a python program to print all even numbers between 1 to 100 ?','efawetgawertqewry','2022-06-07 19:24:56',NULL,1);
 /*!40000 ALTER TABLE `candidate_answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,8 +94,12 @@ CREATE TABLE `candidate_remark` (
   `candidate_id` varchar(255) NOT NULL,
   `result` varchar(50) NOT NULL DEFAULT '3' COMMENT '1:pass\r\n2:fail\r\n3:pending',
   `feedback` text DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT 1 COMMENT '1-active 2-deleted',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,6 +108,7 @@ CREATE TABLE `candidate_remark` (
 
 LOCK TABLES `candidate_remark` WRITE;
 /*!40000 ALTER TABLE `candidate_remark` DISABLE KEYS */;
+INSERT INTO `candidate_remark` VALUES (33,'MTY1MzM3MTAwMQ==','3',NULL,2,'2022-06-10 10:12:58',NULL,'2022-06-15 05:55:32'),(34,'MTY1MzM3Njk4Nw==','3',NULL,1,'2022-06-10 10:12:58',NULL,NULL);
 /*!40000 ALTER TABLE `candidate_remark` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,11 +126,14 @@ CREATE TABLE `candidate_test_link` (
   `phone` varchar(254) NOT NULL,
   `test_category_id` int(11) NOT NULL,
   `candidate_id` varchar(255) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `link` varchar(254) NOT NULL COMMENT 'base64_encode(time())',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1:active 0:inactive',
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1:active 0:inactive 2:deleted',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,6 +142,7 @@ CREATE TABLE `candidate_test_link` (
 
 LOCK TABLES `candidate_test_link` WRITE;
 /*!40000 ALTER TABLE `candidate_test_link` DISABLE KEYS */;
+INSERT INTO `candidate_test_link` VALUES (30,'Atul','atul@metricoidtech.com','9865748569',2,'MTY1MzM3Nzg5Mg==',2,'/test/MTY1MzM3Nzg5Mg==','2022-05-24 10:45:22','2022-06-15 12:37:49','2022-06-10 10:53:18',1),(31,'Shubham','shubham@metricoidtech.com','9865748569',2,'MTY1MzM3MTAwMQ==',2,'/test/MTY1MzM3MTAwMQ==','2022-05-24 11:13:21','2022-06-15 12:38:43','2022-06-10 11:28:51',1),(32,'jivan','jivan123@gmail.com','8695748567',3,'MTY1MzM3Njk4Nw==',2,'/test/MTY1MzM3Njk4Nw==','2022-05-24 11:16:08','2022-06-10 11:37:36','2022-06-10 11:43:12',1),(33,'ilyas bhagvan','ilyas@gmail.com','8695748567',3,'MTY1MzM4MzQ5MQ==',6,'/test/MTY1MzM4MzQ5MQ==','2022-05-24 11:43:32','2022-06-10 10:56:58','2022-06-10 11:41:57',1),(44,'atul','atulilake123@gmail.com','5434455456',1,'MTY1NDg0MTczNg==',7,'/test/MTY1NDg0MTczNg==','2022-06-10 11:45:36',NULL,NULL,1),(45,'atul','atulilake123@gmail.com','5434455456',1,'MTY1NDg0MTk1Mw==',8,'/test/MTY1NDg0MTk1Mw==','2022-06-10 11:49:13',NULL,'2022-06-10 12:01:19',1),(46,'abc','abc@gmail.com','548845645648',2,'MTY1NTI3NDY1OQ==',2,'/test/MTY1NTI3NDY1OQ==','2022-06-15 12:00:59',NULL,'2022-06-15 12:43:13',2),(47,'pqr','pqr@gmail.com','8596475487',4,'MTY1NTI5NDU1Nw==',7,'/test/MTY1NTI5NDU1Nw==','2022-06-15 17:32:37',NULL,NULL,1);
 /*!40000 ALTER TABLE `candidate_test_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,9 +158,13 @@ CREATE TABLE `category` (
   `category` varchar(30) NOT NULL,
   `time_period` int(11) NOT NULL COMMENT 'min',
   `description` text NOT NULL,
-  `active` int(2) DEFAULT 1,
+  `company_id` int(11) NOT NULL,
+  `active` int(2) DEFAULT 1 COMMENT '0-inactive 1-active 2-deleted',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,8 +173,38 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'PHP',20,'PHP Description\r\n\'a;sl;af;\r\nl;\'fsakflklf\'\r\nmsal;flka;jfd\r\nslAKDf\'jojfjaskfjksd',1),(2,'React_js',20,'React_js Description\r\nasdmkfd;ljkf;klasf\r\nsdfklajhnskj;asd\r\nskdjladhgjaskd\r\nmfnkjlas',1),(3,'Python',30,'',1),(4,'JavaScript',20,'javaScript\r\njbahkdsgldf\r\nskfdjbhjasdf\r\nsfdkjaskldfj\r\n',1);
+INSERT INTO `category` VALUES (1,'PHP',5,'PHP Description\r\n\'a;sl;af;\r\nl;\'fsakflklf\'\r\nslAKDf\'jojfjaskfjksd',2,1,'2022-06-09 10:43:49',NULL,NULL),(2,'React_js',20,'React_js Description\r\nasdmkfd;ljkf;klasf\r\nsdfklajhnskj;asd\r\nskdjladhgjaskd\r\nmfnkjlas',6,1,'2022-06-09 10:43:49',NULL,NULL),(3,'Python',30,'Python :-\r\njkbgfuhlaegy777777ufawgefy78gefujbdsluaygfy7tguif',2,1,'2022-06-09 10:43:49',NULL,NULL),(4,'JavaScript',20,'javaScript\r\njbahkdsgldf',2,1,'2022-06-09 10:43:49',NULL,'2022-06-14 04:14:40'),(7,'Java',30,'java:-\r\nfnhausilfgfabhefhsdfa',2,1,'2022-06-14 16:25:03',NULL,NULL);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `companies`
+--
+
+DROP TABLE IF EXISTS `companies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `companies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `status` int(2) DEFAULT 1 COMMENT '0-inactive 1-active 2-deleted',
+  `added_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `companies`
+--
+
+LOCK TABLES `companies` WRITE;
+/*!40000 ALTER TABLE `companies` DISABLE KEYS */;
+INSERT INTO `companies` VALUES (2,'Metricoid Technology Solution pvt.Ltd.','career@metricoidtech.com','Near Nilje Railway Station, Dombiwali-west',1,'2022-06-09 15:48:43','2022-06-10 00:00:00',NULL),(6,'ABCD','abcd@gmail.com','Mumbai',1,'2022-06-10 10:02:14',NULL,NULL),(7,'PQRS','pqrs@gmail.com','Pune',1,'2022-06-10 10:03:12',NULL,NULL),(8,'LSBC','lsbc@gmail.com','USA',1,'2022-06-10 10:03:48','2022-06-10 00:00:00',NULL);
+/*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -201,7 +250,7 @@ CREATE TABLE `ip_details` (
   `category_id` int(11) NOT NULL,
   `date_time` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=457 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +259,7 @@ CREATE TABLE `ip_details` (
 
 LOCK TABLES `ip_details` WRITE;
 /*!40000 ALTER TABLE `ip_details` DISABLE KEYS */;
-INSERT INTO `ip_details` VALUES (421,'MTY1Mjk2ODQ1NA==','127.0.0.1',1,'2022-05-19 07:25:47'),(422,'MTY1Mjk2ODk4Ng==','127.0.0.1',2,'2022-05-20 10:28:05'),(423,'MTY1MzAyOTgxNg==','127.0.0.1',1,'2022-05-20 12:30:41'),(424,'MTY1MzAzMjI2Mg==','127.0.0.1',1,'2022-05-20 06:27:16'),(425,'MTY1MzA1MjAyNA==','127.0.0.1',3,'2022-05-23 10:24:49'),(426,'MTY1MzA1MjIyNQ==','127.0.0.1',2,'2022-05-23 10:31:10'),(427,'MTY1MzMwOTUxMQ==','127.0.0.1',1,'2022-05-23 06:09:34'),(428,'MTY1MzMwOTUxMQ==','127.0.0.1',1,'2022-05-23 07:14:07'),(429,'MTY1MzMxNDI2MQ==','127.0.0.1',1,'2022-05-23 07:28:20');
+INSERT INTO `ip_details` VALUES (455,'MTY1MzM3MTAwMQ==','127.0.0.1',2,'2022-06-07 07:09:22'),(456,'MTY1MzM3Njk4Nw==','127.0.0.1',3,'2022-06-07 07:20:10');
 /*!40000 ALTER TABLE `ip_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -453,7 +502,10 @@ CREATE TABLE `questions` (
   `category_id` int(10) NOT NULL,
   `questions` text NOT NULL,
   `type` varchar(30) DEFAULT NULL,
-  `status` int(2) NOT NULL DEFAULT 1 COMMENT 'active-1\r\ninactive-0',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT 1 COMMENT 'active-1\r\ninactive-0\r\ndeleted-2',
   PRIMARY KEY (`id`),
   KEY `questions` (`questions`(768))
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
@@ -465,7 +517,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,1,'How to print even numbers between two numbers in PHP ?','objective',1),(2,1,'How to print reverse number in PHP ?','descriptive',1),(3,1,'How to find palindrome number in PHP ?','descriptive',1),(4,1,'How to find Armstrong number in PHP ?','descriptive',1),(5,1,'How to print Fibonacci series in PHP ?','descriptive',1),(6,1,'How to print star pattern in PHP ?','descriptive',1),(7,1,'How to print chessboard in PHP ?','descriptive',1),(8,2,'What is an event in React?','descriptive',1),(9,2,'What are synthetic events in React?','descriptive',1),(10,2,'Why is there a need for using keys in Lists?','descriptive',1),(11,2,'What are the components in React?','descriptive',1),(12,2,'What is the use of render() in React?','descriptive',1),(13,3,'What is the difference between list and tuples in Python?','descriptive',0),(14,3,'Write a python program to print all even numbers between 1 to 100 ?','descriptive',0),(15,3,'Write a program to print star pattern in python ?','descriptive',0),(16,4,'Write a program to print Fibonacci series in javaScript ?\r\n','descriptive',1),(17,4,'Write a program to find palindrome number in javascript ?','descriptive',1);
+INSERT INTO `questions` VALUES (1,1,'How to print even numbers between two numbers in PHP ?','descriptive','2022-06-10 11:54:24','2022-06-14 05:03:44','2022-06-14 05:23:36',1),(2,1,'How to print reverse number in PHP ?','descriptive','2022-06-10 11:54:24','2022-06-14 05:04:16',NULL,1),(3,1,'How to find palindrome number in PHP ?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(4,1,'How to find Armstrong number in PHP ?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(5,1,'How to print Fibonacci series in PHP ?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(6,1,'How to print star pattern in PHP ?','descriptive','2022-06-10 11:54:24','2022-06-10 12:07:32',NULL,1),(7,1,'How to print chessboard in PHP ?','descriptive','2022-06-10 11:54:24','2022-06-10 12:14:32','2022-06-10 12:06:40',1),(8,2,'What is an event in React?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(9,2,'What are synthetic events in React?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(10,2,'Why is there a need for using keys in Lists?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(11,2,'What are the components in React?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(12,2,'What is the use of render() in React?','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(13,3,'What is the difference between list and tuples in Python?','descriptive','2022-06-10 11:54:24',NULL,NULL,0),(14,3,'Write a python program to print all even numbers between 1 to 100 ?','descriptive','2022-06-10 11:54:24',NULL,NULL,0),(15,3,'Write a program to print star pattern in python ?','descriptive','2022-06-10 11:54:24',NULL,NULL,0),(16,4,'Write a program to print Fibonacci series in javaScript ?\r\n','descriptive','2022-06-10 11:54:24',NULL,NULL,1),(17,4,'Write a program to find palindrome number in javascript ?','descriptive','2022-06-10 11:54:24',NULL,NULL,1);
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -491,7 +543,6 @@ CREATE TABLE `temp_queans` (
 
 LOCK TABLES `temp_queans` WRITE;
 /*!40000 ALTER TABLE `temp_queans` DISABLE KEYS */;
-INSERT INTO `temp_queans` VALUES (1,'MTY1MjcwNTkwOQ==','How to print Fibonacci series in PHP ?',NULL),(2,'MTY1MjcwNTkwOQ==','How to print even numbers between two numbers in PHP ?',NULL),(3,'MTY1MjcwNTkwOQ==','How to find palindrome number in PHP ?',NULL),(4,'MTY1MjcwNTkwOQ==','How to print chessboard in PHP ?',NULL),(5,'MTY1MjcwNTkwOQ==','How to print reverse number in PHP ?',NULL);
 /*!40000 ALTER TABLE `temp_queans` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -508,12 +559,18 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company_id` int(11) NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `user` int(2) NOT NULL DEFAULT 0 COMMENT '1-superadmin\r\n0-others',
+  `status` int(2) NOT NULL DEFAULT 1 COMMENT '0-inactive 1-active 2-deleted',
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -522,7 +579,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Atul','atul@metricoidtech.com',NULL,'$2y$10$Q7cHWBTyMCqonh/nCbj5aOxplyOOdHUoUHJh/rBYWH8fasaoqSV7S',NULL,'2022-05-09 06:21:45','2022-05-09 06:21:45');
+INSERT INTO `users` VALUES (1,'Atul','atul@metricoidtech.com',NULL,'$2y$10$Q7cHWBTyMCqonh/nCbj5aOxplyOOdHUoUHJh/rBYWH8fasaoqSV7S','8657487549','Koparkhairane',2,NULL,'2022-05-09 11:51:45','2022-06-10 05:45:27',NULL,1,1),(3,'Shubham','shubham@metricoidtech.com',NULL,'$2y$10$BRenuMlogdvJkjnTBhaQIOogVV8Fexar39jw3syvSjDzFdIZb/5nq','9658745865','Panvel, Navi Mumbai',2,NULL,'2022-06-09 10:29:52','2022-06-13 19:21:27',NULL,0,1),(14,'Arvind','arvind1234@gmail.com',NULL,'$2y$10$y9nmvZyVJPcPbsrrrx.viuY8Rwt.mZ3iEMcCb/qr6FwoZhYtMm0va','8562147565','Solhapur',2,NULL,'2022-06-13 18:30:46','2022-06-13 18:32:20',NULL,0,1),(15,'Jivan','jivan@gmail.com',NULL,'$2y$10$nxOinMagWIgYLGPy4A.ZB./aipKibbQwO3qoa7N6lgdPF8eqxMFxi','5689547589','Nerul',6,NULL,'2022-06-13 18:50:44',NULL,NULL,0,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -535,4 +592,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-24 10:41:22
+-- Dump completed on 2022-06-20 10:14:45
