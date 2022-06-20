@@ -60,7 +60,8 @@ class SuperAdminController extends Controller
 
     public function users_view(Request $request)
     {
-        $flag = $request->session()->get('flag');
+        $user = auth()->user();
+        $flag = $user->user;
 
         $query = User::join('companies', 'users.company_id', 'companies.id')
             ->select(
@@ -172,7 +173,9 @@ class SuperAdminController extends Controller
 
     public function edit_user_details(Request $request)
     {
-        $flag = $request->session()->get('flag');
+        $user = auth()->user();
+        $flag = $user->user;
+        
         if ($flag == 1 || $flag == 0) {
             $request->validate([
                 'name' => 'required',
@@ -226,7 +229,8 @@ class SuperAdminController extends Controller
 
     public function companies_view(Request $request)
     {
-        $flag = $request->session()->get('flag');
+        $user = auth()->user();
+        $flag = $user->user;
 
         if ($flag == 1) {
             $query = DB::table('companies')
@@ -254,7 +258,8 @@ class SuperAdminController extends Controller
 
     public function edit_company_details(Request $request)
     {
-        $flag = $request->session()->get('flag');
+        $user = auth()->user();
+        $flag = $user->user;
 
         if ($flag == 1) {
 
@@ -287,7 +292,9 @@ class SuperAdminController extends Controller
 
     public function delete_company(Request $request, $id)
     {
-        $flag = $request->session()->get('flag');
+        $user = auth()->user();
+        $flag = $user->user;
+        
         $result = 0;
         if ($flag == 1) {
 
@@ -307,7 +314,9 @@ class SuperAdminController extends Controller
 
     public function add_company(Request $request)
     {
-        $flag = $request->session()->get('flag');
+        $user = auth()->user();
+        $flag = $user->user;
+        
         $result = 0;
         if ($flag == 1) {
             $request->validate([

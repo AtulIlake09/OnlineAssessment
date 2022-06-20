@@ -358,7 +358,7 @@
                                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-trigger="hover" title="Click to Generate Link">
                                             <a href="#" class="btn btn-sm btn-light btn-active-primary"
-                                                data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+                                                data-bs-toggle="modal" data-bs-target="#kt_generate_link">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                                 <span class="svg-icon svg-icon-3">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -556,7 +556,7 @@
                     </div>
                     <!--end::Container-->
                     @if ($flag == 1)
-                        <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="kt_generate_link" tabindex="-1" aria-hidden="true">
                             <!--begin::Modal dialog-->
                             <div class="modal-dialog mw-650px">
                                 <!--begin::Modal content-->
@@ -598,8 +598,6 @@
                                                     for="cname">Name</label>
                                                 <input type="text" class="form-control form-control-solid" name="name"
                                                     id="cname" placeholder="Name" style="cursor: pointer;" required>
-                                                <input type="hidden" name="company_id" id="company"
-                                                    value="{{ $company_id }}">
                                             </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
@@ -712,7 +710,6 @@
                                                         style="cursor: pointer;" name="name" id="cname"
                                                         placeholder="Name"
                                                         value="{{ empty($val->name) ? '' : $val->name }}" required>
-                                                    <input type="hidden" name="company_id" value="{{ $company_id }}">
                                                 </div>
                                                 <div class="row g-9 mb-8">
                                                     <div class="col-md-6 fv-row">
@@ -798,7 +795,7 @@
                             </div>
                         @endforeach
                     @elseif($flag == 0)
-                        <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="kt_generate_link" tabindex="-1" aria-hidden="true">
                             <!--begin::Modal dialog-->
                             <div class="modal-dialog mw-650px">
                                 <!--begin::Modal content-->
@@ -1161,8 +1158,6 @@
             }
         }
     ?>
-
-
 
     @if ($errors->has('email'))
         <script>

@@ -21,6 +21,7 @@
             <!--end::Table head-->
             <!--begin::Table body-->
             <tbody>
+                @php $count=1; @endphp
                 @foreach ($category as $val)
                     <tr>
                         <td>
@@ -28,9 +29,14 @@
                                 <input class="form-check-input widget-9-check" type="checkbox" value="1" />
                             </div>
                         </td>
-                        <td>
+                        <td style="display: none">
                             <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
                             {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
+                        </td>
+                        <td>
+                            <label href="#"
+                                class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                @php $count++; @endphp
                         </td>
                         <td>
                             <div class="d-flex align-items-center">

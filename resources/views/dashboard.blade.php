@@ -106,6 +106,7 @@
                                     <span class="menu-title">Dashboards</span>
                                     <span class="menu-arrow"></span>
                                 </span>
+                                @php $user=auth()->user(); $flag=$user->user; @endphp
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
                                     @if ($flag == 1)
                                         <div class="menu-item">
@@ -424,21 +425,41 @@
                                                 </div>
                                                 <!--end::Heading-->
                                                 <div class="d-flex flex-column mb-8 fv-row">
-                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="cname">Test
-                                                        Name</label> --}}
-                                                    <input type="text" class="form-control form-control-solid mb-4"
+                                                    <label class="required fs-6 fw-bold mb-2" for="cname"
+                                                        style="margin-left: 5px">Test Name</label>
+                                                    <input type="text" class="form-control form-control-solid mb-8"
                                                         name="name" id="cname" placeholder="Name" required>
-
-                                                    {{-- <label class="required fs-6 fw-bold mb-2" for="duration">Test
-                                                        Duration (in minutes)</label> --}}
-                                                    <input type="number" class="form-control form-control-solid"
-                                                        name="duration" id="duration"
-                                                        placeholder="Test Duration (in minutes)" required>
+                                                </div>
+                                                <div class="row g-9 mb-8">
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                        for="duration">Test
+                                                        Duration (in minutes)</label>
+                                                        <input type="number" class="form-control form-control-solid"
+                                                        name="duration" id="duration" placeholder="Test Duration"
+                                                        required> 
+                                                    </div>
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                                            for="company">Company</label>
+                                                        <!--begin::Select2-->
+                                                        <select name="company_id" id="company_id" style="cursor: pointer;"
+                                                            class="form-control form-select form-select-solid" required>
+                                                            <option value="">Choose Company...</option>
+                                                            @foreach ($companies as $val)
+                                                                <option value="{{ $val->id }}">
+                                                                    {{ $val->cname }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
                                                 </div>
                                                 <div class="row g-9 mb-8">
                                                     <div class="col-md-12 fv-row">
-                                                        {{-- <label class="required fs-6 fw-bold mb-2"
-                                                            for="description">Description</label> --}}
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px"
+                                                            for="description">Description</label>
                                                         <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="description"
                                                             placeholder="Test Description" id="description" required></textarea>
                                                     </div>

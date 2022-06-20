@@ -27,7 +27,12 @@ class AdminController extends Controller
 
             $flag = $request->session()->get('flag');
 
-            return view('dashboard', compact('cat', 'can', 'flag'));
+            $companies = DB::table('companies')
+            ->select('id', 'cname')
+            ->whereIn('status', [0, 1])
+            ->get();
+
+            return view('dashboard', compact('cat', 'can', 'flag', 'companies'));
         } else {
             return redirect('/adminlogin');
         }
@@ -66,17 +71,15 @@ class AdminController extends Controller
 
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
 
-            $user = User::where(['email' => $request->email, 'status' => 1])->first();
-            if (empty($user)) {
+            // $user = User::where(['email' => $request->email, 'status' => 1])->first();
+            $user = auth()->user();
+            $status = $user->status;
+            if ($status == 0) {
                 Auth::logout();
                 return redirect('/adminlogin')->with('fail', 'Login Not Allowed');
             }
 
-            $flag = $user->user;
-            $company_id = $user->company_id;
-
-            $request->session()->put('flag', $flag);
-            $request->session()->put('company_id', $company_id);
+            
 
             return redirect('dashboard');
         } else {
@@ -91,7 +94,7 @@ class AdminController extends Controller
         return redirect('/adminlogin');
     }
 
-    public function getcattbl($flag = null, $id = null)
+    public function getcattbl($id = null)
     {
         $query = DB::table('category');
         if ($id != 0 && $id != null) {
@@ -128,10 +131,12 @@ class AdminController extends Controller
     public function glink(Request $request)
     {
 
-        $flag = $request->session()->get('flag');
-        $company_id = $request->session()->get('company_id');
-
         if (Auth::check()) {
+
+            $user = auth()->user();
+            $flag = $user->user;
+            $company_id = $user->company_id;
+
             $query = DB::table('candidate_test_link as cl')
                 ->join('category as ct', 'cl.test_category_id', '=', 'ct.id')
                 ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'cl.company_id', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
@@ -182,7 +187,7 @@ class AdminController extends Controller
             'phone' => 'required',
             'category' => 'required'
         ]);
-
+        
         $name = $request->name;
         $email = $request->email;
         $company_id = $request->company_id;
@@ -320,9 +325,11 @@ class AdminController extends Controller
     //Candidate Assessment
     public function assessment(Request $request)
     {
-        $flag = $request->session()->get('flag');
-        $company_id = $request->session()->get('company_id');
         if (Auth::user()) {
+
+            $user = auth()->user();
+            $flag = $user->user;
+            $company_id = $user->company_id;
 
             $query = DB::table('candidate as cn')
                 ->join('category as ct', 'cn.category_id', '=', 'ct.id')
@@ -334,6 +341,7 @@ class AdminController extends Controller
                     'cn.email',
                     'cn.mobile',
                     'cn.category_id',
+                'cn.company_id',
                     'ct.category',
                     'cr.result',
                     'cr.feedback',
@@ -374,7 +382,7 @@ class AdminController extends Controller
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
                 ->get();
-
+       
             return view('assessment', compact('candidates', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
@@ -546,12 +554,13 @@ class AdminController extends Controller
     {
         if (Auth::user() && session()->has('flag')) {
 
-            $flag = $request->session()->get('flag');
+            $user = auth()->user();
+            $flag = $user->user;
 
             if ($flag == 0) {
 
-                $company_id = $request->session()->get('company_id');
-                $category = $this->getcattbl($flag, $company_id);
+                $company_id = $user->company_id;
+                $category = $this->getcattbl($company_id);
 
                 return view('categories', compact('category', 'flag', 'company_id'));
             } elseif ($flag == 1) {
@@ -559,7 +568,7 @@ class AdminController extends Controller
                 if ($request->ajax()) {
 
                     $company_id = $request->company_id;
-                    $category = $this->getcattbl($flag, $company_id);
+                    $category = $this->getcattbl($company_id);
                     $companies = DB::table('companies')
                         ->select('id', 'cname')
                         ->whereIn('status', [0, 1])
@@ -568,7 +577,7 @@ class AdminController extends Controller
                     $view = view("categoryviewajax", compact('category'))->render();
                     return $view;
                 }
-                $category = $this->getcattbl($flag);
+                $category = $this->getcattbl();
 
                 $companies = DB::table('companies')
                     ->select('id', 'cname')
@@ -590,7 +599,7 @@ class AdminController extends Controller
             'company_id' => 'required',
             'description' => 'required',
         ]);
-
+     
         $name = $request->name;
         $company_id = $request->company_id;
         $duration = $request->duration;
@@ -645,7 +654,7 @@ class AdminController extends Controller
             'duration' => 'required',
             'description' => 'required',
         ]);
-
+        dd($request->all());
         $id = $request->id;
         $name = $request->name;
         $company_id = $request->company_id;
@@ -686,6 +695,7 @@ class AdminController extends Controller
     public function questions(Request $request)
     {
         if (Auth::user()) {
+            $user = auth()->user();
             $cat_id = $request->session()->get('cat_id');
             $query = DB::table('questions')
                 ->join('category', 'questions.category_id', '=', 'category.id')
@@ -702,7 +712,7 @@ class AdminController extends Controller
                 ->first();
 
             $category = $query->category;
-            $flag = $request->session()->get('flag');
+            $flag = $user->user;
 
             return view('categoryques', compact('questions', 'category', 'cat_id', 'flag'));
         } else {

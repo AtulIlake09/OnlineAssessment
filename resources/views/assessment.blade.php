@@ -602,7 +602,7 @@
 
                         </div>
                         <!--end::Container-->
-                        @if ($flag == 1)
+                        @if ($flag == 0)
                             @foreach ($candidates as $val)
                                 <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
                                     aria-hidden="true">
@@ -693,8 +693,7 @@
                                                             <!--end::Select2-->
                                                         </div>
                                                         <div class="text-center">
-                                                            <button type="submit" class="btn btn-primary mt-5">Update
-                                                                Link</button>
+                                                            <button type="submit" class="btn btn-primary mt-5">Update Candidate Details</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -706,7 +705,7 @@
                                     <!--end::Modal dialog-->
                                 </div>
                             @endforeach
-                        @elseif($flag == 0)
+                        @elseif($flag == 1)
                             @foreach ($candidates as $val)
                                 <div class="modal fade" id="kt_modal_edit_link_{{ $val->id }}" tabindex="-1"
                                     aria-hidden="true">
@@ -819,8 +818,7 @@
                                                             <!--end::Select2-->
                                                         </div>
                                                         <div class="text-center">
-                                                            <button type="submit" class="btn btn-primary mt-5">Update
-                                                                Link</button>
+                                                            <button type="submit" class="btn btn-primary mt-5">Update Candidate Details</button>
                                                         </div>
                                                     </div>
                                                 </form>
