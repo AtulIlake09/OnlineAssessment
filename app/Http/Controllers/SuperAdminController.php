@@ -122,12 +122,11 @@ class SuperAdminController extends Controller
                 ->whereIn('status', [0, 1])
                 ->get();
         } elseif ($flag == 0) {
-            $id = $request->session()->get('company_id');
+            $id = $user->company_id;
             $query->where('users.company_id', $id);
         }
 
         $query = $query->get();
-
         $users = [];
         foreach ($query->all() as $val) {
 

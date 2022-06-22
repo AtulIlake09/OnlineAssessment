@@ -64,12 +64,12 @@ Route::get('/deletecan/{id}', [AdminController::class, 'delete_can']);
 Route::post('/edit_can', [AdminController::class, 'edit_can']);
 
 Route::get('/getqueans/{id}', [AdminController::class, 'getqueans']);
-Route::get('/showanswers', [AdminController::class, 'showanswers']);
+Route::get('/assessment/showanswers', [AdminController::class, 'showanswers']);
 Route::post('/feedback', [AdminController::class, 'feedback']);
 
-Route::get('/categories', [AdminController::class, 'categories']);
+Route::get('/tests', [AdminController::class, 'categories']);
 Route::get('/getques/{id}', [AdminController::class, 'getques']);
-Route::get('/categoryques', [AdminController::class, 'questions']);
+Route::get('/tests/questions', [AdminController::class, 'questions']);
 
 Route::post('/addcategory', [AdminController::class, 'addcategory']);
 Route::get('/changecatStatus/{id}', [AdminController::class, 'change_cat_status']);

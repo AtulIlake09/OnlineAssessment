@@ -485,7 +485,7 @@ class AdminController extends Controller
             $queans = $query->all();
             $request->session()->put('queans', $queans);
 
-            return redirect('showanswers');
+            return redirect('assessment/showanswers');
         } else {
             return redirect('/adminlogin');
         }
@@ -552,7 +552,7 @@ class AdminController extends Controller
     //Test Category
     public function categories(Request $request)
     {
-        if (Auth::user() && session()->has('flag')) {
+        if (Auth::user()) {
 
             $user = auth()->user();
             $flag = $user->user;
@@ -686,7 +686,7 @@ class AdminController extends Controller
     {
         if (Auth::check()) {
             $request->session()->put('cat_id', $id);
-            return redirect('categoryques');
+            return redirect('tests/questions');
         } else {
             return redirect('/adminlogin');
         }
