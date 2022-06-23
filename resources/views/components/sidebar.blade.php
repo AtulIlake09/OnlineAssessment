@@ -102,7 +102,7 @@ $flag=$user->user;
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ (request()->is('assessment') || request()->is('assessment/showanswers') ) ? 'active' : '' }}" href="{{ url('/assessment') }}">
+                            <a class="menu-link {{ (request()->is('assessment') || request()->is('assessment/answers') ) ? 'active' : '' }}" href="{{ url('/assessment') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>

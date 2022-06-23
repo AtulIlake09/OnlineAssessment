@@ -164,14 +164,20 @@ class AdminController extends Controller
 
             $query = DB::table('category')
                 ->select('id', 'category')
-                ->where('active', 1)
-                ->get();
+            ->where('active', 1);
+
+            if ($flag == 0) {
+                $query->where('company_id', $company_id);
+            }
+
+            $query = $query->get();
 
             $categories = $query->all();
             $companies = DB::table('companies')
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
                 ->get();
+                
             return view('generatelink', compact('data', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
@@ -182,7 +188,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:candidate_test_link,email',
+            'email' => 'required|email',
             'company_id' => 'required',
             'phone' => 'required',
             'category' => 'required'
@@ -485,7 +491,7 @@ class AdminController extends Controller
             $queans = $query->all();
             $request->session()->put('queans', $queans);
 
-            return redirect('assessment/showanswers');
+            return redirect('assessment/answers');
         } else {
             return redirect('/adminlogin');
         }

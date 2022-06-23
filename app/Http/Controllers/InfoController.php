@@ -19,24 +19,16 @@ class InfoController extends Controller
             ->where('candidate_id', '=', $key)
             ->first();
 
-        if (empty($query)) {
-            $err = "You can not give a test !";
-            return view('AfterSubmit', compact('err'));
-        }
         $cat = $query->test_category_id;
         $category = DB::table('category')
-            ->select('id')
+            ->select('id', 'description')
             ->where('id', '=', $cat)
             ->first();
 
-        if (empty($query) || empty($category)) {
+        if (empty($query) || empty($category) || $query->status == 0) {
             $err = "You can not give a test !";
             return view('AfterSubmit', compact('err'));
         } else {
-            if ($query->status == 0) {
-                $err = "You can not give a test !";
-                return view('AfterSubmit', compact('err'));
-            } else {
                 $query = DB::table('candidate')
                     ->where('category_id', '=', $cat)
                     ->where('candidate_id', '=', $key)
@@ -47,16 +39,11 @@ class InfoController extends Controller
                         $name = $query->name;
                         $email = $query->email;
                         $phone = $query->mobile;
+                    $company_id = $query->company_id;
                         $link = $query->link;
+                    $descrip = $category->description;
 
-                        $query = DB::table('category')
-                            ->select('description')
-                            ->where('id', '=', $cat)
-                            ->first();
-
-                        $descrip = $query->description;
-
-                        return view('login', compact('name', 'email', 'phone', 'cat', 'key', 'link', 'descrip'));
+                    return view('login', compact('name', 'email', 'company_id', 'phone', 'cat', 'key', 'link', 'descrip'));
                     } else {
 
                         $err = "You can not give a test !";
@@ -66,19 +53,19 @@ class InfoController extends Controller
 
                     $query = DB::table('candidate_test_link as cn')
                         ->join('category as cat', 'cn.test_category_id', 'cat.id')
-                        ->select('cn.name', 'cn.email', 'cn.phone', 'cn.link', 'cat.description')
+                    ->select('cn.name', 'cn.email', 'cn.phone', 'cn.link', 'cat.description', 'cn.company_id')
                         ->where('cn.test_category_id', '=', $cat)
                         ->where('cn.candidate_id', '=', $key)
                         ->first();
 
                     $name = $query->name;
                     $email = $query->email;
+                $company_id = $query->company_id;
                     $phone = $query->phone;
                     $link = $query->link;
                     $descrip = $query->description;
 
-                    return view('login', compact('name', 'email', 'phone', 'cat', 'key', 'link', 'descrip'));
-                }
+                return view('login', compact('name', 'email', 'company_id', 'phone', 'cat', 'key', 'link', 'descrip'));
             }
         }
     }
@@ -89,6 +76,7 @@ class InfoController extends Controller
         $request->validate([
             'Name' => 'required',
             'Email' => 'required|email',
+            'company_id' => 'required',
             'Phone_Number' => 'required',
             'file' => 'mimes:doc,docx,csv,txt,xlx,xls,pdf|max:2048'
         ]);
@@ -102,26 +90,22 @@ class InfoController extends Controller
         $name = $request->Name;
         $email = $request->Email;
         $mobile = $request->Phone_Number;
+        $company_id = $request->company_id;
         $link = $request->link;
         $category_id = $request->cat_id;
         $candidate_id = $request->can_id;
-        $timezone = 'ASIA/KOLKATA';
-        $date = new DateTime('now', new DateTimeZone($timezone));
-        $localtime = $date->format('Y-m-d h:i:s');
         $ip = $request->ip();
 
         $query = DB::table('candidate')
-            ->where('candidate_id', '=', $candidate_id)
-            ->first();
+        ->where('candidate_id', '=', $candidate_id);
 
+        $new_query = $query->first();
+        if (!empty($new_query)) {
 
-        if (!empty($query)) {
-            $starttime = $query->start_date_time;
-            if ($query->status == 0) {
+            $starttime = $new_query->start_date_time;
+            if ($new_query->status == 0) {
                 if ($path != "") {
-                    $query = DB::table('candidate')
-                        ->where('candidate_id', '=', $candidate_id)
-                        ->update(['resume' => $path]);
+                    $query = $query->update(['resume' => $path]);
                 }
 
                 $id = 1;
@@ -131,6 +115,7 @@ class InfoController extends Controller
                     'time' => $starttime,
                     'can_id' => $candidate_id
                 ];
+
                 $request->session()->put('data', $data);
                 return Redirect::route('exam', $id);
             } else {
@@ -138,6 +123,10 @@ class InfoController extends Controller
                 return view('AfterSubmit', compact('err'));
             }
         } else {
+
+            $timezone = 'ASIA/KOLKATA';
+            $date = new DateTime('now', new DateTimeZone($timezone));
+            $localtime = $date->format('Y-m-d h:i:s');
 
             DB::table('ip_details')
                 ->insert(['ip' => $ip, 'candidate_id' => $candidate_id, 'category_id' => $category_id, 'date_time' => $localtime]);
@@ -149,6 +138,7 @@ class InfoController extends Controller
                     'email' => $email,
                     'mobile' => $mobile,
                     'category_id' => $category_id,
+                'company_id' => $company_id,
                     'resume' => $path,
                     'link' => $link,
                     'ip' => $ip,

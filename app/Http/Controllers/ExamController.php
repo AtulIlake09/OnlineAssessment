@@ -13,13 +13,13 @@ class ExamController extends Controller
 {
     public function exam(Request $request, $key)
     {
+        $data = $request->session()->get('data');
 
         if (session()->has('questions')) {
-            $data = $request->session()->get('data');
             $ip = $request->ip();
             $can_id = $data['can_id'];
 
-            $ques = $request->session()->get('ques');
+            $ques = $request->session()->get('allquestion');
             foreach ($ques as $k => $v) {
                 if ($k == $key) {
                     $qno = $k;
@@ -52,10 +52,9 @@ class ExamController extends Controller
 
             $query = DB::table('candidate_answers')
                 ->where('candidate_id', '=', $can_id)
-                ->get();
-
+            ->get();
             if (!empty($query->first())) {
-                $question1 = $query->all();
+                $allquestion = $query->all();
             } else {
 
                 $query = DB::table('questions')
@@ -64,11 +63,11 @@ class ExamController extends Controller
                     ->inRandomOrder()
                     ->limit(5)
                     ->get();
-                $question1 = $query->all();
+                $allquestion = $query->all();
             }
             $questions = [];
             $key = 1;
-            foreach ($question1 as $val) {
+            foreach ($allquestion as $val) {
                 $questions[$key] = $val->questions;
                 $key++;
             }
@@ -84,20 +83,18 @@ class ExamController extends Controller
             $request->session()->put('question', $question);
             $request->session()->put('qnos', $keys);
             $request->session()->put('questions', $values);
-            $request->session()->put('ques', $questions);
+            $request->session()->put('allquestion', $questions);
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('error_msg', "Test not available");
         }
 
         $query = DB::table('category')
-            ->join('ip_details', 'category.id', 'ip_details.category_id')
             ->where('category.id', '=', $data['category_id'])
-            ->where('ip_details.ip', '=', $data['ip'])
-            ->select('category.time_period', 'ip_details.date_time')
+            ->select('category.time_period')
             ->first();
 
         $duration = $query->time_period;
-        $start = $query->date_time;
+        $start = $data['time'];
 
         $timezone = 'ASIA/KOLKATA';
         $date = new DateTime('now', new DateTimeZone($timezone));
@@ -110,7 +107,7 @@ class ExamController extends Controller
 
         $timesecond = strtotime($localtime);
         $difftime = $timesecond - $timefirst;
-
+     
         if ($difftime <= $diffinsec) {
             $remain = $diffinsec - $difftime;
 
@@ -310,7 +307,7 @@ class ExamController extends Controller
             $data = $request->session()->get('data');
 
             if (empty($data)) {
-                return redirect()->back();
+                return redirect()->back()->with('error_msg', 'Test not available');
             }
 
             $candidate_id = $data['can_id'];

@@ -64,7 +64,7 @@ Route::get('/deletecan/{id}', [AdminController::class, 'delete_can']);
 Route::post('/edit_can', [AdminController::class, 'edit_can']);
 
 Route::get('/getqueans/{id}', [AdminController::class, 'getqueans']);
-Route::get('/assessment/showanswers', [AdminController::class, 'showanswers']);
+Route::get('/assessment/answers', [AdminController::class, 'showanswers']);
 Route::post('/feedback', [AdminController::class, 'feedback']);
 
 Route::get('/tests', [AdminController::class, 'categories']);

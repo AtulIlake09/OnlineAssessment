@@ -93,6 +93,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <input type="text" hidden name="link" id="link" value="{{ $link }}">
+                        <input type="text" hidden name="company_id" id="company_id" value="{{ $company_id }}">
                         <input type="text" hidden name="cat_id" id="cat_id" value="{{ $cat }}">
                         <input type="text" hidden name="can_id" id="can_id" value="{{ $key }}">
 
@@ -242,6 +243,54 @@
 
         });
     </script>
+
+@if (session()->has('success_msg'))
+@php $msg=session()->get('success_msg'); @endphp
+<script>
+    var success_msg = "<?php echo "$msg"; ?>";
+    console.log(success_msg);
+    swal(success_msg, {
+        icon: "success",
+    });
+</script>
+@elseif(session()->has('error_msg'))
+@php $msg=session()->get('error_msg'); @endphp
+<script>
+    var error_msg = "<?php echo "$msg"; ?>";
+    console.log(error_msg);
+    swal(error_msg, {
+        icon: "error",
+    });
+</script>
+@endif
+
+@error('Email')
+<script>
+    var error = "<?php echo "$message"; ?>";
+    swal(error, {
+        icon: "error",
+    });
+</script>
+@enderror
+
+@error('Name')
+<script>
+    var error = "<?php echo "$message"; ?>";
+    swal(error, {
+        icon: "error",
+    });
+</script>
+@enderror
+
+@error('Phone_Number')
+<script>
+    var error = "<?php echo "$message"; ?>";
+    swal(error, {
+        icon: "error",
+    });
+</script>
+@enderror
+
 </body>
 
 </html>
