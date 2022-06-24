@@ -14,6 +14,9 @@
                     <th class="min-w-150px">ID</th>
                     <th class="min-w-200px">Test</th>
                     <th class="min-w-150px text-center">Test duration</th>
+                    @if($flag==1)
+                    <th class="min-w-150px">Company</th>
+                    @endif
                     <th class="min-w-150px text-center">Status</th>
                     <th class="min-w-100px text-center">Actions</th>
                 </tr>
@@ -51,6 +54,12 @@
                             <label href="#"
                                 class="text-muted text-center fw-bolder d-block fs-6">{{ $val->time_period . ' min' }}</label>
                         </td>
+                        @if($flag==1)
+                        <td>
+                            <label href="#"
+                                class="text-muted fw-bolder d-block fs-6">{{ $val->cname }}</label>
+                        </td>
+                        @endif
                         <td class="text-center">
                             <span
                                 @if ($val->active == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val->active == 1 ? 'Active' : 'Inactive' }}</span>

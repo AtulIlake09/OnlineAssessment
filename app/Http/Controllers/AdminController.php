@@ -96,13 +96,15 @@ class AdminController extends Controller
 
     public function getcattbl($id = null)
     {
-        $query = DB::table('category');
+        $query = DB::table('category as ct')
+        ->join('companies as co', 'ct.company_id', '=', 'co.id')
+        ->select('ct.id', 'ct.category', 'ct.time_period', 'ct.description', 'ct.active', 'ct.company_id', 'co.cname')
+        ->where('ct.active', '!=', 2);
         if ($id != 0 && $id != null) {
-            $query->where('company_id', $id);
+            $query->where('ct.company_id', $id);
         }
         $query = $query->get();
         $category = $query->all();
-
         return $category;
     }
 
@@ -128,7 +130,7 @@ class AdminController extends Controller
     }
 
     //Generate Link
-    public function glink(Request $request)
+    public function generatelink_view(Request $request)
     {
 
         if (Auth::check()) {
@@ -139,10 +141,11 @@ class AdminController extends Controller
 
             $query = DB::table('candidate_test_link as cl')
                 ->join('category as ct', 'cl.test_category_id', '=', 'ct.id')
-                ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'cl.company_id', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
+                ->join('companies as co', 'cl.company_id', '=', 'co.id')
+                ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'cl.company_id', 'co.cname', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
                 ->whereIn('cl.status', [0, 1])
                 ->orderBy('id', 'asc');
-
+            
             if ($flag == 0) {
                 $query->where('cl.company_id', $company_id);
             } elseif ($request->ajax()) {
@@ -161,7 +164,6 @@ class AdminController extends Controller
 
             $query = $query->get();
             $data = $query->all();
-
             $query = DB::table('category')
                 ->select('id', 'category')
             ->where('active', 1);
@@ -219,17 +221,17 @@ class AdminController extends Controller
         $link = url('') . $link;
         $data = array('link' => $link);
 
-        $subject = "Link for test ";
-        Mail::send('sharelink', $data, function ($message) use ($subject, $email) {
-            $message->to($email);
-            $message->subject($subject);
-        });
+        // $subject = "Link for test ";
+        // Mail::send('sharelink', $data, function ($message) use ($subject, $email) {
+        //     $message->to($email);
+        //     $message->subject($subject);
+        // });
 
-        if (Mail::failures()) {
-            $status = 0;
-        } else {
+        // if (Mail::failures()) {
+        //     $status = 0;
+        // } else {
             $status = 1;
-        }
+        // }
         // return redirect()->back()->with('msg', $status);
         return redirect('/generatelink')->with('msg', $status);
     }
@@ -329,7 +331,7 @@ class AdminController extends Controller
     }
 
     //Candidate Assessment
-    public function assessment(Request $request)
+    public function assessment_view(Request $request)
     {
         if (Auth::user()) {
 
@@ -339,7 +341,9 @@ class AdminController extends Controller
 
             $query = DB::table('candidate as cn')
                 ->join('category as ct', 'cn.category_id', '=', 'ct.id')
+                ->join('companies as co', 'cn.company_id', '=', 'co.id')
                 ->join('candidate_remark as cr', 'cn.candidate_id', '=', 'cr.candidate_id')
+                ->where('cn.active_status', '!=', 2)
                 ->select(
                     'cn.id',
                     'cn.candidate_id',
@@ -348,6 +352,7 @@ class AdminController extends Controller
                     'cn.mobile',
                     'cn.category_id',
                 'cn.company_id',
+                'co.cname',
                     'ct.category',
                     'cr.result',
                     'cr.feedback',
@@ -359,7 +364,7 @@ class AdminController extends Controller
                     'cn.status'
                 );
 
-
+               
             if ($flag == 0) {
                 $query->where('cn.company_id', $company_id);
             } elseif ($request->ajax()) {
@@ -387,8 +392,7 @@ class AdminController extends Controller
             $companies = DB::table('companies')
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
-                ->get();
-       
+            ->get();
             return view('assessment', compact('candidates', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
@@ -539,11 +543,9 @@ class AdminController extends Controller
                 ->first();
 
             if (empty($query)) {
-
                 DB::table('candidate_remark')
                     ->insert(['candidate_id' => $can_id, 'result' => $result, 'feedback' => $feedback]);
             } else {
-
                 DB::table('candidate_remark')
                     ->where('candidate_id', '=', $can_id)
                     ->update(['result' => $result, 'feedback' => $feedback]);
@@ -556,8 +558,9 @@ class AdminController extends Controller
     }
 
     //Test Category
-    public function categories(Request $request)
+    public function categories_view(Request $request)
     {
+       
         if (Auth::user()) {
 
             $user = auth()->user();
@@ -575,14 +578,11 @@ class AdminController extends Controller
 
                     $company_id = $request->company_id;
                     $category = $this->getcattbl($company_id);
-                    $companies = DB::table('companies')
-                        ->select('id', 'cname')
-                        ->whereIn('status', [0, 1])
-                        ->get();
 
-                    $view = view("categoryviewajax", compact('category'))->render();
+                    $view = view("categoryviewajax", compact('category', 'flag'))->render();
                     return $view;
                 }
+
                 $category = $this->getcattbl();
 
                 $companies = DB::table('companies')
@@ -660,7 +660,6 @@ class AdminController extends Controller
             'duration' => 'required',
             'description' => 'required',
         ]);
-        dd($request->all());
         $id = $request->id;
         $name = $request->name;
         $company_id = $request->company_id;
@@ -698,7 +697,7 @@ class AdminController extends Controller
         }
     }
 
-    public function questions(Request $request)
+    public function questions_view(Request $request)
     {
         if (Auth::user()) {
             $user = auth()->user();

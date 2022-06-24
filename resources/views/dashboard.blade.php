@@ -82,6 +82,9 @@
                                 </h1>
                                 <!--end::Title-->
                             </div>
+                            {{-- <a class="nav-link" id="UserDropdown" href="myaccountview">
+                                <img class="img-xs rounded-circle" src="images/client.png" alt="Profile"> 
+                            </a> --}}
                             <!--end::Page title-->
                         </div>
                         <!--end::Container-->

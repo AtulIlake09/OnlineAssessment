@@ -5,7 +5,6 @@
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="refresh" content="30">
     <!-- mobile metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -30,6 +29,8 @@
     <link rel="stylesheet"
         href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css') }}"
         media="screen">
+    <link rel="stylesheet" href="{{url('codemirror/lib/codemirror.css')}}">
+    <link rel="stylesheet" href="{{url('codemirror/theme/dracula.css')}}">
     <!--[if lt IE 9]>
      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -133,32 +134,34 @@
                         class="main_form">
                         @csrf
                         <div class="row">
-                            <div class="col-md-12 " id="quediv">
+                            <div class="col-md-5 " id="quediv">
                                 <label class="text-white-custom-colour" for="">Question: <b
                                         id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
                                 <p name="question" id="question" class="text-white-custom-colour h3">
                                     {{ $question }}</p>
+                                    <div class="row" style="margin-top: 11vmax;">
+                                        <div class="col-sm-6 mt-4">
+                                            <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
+                                                name="previous" class="prev_btn"
+                                                formaction="{{ url('/prev') }}">Previous</button>
+                                        </div>
+                                        <div class="col-sm-6 mt-4">
+                                            <button type="submit" <?php if($qno==$count){?> id="submit" name="submit"
+                                                class="submit_btn btn-success" <?php }else{ ?>id="next" name="next"
+                                                class="send_btn" <?php } ?>><?php if ($qno == $count) {
+                                                    echo 'Submit';
+                                                } else {
+                                                    echo 'Next';
+                                                } ?></button>
+                                            <button type="submit" hidden id="hidesubmitbtn"
+                                                formaction="{{ url('/submit') }}">Submit</button>
+                                        </div>
+                                    </div>
                             </div>
-                            <div class="form-floating col-md-12" id="ansdiv">
+                            <div class="form-floating col-md-7" id="ansdiv">
                                 <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
                                 <textarea id="txtInput" class="form-control" placeholder="Leave a comment here" name="answer" id="answer"
                                     style="height: 200px" autofocus>{{ $answer }}</textarea>
-                            </div>
-                            <div class="col-sm-6 mt-4">
-                                <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
-                                    name="previous" class="prev_btn"
-                                    formaction="{{ url('/prev') }}">Previous</button>
-                            </div>
-                            <div class="col-sm-6 mt-4">
-                                <button type="submit" <?php if($qno==$count){?> id="submit" name="submit"
-                                    class="submit_btn btn-success" <?php }else{ ?>id="next" name="next"
-                                    class="send_btn" <?php } ?>><?php if ($qno == $count) {
-                                        echo 'Submit';
-                                    } else {
-                                        echo 'Next';
-                                    } ?></button>
-                                <button type="submit" hidden id="hidesubmitbtn"
-                                    formaction="{{ url('/submit') }}">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -189,6 +192,10 @@
     <script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script>
+    <!-- codemirror -->
+    <script src="{{url('codemirror/lib/codemirror.js')}}"></script>
+    <script src="{{url('codemirror/mode/xml/xml.js')}}"></script>
+    <script src="{{url('codemirror/addon/edit/closetag.js')}}"></script>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
@@ -230,6 +237,16 @@
                 // Handle page restore.
                 window.location.reload();
             }
+        });
+    </script>
+
+    <script>
+        var txtInput=CodeMirror.fromTextArea(document.getElementById('txtInput'),
+        { 
+            mode: "xml" , 
+            // theme: "dracula",
+            lineNumbers: true,
+            autoCloseTags: true
         });
     </script>
     {{-- <script>

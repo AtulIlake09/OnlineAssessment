@@ -84,16 +84,19 @@ class ExamController extends Controller
             $request->session()->put('qnos', $keys);
             $request->session()->put('questions', $values);
             $request->session()->put('allquestion', $questions);
-        } else {
-            return redirect()->back()->with('error_msg', "Test not available");
-        }
 
-        $query = DB::table('category')
+            $query = DB::table('category')
             ->where('category.id', '=', $data['category_id'])
             ->select('category.time_period')
             ->first();
 
-        $duration = $query->time_period;
+            $duration = $query->time_period;
+            $request->session()->put('duration', $duration);
+        } else {
+            return redirect()->back()->with('error_msg', "Test not available");
+        }
+
+        $duration = $request->session()->get('duration');
         $start = $data['time'];
 
         $timezone = 'ASIA/KOLKATA';
@@ -331,17 +334,17 @@ class ExamController extends Controller
                 array_push($answers, $val->answers);
             }
 
-            $que_ans = array_combine($questions, $answers);
-            $queAns = ['que_ans' => $que_ans];
-            $email = "amarjit@metricoidtech.com";
-            $email_cc = "reena@metricoidtech.com";
-            $email_bcc = 'atul@metricoidtech.com';
+            // $que_ans = array_combine($questions, $answers);
+            // $queAns = ['que_ans' => $que_ans];
+            // $email = "amarjit@metricoidtech.com";
+            // $email_cc = "reena@metricoidtech.com";
+            // $email_bcc = 'atul@metricoidtech.com';
 
-            $subject = "Test Submitted by " . $user_name;
-            Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
-                $message->to($email_bcc);
-                $message->subject($subject);
-            });
+            // $subject = "Test Submitted by " . $user_name;
+            // Mail::send('mail', $queAns, function ($message) use ($subject, $email_bcc) {
+            //     $message->to($email_bcc);
+            //     $message->subject($subject);
+            // });
 
             $timezone = 'ASIA/KOLKATA';
             $date = new DateTime('now', new DateTimeZone($timezone));

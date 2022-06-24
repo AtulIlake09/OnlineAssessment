@@ -155,10 +155,13 @@
                                                         <th class="min-w-50px">ID</th>
                                                         <th class="min-w-150px">Name</th>
                                                         <th class="min-w-150px">Email</th>
-                                                        <th class="min-w-150px">Phone</th>
-                                                        <th class="min-w-150px">category</th>
                                                         <th class="min-w-100px">Link</th>
                                                         <th class="min-w-50px"></th>
+                                                        <th class="min-w-150px">Phone</th>
+                                                        <th class="min-w-150px">category</th>
+                                                        @if($flag==1)
+                                                        <th class="min-w-150px">Company</th>
+                                                        @endif
                                                         <th class="min-w-150px">Generated at</th>
                                                         <th class="min-w-150px text-center">Status</th>
                                                         <th class="min-w-100px text-center">Actions</th>
@@ -196,33 +199,39 @@
                                                             </td>
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
-                                                            </td>
-                                                            <td>
-                                                                <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->phone }}</label>
-                                                            </td>
-                                                            <td>
-                                                                <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
+                                                                class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
                                                             </td>
                                                             <td>
                                                                 <label class="copylinktxt" href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
+                                                                class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
                                                             </td>
                                                             <td>
                                                                 <a href="" class="copylink"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="Copy Link"><svg
                                                                         xmlns="http://www.w3.org/2000/svg" width="16"
                                                                         height="16" fill="currentColor"
                                                                         class="bi bi-clipboard" viewBox="0 0 16 16">
                                                                         <path
-                                                                            d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                                                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
                                                                         <path
-                                                                            d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                                                                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
                                                                     </svg></a>
                                                             </td>
+                                                            <td>
+                                                                <label href="#"
+                                                                class="text-muted fw-bolder d-block fs-6">{{ $val->phone }}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label href="#"
+                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
+                                                            </td>
+                                                            @if($flag==1)
+                                                            <td>
+                                                                <label href="#"
+                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->cname }}</label>
+                                                            </td>
+                                                            @endif
                                                             <td>
                                                                 <label href="#"
                                                                     class="text-muted fw-bolder d-block fs-6">{{ $val->created_at }}</label>
@@ -872,7 +881,7 @@
             $('.copylink').click(function() {
 
                 var currentRow = $(this).closest("tr");
-                var col1 = currentRow.find("td:eq(7)").text();
+                var col1 = currentRow.find("td:eq(5)").text();
                 var link = col1.trim();
                 console.log(link);
                 var $temp = $("<input>");

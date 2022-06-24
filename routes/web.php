@@ -49,7 +49,7 @@ Route::get('/category', [AdminController::class, 'getcattbl']);
 // Route::view('/index', 'dashboard');
 // Route::get('/tables', [AdminController::class, 'tables']);
 
-Route::get('/generatelink', [AdminController::class, 'glink']);
+Route::get('/generatelink', [AdminController::class, 'generatelink_view']);
 Route::post('/linkgenerate', [AdminController::class, 'generatelink']);
 
 Route::get('/logout', [AdminController::class, 'logot']);
@@ -58,7 +58,7 @@ Route::get('/deletelink/{id}', [AdminController::class, 'delete_link']);
 Route::post('/edit_link', [AdminController::class, 'edit_link']);
 Route::post('/sharelink', [AdminController::class, 'share_link']);
 
-Route::get('/assessment', [AdminController::class, 'assessment']);
+Route::get('/assessment', [AdminController::class, 'assessment_view']);
 Route::get('/changeStatuscan/{id}', [AdminController::class, 'change_status_candidate']);
 Route::get('/deletecan/{id}', [AdminController::class, 'delete_can']);
 Route::post('/edit_can', [AdminController::class, 'edit_can']);
@@ -67,9 +67,9 @@ Route::get('/getqueans/{id}', [AdminController::class, 'getqueans']);
 Route::get('/assessment/answers', [AdminController::class, 'showanswers']);
 Route::post('/feedback', [AdminController::class, 'feedback']);
 
-Route::get('/tests', [AdminController::class, 'categories']);
+Route::get('/tests', [AdminController::class, 'categories_view']);
 Route::get('/getques/{id}', [AdminController::class, 'getques']);
-Route::get('/tests/questions', [AdminController::class, 'questions']);
+Route::get('/tests/questions', [AdminController::class, 'questions_view']);
 
 Route::post('/addcategory', [AdminController::class, 'addcategory']);
 Route::get('/changecatStatus/{id}', [AdminController::class, 'change_cat_status']);

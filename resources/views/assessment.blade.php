@@ -137,6 +137,9 @@
                                                             <th class="min-w-150px">Email</th>
                                                             <th class="min-w-150px">Phone</th>
                                                             <th class="min-w-150px">category</th>
+                                                            @if($flag==1)
+                                                            <th class="min-w-150px">Company</th>
+                                                            @endif
                                                             <th class="min-w-150px">Test Link</th>
                                                             <th class="min-w-150px">IP address</th>
                                                             <th class="min-w-150px">start at</th>
@@ -184,6 +187,12 @@
                                                                     <label href="#"
                                                                         class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
                                                                 </td>
+                                                                @if($flag==1)
+                                                                <td>
+                                                                    <label href="#"
+                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->cname }}</label>
+                                                                </td>
+                                                                @endif
                                                                 <td>
                                                                     <label href="#"
                                                                         class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
