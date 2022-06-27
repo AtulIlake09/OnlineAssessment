@@ -358,7 +358,7 @@ button {
 
 .main_form {
      padding: 30px 25px 30px 25px;
-     background: #3371e3;
+     background: #56aeff;
      border-radius: 10px;
      border-top: #93dcff solid 15px;
 }
@@ -394,7 +394,7 @@ button {
      transition: ease-in all 0.5s;
      background-color: #93dcff;
      color: #fff;
-     padding: 13px 0px;
+     padding: 5px 0px;
      margin: 0 auto;
      max-width: 200px;
      width: 100%;
@@ -415,7 +415,7 @@ button {
      transition: ease-in all 0.5s;
      background-color: #93dcff;
      color: #fff;
-     padding: 13px 0px;
+     padding: 5px 0px;
      margin: 0 auto;
      max-width: 200px;
      width: 100%;
@@ -436,7 +436,7 @@ button {
      transition: ease-in all 0.5s;
      background-color: #1fcda1;
      color: #fff;
-     padding: 13px 0px;
+     padding: 5px 0px;
      margin: 0 auto;
      max-width: 200px;
      width: 100%;

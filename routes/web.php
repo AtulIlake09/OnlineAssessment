@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,19 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::view('URI', 'admin');
+
+//admin login by google,facebook,github
+//google login 
+Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('login/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
+//facebook login 
+Route::get('login/facebook', [LoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
+
+//facebook login 
+Route::get('login/github', [LoginController::class, 'redirectToGithub'])->name('login.github');
+Route::get('login/github/callback', [LoginController::class, 'handleGithubCallback']); 
 
 Route::get('test/{key}', [InfoController::class, 'index'])->name('test');
 Route::post('getinfo', [InfoController::class, 'info'])->name('getinfo');

@@ -20,7 +20,7 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <!-- fevicon -->
-    <link rel="icon" href="{{ asset('images/fevicon.png') }}" type="image/gif" />
+    <link rel="icon" href="{{ asset('images/logometricoid.png') }}" type="image/gif" />
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}">
     <!-- Tweaks for older IEs-->
@@ -29,6 +29,33 @@
     <link rel="stylesheet"
         href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css') }}"
         media="screen">
+    <!--other login-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+         .Icon-inside {
+      position:relative;
+     }
+	 
+     .Icon-inside i {
+      position:absolute;
+      left:15px;
+      top:25px;
+      padding:10px 10px;
+      color:#93dcff;
+     }
+    </style>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -69,14 +96,14 @@
                             <div class="collapse navbar-collapse" id="navbarsExample04">
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">About </a>
+                                        <a class="nav-link" href="https://metricoidtech.com/about-metricoid/" target="_blank">About </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Contact</a>
+                                        <a class="nav-link" href="https://metricoidtech.com/contact/" target="_blank">Contact</a>
                                     </li>
                                 </ul>
-                                <div class="Call"><a href="#"> <span class="yellow">Call Us :
-                                        </span></a></div>
+                                {{-- <div class="Call"><a href="#"> <span class="yellow">Call Us :
+                                        </span></a></div> --}}
                             </div>
                         </nav>
                     </div>
@@ -102,22 +129,24 @@
                 <div class="mx-auto">
                     <form action="{{ url('/adminlog') }}" method="POST" id="request" class="main_form"
                         style="width: 33vmax;">
-                        <h2 style="color: aqua;font-weight: bold;text-align: center;">Admin Login</h2>
+                        <h2 style="color: #93dcff;font-weight: bold;text-align: center;">Admin Login</h2>
                         @csrf
                         <input type="hidden" name="category_id" value="">
                         <div class="row">
-                            <div class="col-md-12 ">
-                                <input class="contactus" placeholder="Email-ID" type="email" name="email"
-                                    style="margin-top: 20px; margin-bottom: 0px;">
+                            <div class="col-md-12 Icon-inside">
+                                <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+                                <input class="contactus input100" placeholder="Email-ID" type="email" name="email"
+                                    style="margin-top: 20px; margin-bottom: 0px;" required>
                                 <span style="color: rgb(230, 33, 33)">
                                     @error('email')
                                         {{ $message }}
                                     @enderror
                                 </span>
                             </div>
-                            <div class="col-md-12">
-                                <input class="contactus" placeholder=" Password" type="password" name="password"
-                                    style="margin-top: 20px; margin-bottom: 0px;">
+                            <div class="col-md-12 Icon-inside">
+                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
+                                <input class="contactus input100" placeholder=" Password" type="password" name="password"
+                                    style="margin-top: 20px; margin-bottom: 0px;" required>
                                 <span style="color: rgb(230, 33, 33)">
                                     @error('password')
                                         {{ $message }}
@@ -126,22 +155,43 @@
                             </div>
                             <input hidden name="ip" type="text" id="ip">
                             <input hidden name="time" type="text" id="time">
-                            <div class="col-sm-12" style="margin-bottom: -23px;">
+                            <div class="col-sm-12">
                                 <button type="submit" class="send_btn" style="margin-top: 20px;">Login</button>
                             </div>
                         </div>
+                        <div class="txt1 text-center p-t-30 p-b-20">
+                            <span style="color: #f4f9ff;">
+                                Or Sign Up Using
+                            </span>
+                        </div>
+            
+                        <div class="flex-c-m">
+                            <a href="{{ route('login.google')}}" class="login100-social-item bg3">
+                                <i class="fa fa-google"></i>
+                            </a>
+            
+                            <a href="{{ route('login.github')}}" class="login100-social-item bg2">
+                                <i class="fa fa-github"></i>
+                            </a>
+            
+                            <a href="{{ route('login.facebook')}}" class="login100-social-item bg1">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </div>
                     </form>
                 </div>
-
+                
             </div>
+            
     </section>
+   
     <footer>
         <div class="footer">
             <div class="copyright">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>© 2022 All Rights Reserved by <a href="https://metricoidtech.com/"><u> Metricoid
+                            <p>© 2022 All Rights Reserved by <a href="https://metricoidtech.com/" target="_blank"><u> Metricoid
                                         Technology Solutions Private Limited</u></a></p>
                         </div>
                     </div>

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>MetricoidTech</title>
+    <title>Metricoid Technology Solution pvt.Ltd.</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -20,7 +20,7 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <!-- fevicon -->
-    <link rel="icon" href="{{ asset('images/fevicon.png') }}" type="image/gif" />
+    <link rel="icon" href="{{ asset('images/logometricoid.png') }}" type="image/gif" />
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}">
     <!-- Tweaks for older IEs-->
@@ -67,14 +67,14 @@
                             <div class="collapse navbar-collapse" id="navbarsExample04">
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">About </a>
+                                        <a class="nav-link" href="https://metricoidtech.com/about-metricoid/" target="_blank">About </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Contact</a>
+                                        <a class="nav-link" href="https://metricoidtech.com/contact/" target="_blank">Contact</a>
                                     </li>
                                 </ul>
-                                <div class="Call"><a href="#"> <span class="yellow">Call Us :
-                                        </span></a></div>
+                                {{-- <div class="Call"><a href="#"> <span class="yellow">Call Us :
+                                        </span></a></div> --}}
                             </div>
                         </nav>
                     </div>
