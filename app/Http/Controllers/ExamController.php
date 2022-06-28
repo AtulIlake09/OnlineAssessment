@@ -97,23 +97,24 @@ class ExamController extends Controller
         }
 
         $duration = $request->session()->get('duration');
+    
         $start = $data['time'];
-
+        
         $timezone = 'ASIA/KOLKATA';
         $date = new DateTime('now', new DateTimeZone($timezone));
         $localtime = $date->format('Y-m-d h:i:s');
 
-        $end = date('Y-m-d H:i:s', strtotime('+' . $duration . 'minutes', strtotime($start)));
+        $end = date('Y-m-d h:i:s', strtotime('+' . $duration . 'minutes', strtotime($start)));
         $timefirst = strtotime($start);
         $times = strtotime($end);
         $diffinsec = $times - $timefirst;
 
         $timesecond = strtotime($localtime);
         $difftime = $timesecond - $timefirst;
-     
+       
         if ($difftime <= $diffinsec) {
             $remain = $diffinsec - $difftime;
-
+           
 
             $query = DB::table('candidate_answers')
                 ->select('questions', 'answers')

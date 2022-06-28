@@ -32,6 +32,21 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+      <style>
+        .Icon-inside {
+     position:relative;
+    }
+    
+    .Icon-inside i {
+     position:absolute;
+     left:15px;
+     top:25px;
+     padding:0px 10px;
+     color:#03045e;
+    }
+
+    #more  {display:  none;}
+   </style>
 
 </head>
 <!-- body -->
@@ -85,9 +100,9 @@
     <!-- end header inner -->
     <!-- end header -->
     <!-- banner -->
-    <section class="banner_main">
+    <section class="banner_main" style="background: #b0d8fd">
         <div class="container">
-            <div class="row d_flex">
+            <div class="row">
                 <div class="col-md-6">
                     <form action="{{ route('getinfo') }}" method="POST" id="request" class="main_form"
                         enctype="multipart/form-data">
@@ -98,35 +113,41 @@
                         <input type="text" hidden name="can_id" id="can_id" value="{{ $key }}">
 
                         <div class="row">
-                            <div class="col-md-12 ">
+                            <div class="col-md-12 Icon-inside">
                                 <span style="color: rgb(230, 33, 33)">
                                     @error('Name')
                                         {{ $message }}
                                     @enderror
                                 </span>
-                                <input class="contactus" placeholder="Name" type="text" name="Name"
-                                    value="{{ $name }}">
+                                <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+                                <input class="contactus" style="margin-top: 5px; margin-bottom: 15px;
+                                padding-left: 45px;" placeholder="Name" type="text" name="Name"
+                                    value="{{ $name }}" required>
 
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 Icon-inside">
                                 <span style="color: rgb(230, 33, 33)">
                                     @error('Email')
                                         {{ $message }}
                                     @enderror
                                 </span>
-                                <input class="contactus" placeholder=" Email" type="email" name="Email"
-                                    value="{{ $email }}">
+                                <i class="fa fa-envelope fa-lg fa-fw" aria-hidden="true"></i>
+                                <input class="contactus" style="margin-top: 5px; margin-bottom: 15px;
+                                padding-left: 45px;" placeholder=" Email" type="email" name="Email"
+                                    value="{{ $email }}" required>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 Icon-inside">
                                 <span style="color: rgb(230, 33, 33)">
                                     @error('Phone_Number')
                                         {{ $message }}
                                     @enderror
                                 </span>
-                                <input class="contactus" placeholder=" Phone Number" type="text"
-                                    name="Phone_Number" value="{{ $phone }}">
+                                <i class="fa fa-phone fa-lg fa-fw" aria-hidden="true"></i>
+                                <input class="contactus" style="margin-top: 5px; margin-bottom: 25px;
+                                padding-left: 45px;" placeholder=" Phone Number" type="text"
+                                    name="Phone_Number" value="{{ $phone }}" required>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 Icon-inside">
                                 <div class="mb-3">
                                     <span style="color: rgb(230, 33, 33)">
                                         @error('file')
@@ -136,7 +157,7 @@
                                     <label for="formFile" class="form-label text-white-custom-colour">Upload
                                         Resume:</label>
                                     <input class="form-control" type="file" id="formFile" name='file'
-                                        accept=".docx,.doc,.txt,.xlx,.xls,.pdf">
+                                        accept=".docx,.doc,.txt,.xlx,.xls,.pdf" style="color:#03045e">
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -148,8 +169,14 @@
                 <div class="col-md-6">
                     <div class="text-bg">
                         <h3>About test</h3>
-                        <p>{{ $descrip }}</p>
-                        <a class="read_more" href="#">Read More</a>
+                        <p>{{ \Illuminate\Support\Str::limit($descrip ?? '', 200, '') }}
+                        @if (strlen($descrip) > 200)
+                            <span id="dots">...</span>
+                            <span id="more">{{ substr($descrip, 200) }}</span>
+                        @endif
+                        
+                        </p>
+                        <button class="read_more" onclick="myFunction()" id="myBtn">Read More</button>
                     </div>
                 </div>
 
@@ -242,6 +269,24 @@
             });
 
         });
+    </script>
+
+    <script>
+        function myFunction() {
+        var dots = document.getElementById("dots");
+        var moreText = document.getElementById("more");
+        var btnText = document.getElementById("myBtn");
+        
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            btnText.innerHTML = "Read more"; 
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            btnText.innerHTML = "Read less"; 
+            moreText.style.display = "inline";
+        }
+        }
     </script>
 
 @if (session()->has('success_msg'))

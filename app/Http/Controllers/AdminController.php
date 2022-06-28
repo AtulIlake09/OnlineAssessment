@@ -25,7 +25,8 @@ class AdminController extends Controller
                 ->count();
             $can = $qurey;
 
-            $flag = $request->session()->get('flag');
+            $user = auth()->user();
+            $flag = $user->user;
 
             $companies = DB::table('companies')
             ->select('id', 'cname')
@@ -103,8 +104,8 @@ class AdminController extends Controller
         if ($id != 0 && $id != null) {
             $query->where('ct.company_id', $id);
         }
-        $query = $query->get();
-        $category = $query->all();
+        $query = $query->paginate(3);
+        $category = $query;
         return $category;
     }
 
@@ -154,16 +155,16 @@ class AdminController extends Controller
                 if ($company_id != 0 && $company_id != null) {
                     $query = $query->where('cl.company_id', $company_id)->get();
                 } else {
-                    $query = $query->get();
+                    $query = $query->paginate(3);
                 }
 
-                $data = $query->all();
+                $data = $query;
                 $view = view("generatelinkviewajax", compact('data'))->render();
                 return $view;
             }
 
-            $query = $query->get();
-            $data = $query->all();
+            $query = $query->paginate(3);
+            $data = $query;
             $query = DB::table('category')
                 ->select('id', 'category')
             ->where('active', 1);
@@ -371,17 +372,17 @@ class AdminController extends Controller
 
                 $company_id = $request->company_id;
                 if ($company_id != 0 && $company_id != null) {
-                    $query = $query->where('cn.company_id', $company_id)->get();
+                    $query = $query->where('cn.company_id', $company_id)->paginate(3);
                 } else {
-                    $query = $query->get();
+                    $query = $query->paginate(3);
                 }
-                $candidates = $query->all();
+                $candidates = $query;
 
                 $view = view("assessmentviewajax", compact('candidates'))->render();
                 return $view;
             }
-            $query = $query->get();
-            $candidates = $query->all();
+            $query = $query->paginate(3);
+            $candidates = $query;
 
             $query = DB::table('category')
                 ->select('id', 'category')
@@ -707,9 +708,9 @@ class AdminController extends Controller
                 ->select('questions.id', 'questions.questions', 'questions.category_id', 'category.category', 'questions.type', 'questions.status')
                 ->where('category_id', '=', $cat_id)
                 ->whereIn('status', [0, 1])
-                ->get();
+            ->paginate(3);
 
-            $questions = $query->all();
+            $questions = $query;
 
             $query = DB::table('category')
                 ->select('category')

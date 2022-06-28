@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>MetricoidTech</title>
+    <title>Metricoid Technology Solution pvt.Ltd.</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -20,7 +20,7 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <!-- fevicon -->
-    <link rel="icon" href="{{ asset('images/fevicon.png') }}" type="image/gif" />
+    <link rel="icon" href="{{ asset('images/logometricoid.png') }}" type="image/gif" />
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}">
     <!-- Tweaks for older IEs-->
@@ -61,7 +61,7 @@
         }
         setTimeout("countDownTimer()", 1000);
     </script>
-    <style>
+    {{-- <style>
         body {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -69,7 +69,7 @@
             user-select: none;
         }
 
-    </style>
+    </style> --}}
 
 </head>
 <!-- body -->
@@ -96,9 +96,10 @@
                         </div>
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                        <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                        {{-- <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                           
                             <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false"
+                                data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="true"
                                 aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
@@ -111,12 +112,22 @@
                                         <a class="nav-link" href="#">Contact</a>
                                     </li>
                                 </ul>
-                                <div class="time">
-                                    {{-- <span class="yellow">Timer: </span> --}}
-                                    <label class="font-weight-bold" id="timer"></label>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                                    <div class="full">
+                                        <div class="center-desk">
+                                            <div class="logo">
+                                                <a href="#"><img src="{{ asset('images/Logo-2.png') }}" alt="#" /></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                               
                             </div>
-                        </nav>
+                        </nav> --}}
+                        <div class="time" style="text-align: end;">
+                            {{-- <span class="yellow">Timer: </span> --}}
+                            <label class="font-weight-bold" id="timer"></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -139,7 +150,7 @@
                                         id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
                                 <p name="question" id="question" class="text-white-custom-colour h3">
                                     {{ $question }}</p>
-                                    <div class="row" style="margin-top: 11vmax;">
+                                    <div class="row" style="position: absolute;bottom: 0;width: 35vmax;">
                                         <div class="col-sm-6 mt-4">
                                             <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
                                                 name="previous" class="prev_btn"
@@ -174,8 +185,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>© 2022 All Rights Reserved by <a href="https://metricoidtech.com/"><u> Metricoid
-                                        Technology Solutions Private Limited</u></a></p>
+                            {{-- <p>© 2022 All Rights Reserved by <a href="https://metricoidtech.com/"><u> Metricoid
+                                        Technology Solutions Private Limited</u></a></p> --}}
                         </div>
                     </div>
                 </div>
@@ -244,7 +255,8 @@
         var txtInput=CodeMirror.fromTextArea(document.getElementById('txtInput'),
         { 
             mode: "xml" , 
-            // theme: "dracula",
+            theme: "dracula",
+            lineWrapping: true,
             lineNumbers: true,
             autoCloseTags: true
         });

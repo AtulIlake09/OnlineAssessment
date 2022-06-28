@@ -38776,7 +38776,7 @@ a:hover {
 }
 
 .card .card-body {
-    padding: 2rem 2.25rem
+    padding: 2rem 1rem
 }
 
 .card .card-footer {
@@ -39038,7 +39038,7 @@ a:hover {
 }
 
 .card-p {
-    padding: 2rem 2.25rem !important
+    padding: 2rem 0rem !important
 }
 
 .card-px {

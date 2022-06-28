@@ -322,6 +322,9 @@
                             <!--end::Col-->
                         </div>
                     </div>
+                    <div class="row">
+                        {{$data->links()}}
+                    </div>
                     <!--end::Container-->
                     @if ($flag == 1)
                         <div class="modal fade" id="kt_generate_link" tabindex="-1" aria-hidden="true">
@@ -798,6 +801,18 @@
     <!--end::Page Custom Javascript-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!--end::Javascript-->
+
+    <script>
+        $(document).ready(function(){
+              $("#mytable").mousewheel(function(event, delta) {
+        
+                 //The "30" represents speed. preventDefault ensures the page won't scroll down.
+                 this.scrollLeft -= (delta * 30);
+                event.preventDefault();
+        
+         });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

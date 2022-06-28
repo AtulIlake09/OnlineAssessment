@@ -53,7 +53,7 @@
       left:15px;
       top:25px;
       padding:10px 10px;
-      color:#93dcff;
+      color:#03045e;
      }
     </style>
     <!--[if lt IE 9]>
@@ -129,7 +129,7 @@
                 <div class="mx-auto">
                     <form action="{{ url('/adminlog') }}" method="POST" id="request" class="main_form"
                         style="width: 33vmax;">
-                        <h2 style="color: #93dcff;font-weight: bold;text-align: center;">Admin Login</h2>
+                        <h2 style="color: #03045e; font-family: Poppins; font-weight: bold;text-align: center;">Admin Login</h2>
                         @csrf
                         <input type="hidden" name="category_id" value="">
                         <div class="row">
@@ -156,11 +156,11 @@
                             <input hidden name="ip" type="text" id="ip">
                             <input hidden name="time" type="text" id="time">
                             <div class="col-sm-12">
-                                <button type="submit" class="send_btn" style="margin-top: 20px;">Login</button>
+                                <button type="submit" class="send_btn" style="font-family: Poppins; margin-top: 20px;">Login</button>
                             </div>
                         </div>
                         <div class="txt1 text-center p-t-30 p-b-20">
-                            <span style="color: #f4f9ff;">
+                            <span style="color: #03045e;">
                                 Or Sign Up Using
                             </span>
                         </div>
@@ -191,7 +191,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>© 2022 All Rights Reserved by <a href="https://metricoidtech.com/" target="_blank"><u> Metricoid
+                            <p>© {{date('Y')}} All Rights Reserved by <a href="https://metricoidtech.com/" target="_blank"><u> Metricoid
                                         Technology Solutions Private Limited</u></a></p>
                         </div>
                     </div>

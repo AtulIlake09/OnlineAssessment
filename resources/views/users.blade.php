@@ -145,7 +145,7 @@
                                             <!--begin::Body-->
                                             <div class="card-body py-3" id="users_table">
                                                 <!--begin::Table container-->
-                                                <div class="table-responsive">
+                                                <div id="mytable" class="table-responsive">
                                                     <!--begin::Table-->
                                                     <table
                                                         class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
@@ -982,6 +982,18 @@
                 });
             }
         }
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $("#mytable").mousewheel(function(event, delta) {
+        
+                //The "30" represents speed. preventDefault ensures the page won't scroll down.
+                this.scrollLeft -= (delta * 30);
+                event.preventDefault();
+        
+        });
+        });
     </script>
 
     <script>

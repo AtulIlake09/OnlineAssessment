@@ -41,7 +41,7 @@ html {
 
 /*---------------------------------------------*/
 a {
-  font-family: Poppins-Regular;
+  font-family: Poppins;
   font-size: 14px;
   line-height: 1.7;
   color: #666666;
@@ -280,7 +280,7 @@ iframe {
 }
 
 .input100 {
-  font-family: Poppins-Medium;
+  font-family: cursive;
   font-size: 16px;
   color: #333333;
   line-height: 1.2;

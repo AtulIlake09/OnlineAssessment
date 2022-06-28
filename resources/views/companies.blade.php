@@ -115,7 +115,7 @@
                                         <!--begin::Body-->
                                         <div class="card-body py-3">
                                             <!--begin::Table container-->
-                                            <div class="table-responsive">
+                                            <div id="mytable" class="table-responsive">
                                                 <!--begin::Table-->
                                                 <table
                                                     class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">

@@ -368,7 +368,6 @@
                                 <!--end::Col-->
                             </div>
                             <!--end::Row-->
-
                         </div>
                         <!--end::Container-->
                         @if ($flag == 0)
@@ -601,6 +600,9 @@
                             @endforeach
                         @endif
                     </div>
+                    <div class="row">
+                        {{$candidates->links()}}
+                    </div>
                     <!--end::Post-->
                 </div>
                 <!--end::Content-->
@@ -634,6 +636,18 @@
     <script src="assets/js/custom/utilities/modals/users-search.js"></script>
     <!--end::Page Custom Javascript-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+              $("#mytable").mousewheel(function(event, delta) {
+        
+                 //The "30" represents speed. preventDefault ensures the page won't scroll down.
+                 this.scrollLeft -= (delta * 30);
+                event.preventDefault();
+        
+         });
+        });
+    </script>
 
     <script type="text/javascript">
         $(document).ready(function() {

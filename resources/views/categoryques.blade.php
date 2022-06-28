@@ -115,7 +115,7 @@
                                     <!--begin::Body-->
                                     <div class="card-body py-3">
                                         <!--begin::Table container-->
-                                        <div class="table-responsive">
+                                        <div id="mytable" class="table-responsive">
                                             <!--begin::Table-->
                                             <table
                                                 class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
@@ -264,6 +264,9 @@
                             <!--end::Col-->
                         </div>
                         <!--end::Row-->
+                    </div>
+                    <div class="row">
+                        {{$questions->links()}}
                     </div>
                     <div class="modal fade" id="kt_modal_new_question" tabindex="-1" aria-hidden="true">
                         <!--begin::Modal dialog-->
@@ -500,6 +503,18 @@
                 });
             });
 
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $("#mytable").mousewheel(function(event, delta) {
+        
+                //The "30" represents speed. preventDefault ensures the page won't scroll down.
+                this.scrollLeft -= (delta * 30);
+                event.preventDefault();
+        
+        });
         });
     </script>
 
