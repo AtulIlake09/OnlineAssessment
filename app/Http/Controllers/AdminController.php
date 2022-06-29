@@ -145,7 +145,7 @@ class AdminController extends Controller
                 ->join('companies as co', 'cl.company_id', '=', 'co.id')
                 ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'cl.company_id', 'co.cname', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
                 ->whereIn('cl.status', [0, 1])
-                ->orderBy('id', 'asc');
+            ->orderBy('id', 'desc');
             
             if ($flag == 0) {
                 $query->where('cl.company_id', $company_id);
@@ -173,9 +173,9 @@ class AdminController extends Controller
                 $query->where('company_id', $company_id);
             }
 
-            $query = $query->get();
+            $query = $query->paginate(3);
 
-            $categories = $query->all();
+            $categories = $query;
             $companies = DB::table('companies')
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
@@ -737,14 +737,6 @@ class AdminController extends Controller
         $cat_id = $request->cat_id;
         $type_id = $request->type;
 
-        if ($type_id == 1) {
-            $type = "descriptive";
-        } else if ($type_id == 2) {
-            $type = "objective";
-        } else {
-            $type = "";
-        }
-
         $question = $request->question;
 
         $query = DB::table('questions')
@@ -754,7 +746,7 @@ class AdminController extends Controller
 
         if (empty($query)) {
             DB::table('questions')
-                ->insert(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
+                ->insert(['category_id' => $cat_id, 'questions' => $question, 'type' => $type_id]);
         }
         return redirect()->back();
     }
@@ -792,19 +784,12 @@ class AdminController extends Controller
         $id = $request->id;
         $cat_id = $request->cat_id;
         $type_id = $request->type;
-        if ($type_id == 1) {
-            $type = "descriptive";
-        } else if ($type_id == 2) {
-            $type = "objective";
-        } else {
-            $type = "";
-        }
 
         $question = $request->question;
 
         $query = DB::table('questions')
             ->where('id', '=', $id)
-            ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type, 'updated_at' => date('Y-m-d h:i:s')]);
+            ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type_id, 'updated_at' => date('Y-m-d h:i:s')]);
 
         if ($query == true) {
             return redirect()->back()->with('success_msg', 'Question Updated Successfully!');

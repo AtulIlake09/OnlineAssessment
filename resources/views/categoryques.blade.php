@@ -153,28 +153,24 @@
                                                             </td>
                                                             <td style="display: none;">
                                                                 <label style="display: none"
-                                                                    class="text-dark fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                    class="text-dark d-block fs-6">{{ $val->id }}</label>
                                                                 {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
                                                             <td>
-                                                                <label href="#"
-                                                                    class="text-dark fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                <label class="text-dark d-block fs-6">{{ $count }}</label>
                                                                 @php $count++ @endphp
                                                                 {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
                                                             <td>
-                                                                <label href="#"
-                                                                    class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val->questions }}</label>
+                                                                <label class="text-dark d-block fs-6">{{ $val->questions }}</label>
                                                                 {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
                                                             {{-- <td>
-                                                                <label href="#"
-                                                                    class="text-muted text-center fw-bolder d-block fs-6">{{ $val->category }}</label>
+                                                                <label class="text-muted text-center d-block fs-6">{{ $val->category }}</label>
                                                                 <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span>
                                                             </td> --}}
                                                             <td>
-                                                                <label href="#"
-                                                                    class="text-muted text-center fw-bolder d-block fs-6">{{ $val->type }}</label>
+                                                                <label class="text-dark text-center d-block fs-6">{{ ($val->type==1)? 'descriptive' : (($val->type==2) ? 'objective' : (($val->type==3) ? 'code' : 'Not define')) }}</label>
                                                                 {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
                                                             </td>
                                                             <td class="text-center">
@@ -313,6 +309,7 @@
                                                     <option value="0" selected>none</option>
                                                     <option value="1">Descriptive</option>
                                                     <option value="2">Objective</option>
+                                                    <option value="3">Code</option>
                                                 </select>
                                                 <!--end::Select2-->
                                                 <input type="hidden" name="cat_id" value="{{ $cat_id }}">
@@ -388,10 +385,12 @@
                                                         class="form-control form-select form-select-solid" required>
                                                         <option @if ($val->type == '') selected @endif
                                                             value="0">none</option>
-                                                        <option @if ($val->type == 'descriptive') selected @endif
+                                                        <option @if ($val->type == 1) selected @endif
                                                             value="1">Descriptive</option>
-                                                        <option @if ($val->type == 'objective') selected @endif
+                                                        <option @if ($val->type == 2) selected @endif
                                                             value="2">Objective</option>
+                                                        <option @if ($val->type == 3) selected @endif
+                                                            value="3">Code</option>
                                                     </select>
                                                     <!--end::Select2-->
                                                     <input type="hidden" name="cat_id" value="{{ $cat_id }}">

@@ -125,7 +125,7 @@
                             </div>
                         </nav> --}}
                         <div class="time" style="text-align: end;">
-                            {{-- <span class="yellow">Timer: </span> --}}
+                            <span class="yellow">Timer: </span>
                             <label class="font-weight-bold" id="timer"></label>
                         </div>
                     </div>
@@ -144,37 +144,118 @@
                         <?php }else{ ?>action="{{ url('/next') }}" method="POST" <?php } ?> id="request"
                         class="main_form">
                         @csrf
-                        <div class="row">
-                            <div class="col-md-5 " id="quediv">
-                                <label class="text-white-custom-colour" for="">Question: <b
-                                        id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
-                                <p name="question" id="question" class="text-white-custom-colour h3">
-                                    {{ $question }}</p>
-                                    <div class="row" style="position: absolute;bottom: 0;width: 35vmax;">
-                                        <div class="col-sm-6 mt-4">
-                                            <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
-                                                name="previous" class="prev_btn"
-                                                formaction="{{ url('/prev') }}">Previous</button>
-                                        </div>
-                                        <div class="col-sm-6 mt-4">
-                                            <button type="submit" <?php if($qno==$count){?> id="submit" name="submit"
-                                                class="submit_btn btn-success" <?php }else{ ?>id="next" name="next"
-                                                class="send_btn" <?php } ?>><?php if ($qno == $count) {
-                                                    echo 'Submit';
-                                                } else {
-                                                    echo 'Next';
-                                                } ?></button>
-                                            <button type="submit" hidden id="hidesubmitbtn"
-                                                formaction="{{ url('/submit') }}">Submit</button>
-                                        </div>
+                        @if($question['type']==1)
+                            <div class="row">
+                                <div class="col-md-12 " id="quediv">
+                                    <label class="text-white-custom-colour" for="">Question: <b
+                                            id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
+                                    <p name="question" id="question" class="text-white-custom-colour h3">
+                                        {{ $question['question'] }}</p>
+                                </div>
+                                <div class="form-floating col-md-12" id="ansdiv">
+                                    <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
+                                    <textarea id="txtInput1" class="txtInput form-control" placeholder="Leave a comment here" name="answer" id="answer"
+                                        style="height: 200px" autofocus>{{ $answer }}</textarea>
+                                </div>
+                                <div class="col-sm-6 mt-4">
+                                    <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
+                                        name="previous" class="prev_btn"
+                                        formaction="{{ url('/prev') }}">Previous</button>
+                                </div>
+                                <div class="col-sm-6 mt-4">
+                                    <button type="submit" <?php if($qno==$count){?> id="submit" name="submit"
+                                        class="submit_btn btn-success" <?php }else{ ?>id="next" name="next"
+                                        class="send_btn" <?php } ?>><?php if ($qno == $count) {
+                                            echo 'Submit';
+                                        } else {
+                                            echo 'Next';
+                                        } ?></button>
+                                    <button type="submit" hidden id="hidesubmitbtn"
+                                        formaction="{{ url('/submit') }}">Submit</button>
+                                </div>
+                            </div>
+                        @elseif($question['type']==2)
+                            <div class="row">
+                                <div class="col-md-12 " id="quediv">
+                                    <label class="text-white-custom-colour" for="">Question: <b
+                                            id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
+                                    <p name="question" id="question" class="text-white-custom-colour h3">
+                                        {{ $question['question'] }}</p>
+                                </div>
+                                <div class="form-floating col-md-12" id="ansdiv">
+                                    <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
+                                    <div class="input-group-text" style="text-align: left; font-size: 18px;"> 
+                                        <ol>
+                                        <?php
+                                            $query = DB::table('question_options')
+                                                ->where('ques_id', $question['id'])
+                                                ->get();
+                                            $options = $query->all();
+                                            foreach($options as $option) { 
+                                               
+                                                if($answer==$option->option_id)
+                                                {
+                                                    echo "<li><input type='radio' checked name='answer' value='".$option->option_id."'/> ".$option->option."</li>";
+                                                }
+                                                else {
+                                                    echo "<li><input type='radio' name='answer' value='".$option->option_id."'/> ".$option->option."</li>";
+                                                }
+                                                
+                                            }
+                                        ?>
+                                        </ol>
                                     </div>
+                                </div>
+                                <div class="col-sm-6 mt-4">
+                                    <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
+                                        name="previous" class="prev_btn"
+                                        formaction="{{ url('/prev') }}">Previous</button>
+                                </div>
+                                <div class="col-sm-6 mt-4">
+                                    <button type="submit" <?php if($qno==$count){?> id="submit" name="submit"
+                                        class="submit_btn btn-success" <?php }else{ ?>id="next" name="next"
+                                        class="send_btn" <?php } ?>><?php if ($qno == $count) {
+                                            echo 'Submit';
+                                        } else {
+                                            echo 'Next';
+                                        } ?></button>
+                                    <button type="submit" hidden id="hidesubmitbtn"
+                                        formaction="{{ url('/submit') }}">Submit</button>
+                                </div>
                             </div>
-                            <div class="form-floating col-md-7" id="ansdiv">
-                                <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
-                                <textarea id="txtInput" class="form-control" placeholder="Leave a comment here" name="answer" id="answer"
-                                    style="height: 200px" autofocus>{{ $answer }}</textarea>
+                        @elseif($question['type']==3)
+                            <div class="row">
+                                <div class="col-md-5 " id="quediv">
+                                    <label class="text-white-custom-colour" for="">Question: <b
+                                            id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
+                                    <p name="question" id="question" class="text-white-custom-colour h3">
+                                        {{ $question['question'] }}</p>
+                                        <div class="row" style="position: absolute;bottom: 0;width: 35vmax;">
+                                            <div class="col-sm-6 mt-4">
+                                                <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
+                                                    name="previous" class="prev_btn"
+                                                    formaction="{{ url('/prev') }}">Previous</button>
+                                            </div>
+                                            <div class="col-sm-6 mt-4">
+                                                <button type="submit" <?php if($qno==$count){?> id="submit" name="submit"
+                                                    class="submit_btn btn-success" <?php }else{ ?>id="next" name="next"
+                                                    class="send_btn" <?php } ?>><?php if ($qno == $count) {
+                                                        echo 'Submit';
+                                                    } else {
+                                                        echo 'Next';
+                                                    } ?></button>
+                                                <button type="submit" hidden id="hidesubmitbtn"
+                                                    formaction="{{ url('/submit') }}">Submit</button>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="form-floating col-md-7" id="ansdiv">
+                                    <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
+                                    <textarea id="txtInput" class="txtInput form-control" placeholder="Leave a comment here" name="answer" id="answer"
+                                        style="height: 200px" autofocus>{{ $answer }}</textarea>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -239,6 +320,25 @@
 
         });
     </script>
+    
+    @if($answer=="")
+    <script>
+        let  scratchpad=document.querySelector('.txtInput');
+        scratchpad.value=localStorage.getItem("notes")
+        let cancel
+        scratchpad.addEventListener("keyup",event=>{
+            if(cancel)clearTimeout(cancel)
+            cancel=setTimeout(()=>{
+                localStorage.setItem("notes",event.target.value)
+            },1000)
+        })
+
+        $('#next').on('click',function(){
+            localStorage.clear();
+        })
+     </script>
+     @endif
+
     <script>
         window.addEventListener("pageshow", function(event) {
             var historyTraversal = event.persisted ||
