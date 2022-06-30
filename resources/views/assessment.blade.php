@@ -123,7 +123,7 @@
                                                     class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                                     <!--begin::Table head-->
                                                     <thead>
-                                                        <tr class="fw-bolder text-muted">
+                                                        <tr class="fw-bolder text-dark">
                                                             <th class="w-25px">
                                                                 <div
                                                                     class="form-check form-check-sm form-check-custom form-check-solid">
@@ -144,7 +144,7 @@
                                                             <th class="min-w-150px">IP address</th>
                                                             <th class="min-w-150px">start at</th>
                                                             <th class="min-w-150px">end at</th>
-                                                            <th class="min-w-150px">Test</th>
+                                                            <th class="min-w-50px text-center">Test</th>
                                                             <th class="min-w-150px text-center">Result</th>
                                                             <th class="min-w-100px text-center">Actions</th>
                                                             <th class="min-w-150px text-center">Resume</th>
@@ -164,61 +164,51 @@
                                                                     </div>
                                                                 </td>
                                                                 <td style="display:none;">
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->id }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $count }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <a href="{{ url('/getqueans/' . $val->candidate_id) }}"
-                                                                        class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val->name }}</a>
+                                                                        class="text-dark text-hover-primary d-block fs-6">{{ $val->name }}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->email }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->mobile }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->mobile }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->category }}</label>
                                                                 </td>
                                                                 @if($flag==1)
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->cname }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->cname }}</label>
                                                                 </td>
                                                                 @endif
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ url($val->link) }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->ip }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->ip }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->start_date_time }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->start_date_time }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val->end_date_time }}</label>
+                                                                    <label class="text-dark d-block fs-6">{{ $val->end_date_time }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <span
-                                                                        @if ($val->status == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val->status == 1 ? 'complete' : 'In-complete' }}</span>
+                                                                        @if ($val->status == 1) class="badge badge-light-success text-center" @else class="badge badge-light-danger text-center" @endif>{{ $val->status == 1 ? 'complete' : 'In-complete' }}</span>
                                                                 </td>
                                                                 <td>
                                                                     <a
                                                                         href="{{ url('/getqueans/' . $val->candidate_id) }}">
                                                                         <div class="text-center"><span
-                                                                                @if ($val->result == 1) class="badge badge-light-success" @elseif($val->result == 2) class="badge badge-light-danger" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                            title="{{ $val->feedback }}" @else class="badge badge-light-warning" @endif>
+                                                                                @if ($val->result == 1) class="badge badge-light-success text-center" @elseif($val->result == 2) class="badge badge-light-danger text-center" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                            title="{{ $val->feedback }}" @else class="badge badge-light-warning text-center" @endif>
                                                                                 @php
                                                                                     if ($val->result == 1) {
                                                                                         echo 'Pass';

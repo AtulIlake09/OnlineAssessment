@@ -121,7 +121,7 @@
                                                 class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                                 <!--begin::Table head-->
                                                 <thead>
-                                                    <tr class="fw-bolder text-muted">
+                                                    <tr class="fw-bolder text-dark">
                                                         <th class="w-25px">
                                                             <div
                                                                 class="form-check form-check-sm form-check-custom form-check-solid">
@@ -130,7 +130,7 @@
                                                                     data-kt-check-target=".widget-9-check" />
                                                             </div>
                                                         </th>
-                                                        <th class="min-w-200px">ID</th>
+                                                        <th class="min-w-50px">ID</th>
                                                         <th class="min-w-150px">Questions</th>
                                                         {{-- <th class="min-w-150px text-center">Category</th> --}}
                                                         <th class="min-w-150px text-center">Type</th>

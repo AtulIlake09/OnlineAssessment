@@ -165,6 +165,7 @@ class AdminController extends Controller
 
             $query = $query->paginate(3);
             $data = $query;
+
             $query = DB::table('category')
                 ->select('id', 'category')
             ->where('active', 1);
@@ -173,7 +174,7 @@ class AdminController extends Controller
                 $query->where('company_id', $company_id);
             }
 
-            $query = $query->paginate(3);
+            $query = $query->get();
 
             $categories = $query;
             $companies = DB::table('companies')
@@ -363,8 +364,8 @@ class AdminController extends Controller
                     'cn.start_date_time',
                     'cn.end_date_time',
                     'cn.status'
-                );
-
+                )
+                ->orderBy('cn.id','desc');
                
             if ($flag == 0) {
                 $query->where('cn.company_id', $company_id);
@@ -381,7 +382,7 @@ class AdminController extends Controller
                 $view = view("assessmentviewajax", compact('candidates'))->render();
                 return $view;
             }
-            $query = $query->paginate(3);
+            $query=$query->paginate(3);
             $candidates = $query;
 
             $query = DB::table('category')
@@ -394,6 +395,7 @@ class AdminController extends Controller
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
             ->get();
+        
             return view('assessment', compact('candidates', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
@@ -490,8 +492,10 @@ class AdminController extends Controller
     public function getqueans(Request $request, $id)
     {
         if (Auth::check()) {
-            $query = DB::table('candidate_answers')
-                ->where('candidate_id', '=', $id)
+            $query = DB::table('candidate_answers as cs')
+            ->select('cs.candidate_id','qs.questions','cs.answers','cs.type','cs.ques_id')
+                ->join('questions as qs','qs.id','=','cs.ques_id')
+                ->where('cs.candidate_id', '=', $id)
                 ->get();
             $queans = $query->all();
             $request->session()->put('queans', $queans);
@@ -506,28 +510,56 @@ class AdminController extends Controller
     {
         if (Auth::check()) {
             $queans = $request->session()->get('queans');
-            $can_id = $queans[0]->candidate_id;
-            $query = DB::table('candidate')
-                ->select('name')
-                ->where('candidate_id', '=', $can_id)
-                ->first();
-            $cname = $query->name;
+            
+            foreach($queans as $val)
+            {
+                if($val->type==2)
+                {
+                    if($val->answers!=null)
+                    {
+                        $query=DB::table('question_options')
+                        ->select('option')
+                        ->where('option_id',$val->answers)
+                        ->orWhere('option',$val->answers)
+                        ->first();
+                        
+                        $val->answers=$query->option;
+                    }
 
-            $query = DB::table('candidate_remark')
-                ->where('candidate_id', '=', $can_id)
-                ->first();
+                }
 
-            if (!empty($query)) {
-                $result = $query->result;
-                $feedback = $query->feedback;
-            } else {
-                $result = "";
-                $feedback = "";
             }
+           
+            if($queans!=null)
+            {
 
-            $flag = $request->session()->get('flag');
+                $can_id = $queans[0]->candidate_id;
+                $query = DB::table('candidate')
+                    ->select('name')
+                    ->where('candidate_id', '=', $can_id)
+                    ->first();
+                $cname = $query->name;
+                
+                $query = DB::table('candidate_remark')
+                    ->where('candidate_id', '=', $can_id)
+                    ->first();
 
-            return view('showanswers', compact('queans', 'cname', 'can_id', 'result', 'feedback', 'flag'));
+                if (!empty($query)) {
+                    $result = $query->result;
+                    $feedback = $query->feedback;
+                } else {
+                    $result = "";
+                    $feedback = "";
+                }
+
+                $flag = $request->session()->get('flag');
+
+                return view('showanswers', compact('queans', 'cname', 'can_id', 'result', 'feedback', 'flag'));
+            }
+            else
+            {
+                return redirect()->back()->with('error_msg',"Record not found");
+            }
         } else {
             return redirect('/adminlogin');
         }

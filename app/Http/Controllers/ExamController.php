@@ -189,6 +189,18 @@ class ExamController extends Controller
 
             if (!empty($query)) {
 
+                // if($que['type']==2)
+                // {
+                //     if($ans!="")
+                //     {
+                //         $query=DB::table('question_options')
+                //         ->select('option')
+                //         ->where('option_id',$ans)
+                //         ->first();
+                //         $ans=$query->option;
+                //     }    
+                // }
+
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
                     ->where('ques_id', '=', $que['id'])
@@ -311,6 +323,18 @@ class ExamController extends Controller
             $ip_id = $ip_id->id;
 
             if (!empty($query)) {
+
+                if($que['type']==2)
+                {
+                    if($ans!="")
+                    {
+                        $query=DB::table('question_options')
+                        ->select('option')
+                        ->where('option_id',$ans)
+                        ->first();
+                        $ans=$query->option;
+                    }    
+                }
 
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
