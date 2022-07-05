@@ -16,18 +16,25 @@ class AdminController extends Controller
     public function view_admin(Request $request)
     {
         if (Auth::user()) {
-
-            $qurey = DB::table('category')
-                ->count();
-            $cat = $qurey;
-
-            $qurey = DB::table('candidate')
-                ->count();
-            $can = $qurey;
-
             $user = auth()->user();
             $flag = $user->user;
 
+            $query = DB::table('category')
+                ->where('active','!=',2);
+                if($flag==0)
+                {
+                    $query->where('company_id',$user->company_id);
+                }
+            $cat = $query->count();
+            
+            $query = DB::table('candidate')
+                ->where('active_status','!=',2);
+                if($flag==0)
+                {
+                    $query->where('company_id',$user->company_id);
+                }
+            $can = $query->count();
+           
             $companies = DB::table('companies')
             ->select('id', 'cname')
             ->whereIn('status', [0, 1])
@@ -133,8 +140,7 @@ class AdminController extends Controller
     //Generate Link
     public function generatelink_view(Request $request)
     {
-
-        if (Auth::check()) {
+        if (Auth::user()) {
 
             $user = auth()->user();
             $flag = $user->user;
@@ -190,52 +196,56 @@ class AdminController extends Controller
 
     public function generatelink(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'company_id' => 'required',
-            'phone' => 'required',
-            'category' => 'required'
-        ]);
-        
-        $name = $request->name;
-        $email = $request->email;
-        $company_id = $request->company_id;
-        $phone = $request->phone;
-        $category_id = $request->category;
-        $token = base64_encode(time());
+        if (Auth::user()) {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email',
+                'company_id' => 'required',
+                'phone' => 'required',
+                'category' => 'required'
+            ]);
+            
+            $name = $request->name;
+            $email = $request->email;
+            $company_id = $request->company_id;
+            $phone = $request->phone;
+            $category_id = $request->category;
+            $token = base64_encode(time());
 
-        $link = '/test/' . $token;
+            $link = '/test/' . $token;
 
-        $data = [
-            'name' => $name,
-            'email' => $email,
-            'company_id' => $company_id,
-            'phone' => $phone,
-            'test_category_id' => $category_id,
-            'candidate_id' => $token,
-            'link' => $link
-        ];
+            $data = [
+                'name' => $name,
+                'email' => $email,
+                'company_id' => $company_id,
+                'phone' => $phone,
+                'test_category_id' => $category_id,
+                'candidate_id' => $token,
+                'link' => $link
+            ];
 
-        DB::table('candidate_test_link')
-            ->insert($data);
+            DB::table('candidate_test_link')
+                ->insert($data);
 
-        $link = url('') . $link;
-        $data = array('link' => $link);
+            $link = url('') . $link;
+            $data = array('link' => $link);
 
-        // $subject = "Link for test ";
-        // Mail::send('sharelink', $data, function ($message) use ($subject, $email) {
-        //     $message->to($email);
-        //     $message->subject($subject);
-        // });
+            // $subject = "Link for test ";
+            // Mail::send('sharelink', $data, function ($message) use ($subject, $email) {
+            //     $message->to($email);
+            //     $message->subject($subject);
+            // });
 
-        // if (Mail::failures()) {
-        //     $status = 0;
-        // } else {
-            $status = 1;
-        // }
-        // return redirect()->back()->with('msg', $status);
-        return redirect('/generatelink')->with('msg', $status);
+            // if (Mail::failures()) {
+            //     $status = 0;
+            // } else {
+                $status = 1;
+            // }
+            // return redirect()->back()->with('msg', $status);
+            return redirect('/generatelink')->with('msg', $status);
+        } else {
+            return redirect('/adminlogin');
+        }
     }
 
     public function share_link(Request $request)
@@ -384,7 +394,7 @@ class AdminController extends Controller
             }
             $query=$query->paginate(3);
             $candidates = $query;
-
+            // dd($candidates);
             $query = DB::table('category')
                 ->select('id', 'category')
                 ->get();
@@ -491,7 +501,7 @@ class AdminController extends Controller
 
     public function getqueans(Request $request, $id)
     {
-        if (Auth::check()) {
+        if (Auth::user()) {
             $query = DB::table('candidate_answers as cs')
             ->select('cs.candidate_id','qs.questions','cs.answers','cs.type','cs.ques_id')
                 ->join('questions as qs','qs.id','=','cs.ques_id')
@@ -508,7 +518,7 @@ class AdminController extends Controller
 
     public function showanswers(Request $request)
     {
-        if (Auth::check()) {
+        if (Auth::user()) {
             $queans = $request->session()->get('queans');
             
             foreach($queans as $val)
@@ -567,7 +577,7 @@ class AdminController extends Controller
 
     public function feedback(Request $request)
     {
-        if (Auth::check()) {
+        if (Auth::user()) {
             $can_id = $request->can_id;
             $result = $request->result;
             $feedback = $request->feedback;
@@ -722,7 +732,7 @@ class AdminController extends Controller
     //Category Questions
     public function getques(Request $request, $id)
     {
-        if (Auth::check()) {
+        if (Auth::user()) {
             $request->session()->put('cat_id', $id);
             return redirect('tests/questions');
         } else {

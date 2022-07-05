@@ -14,13 +14,14 @@ class ExamController extends Controller
     public function exam(Request $request, $key)
     {
         $data = $request->session()->get('data');
-      
+
         if (session()->has('questions')) {
+          
             $ip = $request->ip();
             $can_id = $data['can_id'];
 
             $ques = $request->session()->get('allquestion');
-          
+
             foreach ($ques as $k => $v) {
                 if ($k == $key) {
                     $qno = $k;
@@ -34,20 +35,8 @@ class ExamController extends Controller
             $candidate_id = $data['can_id'];
             $count = $request->session()->get('count');
 
-            $query = DB::table('candidate_answers')
-                ->select('id', 'answers')
-                ->where('candidate_id', '=', $candidate_id)
-                ->where('ques_id', '=', $question['id'])
-                ->where('status', 1)
-                ->first();
-            
-            if (!empty($query)) {
-                $answer = $query->answers;
-            } else {
-                $answer = "";
-            }
         } elseif (session()->has('data')) {
-           
+    
             $data = $request->session()->get('data');
             $ip = $request->ip();
             $can_id = $data['can_id'];
@@ -65,11 +54,11 @@ class ExamController extends Controller
             ->where('cs.candidate_id', '=', $can_id)
             ->where('cs.status', 1)
             ->get();
-
+            
             if (!empty($query->first())) {
                 $allquestion = $query->all();
             } else {
-
+                
                 $query = DB::table('questions')
                     ->select('id', 'questions', 'type')
                     ->where('category_id', '=', $data['category_id'])
@@ -77,21 +66,23 @@ class ExamController extends Controller
                     ->limit(5)
                     ->get();
                 $allquestion = $query->all();
-
+        
                 foreach ($allquestion as $val) {
                     DB::table('candidate_answers')
                         ->insert(['candidate_id' => $can_id, 'ip_id' => $ip_id, 'ques_id' => $val->id, 'type' => $val->type]);
                 }
+              
             }
-            
+
             $questions = [];
             $key = 1;
-           
+
             foreach ($allquestion as $val) {
 
                 $questions[$key] = ['id' => $val->id, 'question' => $val->questions, 'type' => $val->type];
                 $key++;
             }
+          
             $count = count($questions);
             $request->session()->put('count', $count);
 
@@ -113,10 +104,11 @@ class ExamController extends Controller
 
             $duration = $query->time_period;
             $request->session()->put('duration', $duration);
+
         } else {
             return redirect()->back()->with('error_msg', "Test not available");
         }
-    
+
         $duration = $request->session()->get('duration');
 
         $start = $data['time'];
@@ -141,14 +133,12 @@ class ExamController extends Controller
             ->where('ques_id', '=', $question['id'])
             ->where('status', 1)
             ->first();
-
             if (!empty($query)) {
                 $answer = $query->answers;
             } else {
                 $answer = "";
             }
-            
-            return view('exam', compact('qno', 'count', 'answer', 'question', 'remain'));
+            return view('exam', compact('qno', 'count', 'answer', 'question','remain'));
         } else {
             $remain = 0;
             return redirect('/finish')->with('message', 'Test Submitted Successfully');
@@ -157,6 +147,7 @@ class ExamController extends Controller
 
     public function next_que(Request $request)
     {
+        $ques_id=$request->ques_id;
         if (session()->has('questions')) {
             $que = $request->session()->get('question');
             $data = $request->session()->get('data');
@@ -171,40 +162,28 @@ class ExamController extends Controller
                 ->select('status')
                 ->where('candidate.candidate_id', '=', $candidate_id)
                 ->first();
-          
+
             $status = $query->status;
-            
+
             if ($status == 1) {
                 $err = "You can not give a test !";
+                session()->flush();
                 return view('AfterSubmit', compact('err'));
             }
 
             $query = DB::table('candidate_answers')
                 ->select('answers')
                 ->where('candidate_id', '=', $candidate_id)
-                ->where('ques_id', '=', $que['id'])
+                ->where('ques_id', '=', $ques_id)
                 ->where('status', '=', 1)
                 ->first();
 
 
             if (!empty($query)) {
-
-                // if($que['type']==2)
-                // {
-                //     if($ans!="")
-                //     {
-                //         $query=DB::table('question_options')
-                //         ->select('option')
-                //         ->where('option_id',$ans)
-                //         ->first();
-                //         $ans=$query->option;
-                //     }    
-                // }
-
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
-                    ->where('ques_id', '=', $que['id'])
-                    ->update(['answers' => $ans]);
+                    ->where('ques_id', '=', $ques_id)
+                    ->update(['answers' => $ans,'updated_at'=>date("Y-m-d h:i:s")]);
             } else {
 
                 DB::table('candidate_answers')
@@ -236,6 +215,7 @@ class ExamController extends Controller
 
     public function prev_que(Request $request)
     {
+        $ques_id=$request->ques_id;
         if (session()->has('questions')) {
 
             $data = $request->session()->get('data');
@@ -256,13 +236,14 @@ class ExamController extends Controller
 
             if ($status == 1) {
                 $err = "You can not give a test !";
+                session()->flush();
                 return view('AfterSubmit', compact('err'));
             }
 
             $query = DB::table('candidate_answers')
                 ->select('answers')
                 ->where('candidate_id', '=', $candidate_id)
-                ->where('ques_id', '=', $que['id'])
+                ->where('ques_id', '=', $ques_id)
                 ->first();
 
 
@@ -270,14 +251,14 @@ class ExamController extends Controller
 
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
-                    ->where('ques_id', '=', $que['id'])
-                    ->update(['candidate_id' => $candidate_id, 'ques_id' => $que['id'], 'answers' => $ans]);
+                    ->where('ques_id', '=', $ques_id)
+                    ->update(['answers' => $ans,'updated_at'=>date("Y-m-d h:i:s")]);
             } else {
 
                 DB::table('candidate_answers')
                     ->insert(['candidate_id' => $candidate_id, 'ques_id' => $que['id'], 'answers' => $ans]);
             }
-          
+
             $qnos = $request->session()->get('qnos');
             $questions = $request->session()->get('questions');
             $qno = $request->session()->get('qno');
@@ -302,16 +283,30 @@ class ExamController extends Controller
 
     public function submit_test(Request $request)
     {
+        $ques_id=$request->ques_id;
         if (session()->has('questions')) {
             $data = $request->session()->get('data');
             $que = $request->session()->get('question');
             $ans = $_POST['answer'];
             $candidate_id = $data['can_id'];
 
+            $query = DB::table('candidate')
+            ->select('status')
+            ->where('candidate.candidate_id', '=', $candidate_id)
+            ->first();
+
+            $status = $query->status;
+
+            if ($status == 1) {
+                $msg = "Test Submitted!";
+                session()->flush();
+                return view('AfterSubmit', compact('msg'));
+            }
+
             $query = DB::table('candidate_answers')
                 ->select('answers')
                 ->where('candidate_id', '=', $candidate_id)
-                ->where('ques_id', '=', $que['id'])
+                ->where('ques_id', '=', $ques_id)
                 ->where('answers', '=', $ans)
                 ->first();
 
@@ -333,14 +328,14 @@ class ExamController extends Controller
                         ->where('option_id',$ans)
                         ->first();
                         $ans=$query->option;
-                    }    
+                    }
                 }
 
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
                     ->where('ip_id', '=', $ip_id)
-                ->where('ques_id', '=', $que['id'])
-                ->update(['candidate_id' => $candidate_id, 'ip_id' => $ip_id, 'ques_id' => $que['id'], 'answers' => $ans]);
+                ->where('ques_id', '=', $ques_id)
+                ->update(['answers' => $ans,'updated_at'=>date("Y-m-d h:i:s") ]);
             } else {
 
                 DB::table('candidate_answers')
@@ -368,10 +363,6 @@ class ExamController extends Controller
             $useremail = $query->email;
             $user_name = $query->name;
 
-            // $query = DB::table('candidate_answers')
-            //     ->select('questions', 'answers')
-            //     ->where('candidate_id', '=', $candidate_id)
-            //     ->get();
             $query = DB::table('candidate_answers as cs')
             ->select('qs.questions', 'cs.answers')
                 ->join('questions as qs', 'qs.id', '=', 'cs.ques_id')

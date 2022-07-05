@@ -125,7 +125,7 @@ button:focus {
 ul,
 li,
 ol {
-     margin: 0px;
+     margin: 12px;
      padding: 0px;
      list-style: none;
 }

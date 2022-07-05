@@ -138,12 +138,13 @@
     <!-- banner -->
     <section class="banner_main">
         <div class="container">
-            <div class="row d_flex">
+            <div class="row ">
                 <div class="col-md-12">
                     <form <?php if($qno==$count){?>action="{{ url('/submit') }}" method="POST"
                         <?php }else{ ?>action="{{ url('/next') }}" method="POST" <?php } ?> id="request"
                         class="main_form">
                         @csrf
+                        <input type="hidden" name="ques_id" value="{{$question['id']}}">
                         @if($question['type']==1)
                             <div class="row">
                                 <div class="col-md-12 " id="quediv">
@@ -151,11 +152,12 @@
                                             id="qno">{{ $qno == $count ? $qno . ' (Last question)' : $qno }}</b></label>
                                     <p name="question" id="question" class="text-white-custom-colour h3">
                                         {{ $question['question'] }}</p>
+                                        
                                 </div>
                                 <div class="form-floating col-md-12" id="ansdiv">
                                     <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
                                     <textarea id="txtInput1" class="txtInput form-control" placeholder="Leave a comment here" name="answer" id="answer"
-                                        style="height: 200px" autofocus>{{ $answer }}</textarea>
+                                        style="height: 200px" autofocus>{{ ($answer=='')? "" : $answer; }}</textarea>
                                 </div>
                                 <div class="col-sm-6 mt-4">
                                     <button type="submit" <?php if($qno==1){?> disabled <?php  }?> id="previous"
@@ -252,7 +254,7 @@
                                 <div class="form-floating col-md-7" id="ansdiv">
                                     <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
                                     <textarea id="txtInput" class="txtInput form-control" placeholder="Leave a comment here" name="answer" id="answer"
-                                        style="height: 200px" autofocus>{{ $answer }}</textarea>
+                                        style="height: 200px" autofocus>{{ ($answer=='')? "" : $answer }}</textarea>
                                 </div>
                             </div>
                         @endif
@@ -291,6 +293,7 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
+      
         $(document).ready(function() {
             $("#submit").click(function(event) {
                 // if (!confirm('Are you sure that you want to submit the test'))
@@ -334,7 +337,10 @@
         })
 
         $('#next').on('click',function(){
-            localStorage.clear();
+            window.localStorage.clear();
+        })
+        $('#previous').on('click',function(){
+            window.localStorage.clear();
         })
      </script>
      @endif
@@ -361,14 +367,6 @@
             autoCloseTags: true
         });
     </script>
-    {{-- <script>
-        $(document).bind("contextmenu", function(e) {
-            return false;
-             $('#txtInput').on("cut copy paste", function(e) {
-                e.preventDefault();
-            });
-        });
-    </script> --}}
 
 </body>
 

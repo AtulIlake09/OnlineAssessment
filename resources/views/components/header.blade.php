@@ -118,10 +118,10 @@ $flag=$user->user;
             <div class="d-flex align-items-stretch flex-shrink-0 ">
                 <!--begin::Menu item-->
                 <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false" style="margin-top: 5px;">
-                    <img class="img-xs rounded-circle" src="{{(!empty($user->avatar))? $user->avatar : 'images/userlogo.png'}}" style="width: 40px; height: 40px;" alt="Profile image"> </a>
+                    <img class="img-xs rounded-circle" src="{{(!empty($user->avatar))? $user->avatar : url('images/userlogo.png')}}" style="width: 40px; height: 40px;" alt="Profile image"> </a>
                   <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                     <div class="dropdown-header text-center">
-                      <img class="img-md rounded-circle" src="{{(!empty($user->avatar))? $user->avatar : 'images/userlogo.png'}}" style="width: 40px; height: 40px;" alt="Profile image">
+                      <img class="img-md rounded-circle" src="{{(!empty($user->avatar))? $user->avatar : url('images/userlogo.png')}}" style="width: 40px; height: 40px;" alt="Profile image">
                       <p class="mb-1 mt-3 font-weight-semibold">{{$user->name}}</p>
                       <p class="fw-light text-muted mb-0">{{$user->email}}</p>
                     </div>
