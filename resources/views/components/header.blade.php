@@ -99,7 +99,7 @@ $flag=$user->user;
                                     </a>
                                 </div>
                                 <div class="menu-item">
-                                    <a class="menu-link py-3 {{ (request()->is('tests') || request()->is('tests/questions') ) ? 'active' : '' }}" href="{{ url('/tests') }}">
+                                    <a class="menu-link py-3 {{ (request()->is('tests') || request()->is('tests/questions')) ? 'active' : '' }}" href="{{ url('/tests') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -82,7 +83,7 @@ Route::get('/assessment/answers', [AdminController::class, 'showanswers']);
 Route::post('/feedback', [AdminController::class, 'feedback']);
 
 Route::get('/tests', [AdminController::class, 'categories_view']);
-Route::get('/getques/{id}', [AdminController::class, 'getques']);
+Route::get('/getques/{id}', [AdminController::class, 'getques'])->name('getques');
 Route::get('/tests/questions', [AdminController::class, 'questions_view']);
 
 Route::post('/addcategory', [AdminController::class, 'addcategory']);
@@ -106,3 +107,12 @@ Route::post('/add_users', [SuperAdminController::class, 'register']);
 Route::get('/user_status/{id}', [SuperAdminController::class, 'change_user_status']);
 Route::get('/deleteuser/{id}', [SuperAdminController::class, 'delete_user']);
 Route::post('/edit_users', [SuperAdminController::class, 'edit_user_details']);
+
+Route::get('question/create-step-one/{cat_id}', [QuestionController::class, 'createStepOne'])->name('question.create.step.one');
+Route::post('question/create-step-one', [QuestionController::class, 'postCreateStepOne'])->name('question.create.step.one.post');
+
+Route::get('question/create-step-two/{ques_id}', [QuestionController::class, 'createStepTwo'])->name('question.create.step.two');
+Route::post('question/create-step-two', [QuestionController::class, 'postCreateStepTwo'])->name('question.create.step.two.post');
+
+Route::get('question/create-step-three/{ques_id}', [QuestionController::class, 'createStepThree'])->name('question.create.step.three');
+Route::post('question/create-step-three', [QuestionController::class, 'postCreateStepThree'])->name('question.create.step.three.post');

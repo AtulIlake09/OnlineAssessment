@@ -750,6 +750,7 @@ class AdminController extends Controller
                 ->select('questions.id', 'questions.questions', 'questions.category_id', 'category.category', 'questions.type', 'questions.status')
                 ->where('category_id', '=', $cat_id)
                 ->whereIn('status', [0, 1])
+                ->orderBy('id', 'desc')
             ->paginate(3);
 
             $questions = $query;
@@ -761,7 +762,7 @@ class AdminController extends Controller
 
             $category = $query->category;
             $flag = $user->user;
-
+            $request->session()->put('category', $category);
             return view('categoryques', compact('questions', 'category', 'cat_id', 'flag'));
         } else {
             return redirect('/adminlogin');
