@@ -755,12 +755,38 @@ class AdminController extends Controller
 
             $questions = $query;
 
+            foreach ($questions as $val) {
+                if ($val->type == 2) {
+                    $c = 1;
+                    $query = DB::table('question_options')
+                    ->where('ques_id', $val->id)
+                    ->get();
+
+                    foreach ($query->all() as $value) {
+                        $options = "option" . $c;
+                        $val->$options = ['option_id' => $value->option_id, 'option' => $value->option];
+                        $c++;
+                    }
+
+                    $query = DB::table('question_solution')
+                    ->where('ques_id', $val->id)
+                    ->first();
+
+                    if (isset($query->option_id)) {
+                        $val->selected_option = $query->option_id;
+                    } else {
+                        $val->selected_option = "";
+                    }
+                }
+            }
+        
             $query = DB::table('category')
                 ->select('category')
                 ->where('id', '=', $cat_id)
                 ->first();
 
             $category = $query->category;
+
             $flag = $user->user;
             $request->session()->put('category', $category);
             return view('categoryques', compact('questions', 'category', 'cat_id', 'flag'));
@@ -826,13 +852,43 @@ class AdminController extends Controller
 
         $id = $request->id;
         $cat_id = $request->cat_id;
-        $type_id = $request->type;
-
+        $type = $request->type;
         $question = $request->question;
+        $selected_option_id = $request->selected_option_id;
+        // $option_id1 = $request->option_id1;
+        // $option1 = $request->option1;
+        // $option_id2 = $request->option_id2;
+        // $option2 = $request->option2;
+        // $option_id3 = $request->option_id3;
+        // $option3 = $request->option3;
+        // $option_id4 = $request->option_id4;
+        // $option4 = $request->option4;
+        $arr = [
+            [$request->option_id1, $request->option1],
+            [$request->option_id2, $request->option2],
+            [$request->option_id3, $request->option3],
+            [$request->option_id4, $request->option4]
+        ];
+
 
         $query = DB::table('questions')
             ->where('id', '=', $id)
-            ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type_id, 'updated_at' => date('Y-m-d h:i:s')]);
+            ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type, 'updated_at' => date('Y-m-d h:i:s')]);
+
+        if ($type == 2) {
+
+            DB::table('question_solution')
+            ->where('ques_id', $id)
+            ->update(['option_id' => $selected_option_id, 'updated_at' => date('Y-m-d H:i:s')]);
+
+            foreach ($arr as $val) {
+                DB::table('question_options')
+                ->where('ques_id', $id)
+                ->where('option_id', $val[0])
+                    ->update(['option' => $val[1], 'updated_at' => date('Y-m-d H:i:s')]);
+            }
+        }
+        
 
         if ($query == true) {
             return redirect()->back()->with('success_msg', 'Question Updated Successfully!');

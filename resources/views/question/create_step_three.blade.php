@@ -29,7 +29,7 @@
                                     <div style="text-align: left; font-size: 18px; padding-left: 1vmax;"> 
                                         <ul>
                                         @foreach($options as $option) 
-                                            <input type='radio' name='answer' value='{{$option['option_id']}}'/> {{$option['option']}}<br>
+                                            <input  @if($option['option']==null) type="hidden" disabled @else type='radio' @endif name='answer' value='{{$option['option_id']}}'/> {{$option['option']}}<br>
                                         @endforeach
                                         </ul>
                                     </div>

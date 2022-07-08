@@ -417,6 +417,38 @@
                                                         Question</label>
                                                     <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="question" placeholder="Test Question"
                                                         id="question" required>{{ $val->questions }}</textarea>
+                                                    
+                                                    @if($val->type==2)
+                                                        <label class="required fs-6 fw-bold mb-2 mt-5" style="margin-left: 5px" for="question">Edit Options</label>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-text" style="border: 1px">
+                                                                <input class="form-check-input mt-0" @if(isset($val->option1['option_id']) && $val->option1['option_id']==$val->selected_option) checked @endif type="radio" name="selected_option_id" value="{{(isset($val->option1['option_id'])) ?  $val->option1['option_id'] : "" }}" aria-label="Radio button for following text input">
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid mx-auto w-50" name="option1" aria-label="Text input with radio button" value="{{(isset($val->option1['option'])) ? $val->option1['option'] : "" }}">
+                                                            <input type="hidden" name="option_id1" value="{{$val->option1['option_id']}}">
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-text" style="border: 1px">
+                                                                <input class="form-check-input mt-0" @if(isset($val->option2['option_id']) && $val->option2['option_id']==$val->selected_option) checked @endif type="radio" name="selected_option_id" value="{{(isset($val->option2['option_id'])) ?  $val->option2['option_id'] : "" }}" aria-label="Radio button for following text input">
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid mx-auto w-50" name="option2" aria-label="Text input with radio button" value="{{(isset($val->option2['option'])) ? $val->option2['option'] : "" }}">
+                                                            <input type="hidden" name="option_id2" value="{{$val->option2['option_id']}}">
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-text" style="border: 1px">
+                                                                <input class="form-check-input mt-0" @if(isset($val->option3['option_id']) && $val->option3['option_id']==$val->selected_option) checked @endif type="radio" name="selected_option_id" value="{{(isset($val->option3['option_id'])) ?  $val->option3['option_id'] : "" }}" aria-label="Radio button for following text input">
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid mx-auto w-50" name="option3" aria-label="Text input with radio button" value="{{(isset($val->option3['option'])) ? $val->option3['option'] : "" }}">
+                                                            <input type="hidden" name="option_id3" value="{{$val->option3['option_id']}}">
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-text" style="border: 1px">
+                                                                <input class="form-check-input mt-0" @if(isset($val->option4['option_id']) && $val->option4['option_id']==$val->selected_option) checked @endif type="radio" name="selected_option_id" value="{{(isset($val->option4['option_id'])) ?  $val->option4['option_id']: "" }}" aria-label="Radio button for following text input">
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid mx-auto w-50" name="option4" aria-label="Text input with radio button" value="{{(isset($val->option4['option'])) ? $val->option4['option'] : "" }}">
+                                                            <input type="hidden" name="option_id4" value="{{$val->option4['option_id']}}">
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <div class="text-center">
                                                     <button type="submit" class="btn btn-primary">Update</button>

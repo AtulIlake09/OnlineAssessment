@@ -25,8 +25,8 @@
                             <input type="hidden" name="ques_id" value="{{$ques_id}}">                            
                             <input type="text" class="form-control form-control-solid mx-auto w-50 mb-5" name="option1" id="Option1" placeholder="Option 1" value="{{(empty($options[1])) ? "" : $options[1]}}" required>
                             <input type="text" class="form-control form-control-solid mx-auto w-50 mb-5" name="option2" id="Option2" placeholder="Option 2" value="{{(empty($options[2])) ? "" : $options[2]}}" required>
-                            <input type="text" class="form-control form-control-solid mx-auto w-50 mb-5" name="option3" id="Option3" placeholder="Option 3" value="{{(empty($options[3])) ? "" : $options[3]}}" required>
-                            <input type="text" class="form-control form-control-solid mx-auto w-50" name="option4" id="Option4" placeholder="Option 4" value="{{(empty($options[4])) ? "" : $options[4]}}" required>
+                            <input type="text" class="form-control form-control-solid mx-auto w-50 mb-5" name="option3" id="Option3" placeholder="Option 3" value="{{(empty($options[3])) ? "" : $options[3]}}">
+                            <input type="text" class="form-control form-control-solid mx-auto w-50" name="option4" id="Option4" placeholder="Option 4" value="{{(empty($options[4])) ? "" : $options[4]}}">
                     </div>
                     <div class="card-footer text-right mx-auto p-0">
                         {{-- <a href="{{ route('question.create.step.one',['cat_id'=>$cat_id]) }}" class="btn btn-danger pull-right">Previous</a> --}}
