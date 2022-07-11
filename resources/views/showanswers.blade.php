@@ -136,8 +136,16 @@
                                                             </tr>
                                                             <tr>
                                                                 <h3>Ans:-</h3>
-                                                                <textarea disabled class="form-control border-dark w-100" placeholder="Leave a comment here" name="answer" id="answer"
-                                                                    style=" white-space: nowrap;  height: 300px;">{{ $val->answers }}</textarea>
+                                                                @if($val->type==1)
+                                                                    <textarea disabled class="form-control border-dark w-100" placeholder="Leave a comment here" name="answer" id="answer"
+                                                                        style="height: 200px;">{{ $val->answers }}</textarea>
+                                                                @elseif($val->type==2)
+                                                                    <textarea disabled class="form-control border-dark w-100" placeholder="Leave a comment here" name="answer" id="answer"
+                                                                        style="height: 50px;">{{ $val->answers }}</textarea>
+                                                                @elseif($val->type==3)
+                                                                    <textarea disabled class="form-control border-dark w-100" placeholder="Leave a comment here" name="answer" id="answer"
+                                                                        style="height: 300px;">{{ $val->answers }}</textarea>
+                                                                @endif
                                                             </tr><br>
                                                             @php $count++; @endphp
                                                         @endforeach

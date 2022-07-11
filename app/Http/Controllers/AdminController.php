@@ -520,28 +520,23 @@ class AdminController extends Controller
     {
         if (Auth::user()) {
             $queans = $request->session()->get('queans');
-            
-            foreach($queans as $val)
-            {
-                if($val->type==2)
-                {
-                    if($val->answers!=null)
-                    {
-                        $query=DB::table('question_options')
+            foreach ($queans as $val) {
+                if ($val->type == 2) {
+                    if ($val->answers != null) {
+                        $query = DB::table('question_options')
                         ->select('option')
-                        ->where('option_id',$val->answers)
-                        ->orWhere('option',$val->answers)
-                        ->first();
-                        
-                        $val->answers=$query->option;
+                            ->where('option_id', $val->answers)
+                            ->orWhere('option', $val->answers)
+                            ->first();
+
+                        if (isset($query->option) != null) {
+                            $val->answers = $query->option;
+                        }
                     }
-
                 }
-
             }
-           
-            if($queans!=null)
-            {
+
+            if ($queans != null) {
 
                 $can_id = $queans[0]->candidate_id;
                 $query = DB::table('candidate')
@@ -549,7 +544,7 @@ class AdminController extends Controller
                     ->where('candidate_id', '=', $can_id)
                     ->first();
                 $cname = $query->name;
-                
+
                 $query = DB::table('candidate_remark')
                     ->where('candidate_id', '=', $can_id)
                     ->first();
@@ -565,11 +560,10 @@ class AdminController extends Controller
                 $flag = $request->session()->get('flag');
 
                 return view('showanswers', compact('queans', 'cname', 'can_id', 'result', 'feedback', 'flag'));
+            } else {
+                return redirect()->back()->with('error_msg', "Record not found");
             }
-            else
-            {
-                return redirect()->back()->with('error_msg',"Record not found");
-            }
+           
         } else {
             return redirect('/adminlogin');
         }
@@ -855,14 +849,7 @@ class AdminController extends Controller
         $type = $request->type;
         $question = $request->question;
         $selected_option_id = $request->selected_option_id;
-        // $option_id1 = $request->option_id1;
-        // $option1 = $request->option1;
-        // $option_id2 = $request->option_id2;
-        // $option2 = $request->option2;
-        // $option_id3 = $request->option_id3;
-        // $option3 = $request->option3;
-        // $option_id4 = $request->option_id4;
-        // $option4 = $request->option4;
+        
         $arr = [
             [$request->option_id1, $request->option1],
             [$request->option_id2, $request->option2],

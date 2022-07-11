@@ -116,3 +116,7 @@ Route::post('question/create-step-two', [QuestionController::class, 'postCreateS
 
 Route::get('question/create-step-three/{ques_id}', [QuestionController::class, 'createStepThree'])->name('question.create.step.three');
 Route::post('question/create-step-three', [QuestionController::class, 'postCreateStepThree'])->name('question.create.step.three.post');
+
+Route::get('/practice_page', function () {
+    return view('practice_page');
+});

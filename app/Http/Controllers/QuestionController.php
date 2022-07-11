@@ -47,12 +47,17 @@ class QuestionController extends Controller
 
             if (empty($query)) {
 
-                DB::table('questions')
-                    ->insert(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
+                if ($type == 2) {
+                    DB::table('questions')
+                        ->insert(['category_id' => $cat_id, 'questions' => $question, 'type' => $type, 'status' => 2]);
+                } else {
+                    DB::table('questions')
+                        ->insert(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
+                }
             } else {
-                DB::table('questions')
-                    ->where('id', $query->id)
-                    ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
+                // DB::table('questions')
+                //     ->where('id', $query->id)
+                //     ->update(['category_id' => $cat_id, 'questions' => $question, 'type' => $type]);
                 $request->session()->put('cat_id', $cat_id);
                 return redirect()->route('question.create.step.two', ['ques_id' => $query->id]);
             }
@@ -73,7 +78,7 @@ class QuestionController extends Controller
                 }
             }
 
-            return Redirect::route('getques', $cat_id);
+            return Redirect::route('getques', $cat_id)->with('success_msg', "Question Created Successfully!");
         } else {
             return redirect()->back();
         }
@@ -141,6 +146,11 @@ class QuestionController extends Controller
             if (empty($query)) {
                 DB::table('question_options')
                     ->insert($data);
+
+                DB::table('questions')
+                    ->where('id', $ques_id)
+                    ->update(['status' => 1]);
+                
             } else {
 
                 DB::table('question_options')

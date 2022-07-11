@@ -186,8 +186,8 @@
                                 </div>
                                 <div class="form-floating col-md-12" id="ansdiv">
                                     <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
-                                    <div class="input-group-text" style="text-align: left; font-size: 18px;"> 
-                                        <ol>
+                                    <div  style="text-align: left; font-size: 18px;"> 
+                                        <ul style="padding-left: 30px;">
                                         <?php
                                             $query = DB::table('question_options')
                                                 ->where('ques_id', $question['id'])
@@ -197,15 +197,15 @@
                                                
                                                 if($answer==$option->option_id)
                                                 {
-                                                    echo "<li><input type='radio' checked name='answer' value='".$option->option_id."'/> ".$option->option."</li>";
+                                                    echo "<li><input type='radio' checked name='answer' value='".$option->option_id."'/> <input type='text' style='border: 0px;' value='$option->option' ></li>";
                                                 }
                                                 else {
-                                                    echo "<li><input type='radio' name='answer' value='".$option->option_id."'/> ".$option->option."</li>";
+                                                    echo "<li><input type='radio' name='answer' value='".$option->option_id."'/> <input type='text' style='border: 0px;' value='$option->option' ></li>";
                                                 }
                                                 
                                             }
                                         ?>
-                                        </ol>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 mt-4">

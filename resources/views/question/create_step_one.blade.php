@@ -51,28 +51,8 @@
                                         <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="question" placeholder="Test Question"
                                             id="question" required></textarea>
                                     </div>
-                                    {{-- <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Add</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                    </div> --}}
                                 </div>
                             </form>
-  
-                            {{-- <div class="form-group">
-                                <label for="title">Product Name:</label>
-                                <input type="text" value="{{ $product->name ?? '' }}" class="form-control" id="taskTitle"  name="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Product Amount:</label>
-                                <input type="text"  value="{{{ $product->amount ?? '' }}}" class="form-control" id="productAmount" name="amount"/>
-                            </div>
-   
-                            <div class="form-group">
-                                <label for="description">Product Description:</label>
-                                <textarea type="text"  class="form-control" id="taskDescription" name="description">{{{ $product->description ?? '' }}}</textarea>
-                            </div> --}}
-                          
                     </div>
   
                     <div class="card-footer text-right mx-auto p-0">

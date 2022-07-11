@@ -62,6 +62,7 @@ class ExamController extends Controller
                 $query = DB::table('questions')
                     ->select('id', 'questions', 'type')
                     ->where('category_id', '=', $data['category_id'])
+                    ->whereIn('status', [0, 1])
                     ->inRandomOrder()
                     ->limit(5)
                     ->get();
@@ -172,7 +173,7 @@ class ExamController extends Controller
             }
 
             $query = DB::table('candidate_answers')
-                ->select('answers')
+                ->select('answers', 'type')
                 ->where('candidate_id', '=', $candidate_id)
                 ->where('ques_id', '=', $ques_id)
                 ->where('status', '=', 1)
@@ -180,12 +181,12 @@ class ExamController extends Controller
 
 
             if (!empty($query)) {
+
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
                     ->where('ques_id', '=', $ques_id)
                     ->update(['answers' => $ans,'updated_at'=>date("Y-m-d h:i:s")]);
             } else {
-
                 DB::table('candidate_answers')
                     ->insert(['candidate_id' => $candidate_id, 'ques_id' => $que['id'], 'answers' => $ans]);
             }
