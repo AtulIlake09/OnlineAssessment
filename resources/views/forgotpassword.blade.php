@@ -119,22 +119,6 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    @elseif(session()->has('success_msg'))
-        <div style="margin-bottom: 0px;" class="alert alert-danger alert-dismissible fade show border border-danger"
-                role="alert">
-                <strong style="margin-right: 4vmax;margin-left: 11px;">{{ $success = session()->get('success_msg') }}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-        </div>
-    @elseif(session()->has('error_msg'))
-        <div style="margin-bottom: 0px;" class="alert alert-danger alert-dismissible fade show border border-danger"
-                role="alert">
-                <strong style="margin-right: 4vmax;margin-left: 11px;">{{ $error = session()->get('error_msg') }}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-        </div>
     @endif
     <!-- end header inner -->
     <!-- end header -->
@@ -143,11 +127,10 @@
         <div class="container">
             <div class="row d_flex justify-content-md-center">
                 <div class="mx-auto">
-                    <form action="{{ url('/adminlog') }}" method="POST" id="request" class="main_form"
+                    <form action="{{ url('/forgotpassword') }}" method="POST" id="request" class="main_form"
                         style="width: 33vmax;">
-                        <h2 style="color: #03045e; font-family: Poppins; font-weight: bold;text-align: center;">Admin Login</h2>
+                        <h2 style="color: #03045e; font-family: Poppins; font-weight: bold;text-align: center;">Forgot Password</h2>
                         @csrf
-                        <input type="hidden" name="category_id" value="">
                         <div class="row">
                             <div class="col-md-12 Icon-inside">
                                 <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
@@ -159,23 +142,11 @@
                                     @enderror
                                 </span>
                             </div>
-                            <div class="col-md-12 Icon-inside">
-                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
-                                <input class="contactus input100" placeholder="Password" type="password" name="password"
-                                    style="margin-top: 20px; margin-bottom: 0px;" required>
-                                <span style="color: rgb(230, 33, 33)">
-                                    @error('password')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <input hidden name="ip" type="text" id="ip">
-                            <input hidden name="time" type="text" id="time">
                             <div class="col-sm-12 mb-3">
-                                <button type="submit" class="send_btn" style="font-family: Poppins; margin-top: 20px;">Login</button>
+                                <button type="submit" class="send_btn" style="font-family: Poppins; margin-top: 20px;">Rest Password</button>
                             </div>
                             <div class="col-sm-12" style='text-align: center'>
-                                <a href="{{url('/forgotpassword')}}">Forgot Password</a>
+                                <a href="{{url('/adminlogin')}}">Back to Login</a>
                             </div>
                         </div>
                         {{-- <div class="txt1 text-center p-t-30 p-b-20">

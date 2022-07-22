@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuestionController;
@@ -120,3 +121,7 @@ Route::post('question/create-step-three', [QuestionController::class, 'postCreat
 Route::get('/practice_page', function () {
     return view('practice_page');
 });
+
+Route::get('/forgotpassword', [ForgotPasswordController::class, 'forgot_view']);
+Route::post('/forgotpassword', [ForgotPasswordController::class, 'forgot']);
+Route::get('/verify/{id}/{token}', [ForgotPasswordController::class, 'verify']);

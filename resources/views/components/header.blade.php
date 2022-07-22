@@ -1,4 +1,11 @@
 <!--begin::Header-->
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
 @php 
 $user=auth()->user(); 
 $flag=$user->user; 
@@ -121,7 +128,13 @@ $flag=$user->user;
                     <img class="img-xs rounded-circle" src="{{(!empty($user->avatar))? $user->avatar : url('images/userlogo.png')}}" style="width: 40px; height: 40px;" alt="Profile image"> </a>
                   <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                     <div class="dropdown-header text-center">
-                      <img class="img-md rounded-circle" src="{{(!empty($user->avatar))? $user->avatar : url('images/userlogo.png')}}" style="width: 40px; height: 40px;" alt="Profile image">
+                    <a href="#" class="text-danger fw-bold fs-3 mt-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#kt_modal_user_profile">
+                        <img class="img-md rounded-circle" data-bs-toggle="tooltip"
+                        data-bs-placement="top" data-bs-trigger="hover"
+                        title="View Profile" src="{{(!empty($user->avatar))? $user->avatar : url('images/userlogo.png')}}" style="width: 40px; height: 40px;" alt="Profile image">
+                    </a>
                       <p class="mb-1 mt-3 font-weight-semibold">{{$user->name}}</p>
                       <p class="fw-light text-muted mb-0">{{$user->email}}</p>
                     </div>
@@ -142,5 +155,89 @@ $flag=$user->user;
         <!--end::Wrapper-->
     </div>
     <!--end::Container-->
+</div>
+
+<div class="modal fade" id="kt_modal_user_profile" tabindex="-1" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog mw-650px">
+        <!--begin::Modal content-->
+        <div class="modal-content">
+            <!--begin::Modal header-->
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary"
+                    data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                rx="1" transform="rotate(-45 6 17.3137)"
+                                fill="currentColor" />
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                transform="rotate(45 7.41422 6)" fill="currentColor" />
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <!--begin::Modal header-->
+            <!--begin::Modal body-->
+            <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                <form action="#" method="POST"
+                    class="form">
+                    @csrf
+                    <!--begin::Heading-->
+                    <div class="mb-13 text-center">
+                        <!--begin::Title-->
+                        <h1 class="mb-3">User Profile</h1>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Heading-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <label class="required fs-6 fw-bold mb-2" for="uname"
+                            style="margin-left: 5px">Name</label>
+                        <input type="text" class="form-control form-control-solid mb-8"
+                            name="name" id="uname" placeholder="Name" value="{{$user->name}}" required>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                            for="email">Email</label>
+                            <input type="email" class="form-control form-control-solid"
+                            name="email" id="email" placeholder="Email" value="{{$user->email}}"
+                            required> 
+                        </div>
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                                for="phone">Phone</label>
+                            <input type="number" class="form-control form-control-solid"
+                            name="phone" id="phone" placeholder="Phone" value="{{$user->phone}}"
+                            required> 
+                        </div>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-12 fv-row">
+                            <label class="required fs-6 fw-bold mb-2"
+                                style="margin-left: 5px"
+                                for="address">Address</label>
+                            <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="address"
+                                placeholder="Address" id="address" required>{{$user->address}}</textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Change Password</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--end::Modal body-->
+        </div>
+        <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
 </div>
 <!--end::Header-->

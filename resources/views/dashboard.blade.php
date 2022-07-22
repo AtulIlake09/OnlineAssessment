@@ -47,6 +47,7 @@
     <!--begin::Main-->
     @php
         $user=auth()->user();
+        // dd($user);
     @endphp
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root">
@@ -296,6 +297,7 @@
                                 </div>
                                 <!--end::Modal dialog-->
                             </div>
+
                         </div>
                         <!--end::Container-->
                     </div>

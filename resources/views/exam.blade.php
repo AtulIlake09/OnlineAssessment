@@ -193,16 +193,26 @@
                                                 ->where('ques_id', $question['id'])
                                                 ->get();
                                             $options = $query->all();
-                                            foreach($options as $option) { 
-                                               
-                                                if($answer==$option->option_id)
-                                                {
-                                                    echo "<li><input type='radio' checked name='answer' value='".$option->option_id."'/> <input type='text' style='border: 0px;' value='$option->option' ></li>";
-                                                }
-                                                else {
-                                                    echo "<li><input type='radio' name='answer' value='".$option->option_id."'/> <input type='text' style='border: 0px;' value='$option->option' ></li>";
-                                                }
+                                            if(!empty($options))
+                                            {
+                                                foreach($options as $option) { 
                                                 
+                                                    if($answer==$option->option_id)
+                                                    {
+                                                        echo "<li><input type='radio' checked name='answer' value='".$option->option_id."'/> <input type='text' style='border: 0px;' value='$option->option' ></li>";
+                                                    }
+                                                    else {
+                                                        echo "<li><input type='radio' name='answer' value='".$option->option_id."'/> <input type='text' style='border: 0px;' value='$option->option' ></li>";
+                                                    }
+                                                    
+                                                }
+                                            }
+                                            else {
+                                                    echo '<div class="form-floating col-md-12" id="ansdiv">
+                                                        <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
+                                                        <textarea id="txtInput1" class="txtInput form-control" placeholder="Leave a comment here" name="answer" id="answer"
+                                                            style="height: 200px" autofocus>{{ ($answer=='')? "" : $answer; }}</textarea>
+                                                    </div>'; 
                                             }
                                         ?>
                                         </ul>
