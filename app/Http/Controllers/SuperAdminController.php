@@ -40,20 +40,20 @@ class SuperAdminController extends Controller
 
         $query = User::insert($data);
 
-        // if ($query == true) {
-        //     $array = ['email' => $email, 'password' => $password];
+        if ($query == true) {
+            $array = ['email' => $email, 'password' => $password];
 
-        //     Mail::send('sendpassword', $array, function ($message) use ($email) {
-        //         $message->to($email);
-        //         $message->subject('Login Details');
-        //     });
+            Mail::send('sendpassword', $array, function ($message) use ($email) {
+                $message->to($email);
+                $message->subject('Login Details');
+            });
 
-        //     if (Mail::failures()) {
-        //         return redirect()->back()->with('error_msg', "User Created But Password Not Send");
-        //     }
-        // } else {
-        //     return redirect()->back()->with('error_msg', "User Not Created");
-        // }
+            if (Mail::failures()) {
+                return redirect()->back()->with('error_msg', "User Created But Password Not Send");
+            }
+        } else {
+            return redirect()->back()->with('error_msg', "User Not Created");
+        }
 
         return redirect()->back()->with('success_msg', "User Created Successfully");
     }
@@ -360,4 +360,5 @@ class SuperAdminController extends Controller
 
         return redirect()->back()->with('cstatus', 1);
     }
+
 }

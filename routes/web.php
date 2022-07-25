@@ -6,6 +6,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -125,3 +126,10 @@ Route::get('/practice_page', function () {
 Route::get('/forgotpassword', [ForgotPasswordController::class, 'forgot_view']);
 Route::post('/forgotpassword', [ForgotPasswordController::class, 'forgot']);
 Route::get('/verify/{id}/{token}', [ForgotPasswordController::class, 'verify']);
+
+Route::get('/resetpassword_step1', [ResetPasswordController::class, 'reset_password_step1']);
+Route::post('/resetpassword_step1', [ResetPasswordController::class, 'reset_password_step1_post']);
+Route::get('/resetpassword_step2', [ResetPasswordController::class, 'reset_password_step2']);
+Route::post('/resetpassword_step2', [ResetPasswordController::class, 'reset_password_step2_post']);
+
+Route::get('/update_user_profile', [SuperAdminController::class, 'user_profile']);

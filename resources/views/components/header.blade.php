@@ -185,8 +185,7 @@ $flag=$user->user;
             <!--begin::Modal header-->
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                <form action="#" method="POST"
-                    class="form">
+                <form class="form">
                     @csrf
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
@@ -198,21 +197,21 @@ $flag=$user->user;
                     <div class="d-flex flex-column mb-8 fv-row">
                         <label class="required fs-6 fw-bold mb-2" for="uname"
                             style="margin-left: 5px">Name</label>
-                        <input type="text" class="form-control form-control-solid mb-8"
+                        <input type="text" readonly class="form-control form-control-solid"
                             name="name" id="uname" placeholder="Name" value="{{$user->name}}" required>
                     </div>
                     <div class="row g-9 mb-8">
                         <div class="col-md-6 fv-row">
                             <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
                             for="email">Email</label>
-                            <input type="email" class="form-control form-control-solid"
+                            <input readonly type="email" class="form-control form-control-solid"
                             name="email" id="email" placeholder="Email" value="{{$user->email}}"
                             required> 
                         </div>
                         <div class="col-md-6 fv-row">
                             <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
                                 for="phone">Phone</label>
-                            <input type="number" class="form-control form-control-solid"
+                            <input type="number" readonly class="form-control form-control-solid"
                             name="phone" id="phone" placeholder="Phone" value="{{$user->phone}}"
                             required> 
                         </div>
@@ -222,12 +221,11 @@ $flag=$user->user;
                             <label class="required fs-6 fw-bold mb-2"
                                 style="margin-left: 5px"
                                 for="address">Address</label>
-                            <textarea type="text" class="form-control form-control-solid w-100 h-100px" name="address"
+                            <textarea type="text" readonly class="form-control form-control-solid w-100 h-100px" name="address"
                                 placeholder="Address" id="address" required>{{$user->address}}</textarea>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <button type="submit" class="btn btn-primary">Change Password</button>
+                            <a href="{{url('/resetpassword_step1')}}" class="btn btn-primary">Change Password</a>
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Close</button>
                         </div>

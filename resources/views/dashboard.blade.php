@@ -333,6 +333,30 @@
     <script src="assets/js/custom/utilities/modals/create-app.js"></script>
     <script src="assets/js/custom/utilities/modals/users-search.js"></script>
     <!--end::Page Custom Javascript-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    @if (session()->has('success_msg'))
+    @php $msg=session()->get('success_msg');@endphp
+    <script>
+        var success_msg = "<?php echo "$msg"; ?>";
+        console.log(success_msg);
+        swal(success_msg, {
+            icon: "success",
+        });
+    </script>
+    @php session()->forget('success_msg'); @endphp
+    @elseif(session()->has('error_msg'))
+    @php $msg=session()->get('error_msg'); @endphp
+    <script>
+        var error_msg = "<?php echo "$msg"; ?>";
+        console.log(error_msg);
+        swal(error_msg, {
+            icon: "error",
+        });
+    </script>
+    @php session()->forget('error_msg'); @endphp
+    @endif
+
     <!--end::Javascript-->
 </body>
 <!--end::Body-->

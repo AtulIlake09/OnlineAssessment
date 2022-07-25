@@ -211,7 +211,7 @@
                                                     echo '<div class="form-floating col-md-12" id="ansdiv">
                                                         <label class="text-white-custom-colour" for="floatingTextarea2">Answer:-</label>
                                                         <textarea id="txtInput1" class="txtInput form-control" placeholder="Leave a comment here" name="answer" id="answer"
-                                                            style="height: 200px" autofocus>{{ ($answer=='')? "" : $answer; }}</textarea>
+                                                            style="height: 200px" autofocus>{{ ($answer=="") ? "" : $answer }}</textarea>
                                                     </div>'; 
                                             }
                                         ?>

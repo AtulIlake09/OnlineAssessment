@@ -1020,6 +1020,7 @@
                 icon: "success",
             });
         </script>
+        @php session()->forget('success_msg'); @endphp
     @elseif(session()->has('error_msg'))
         @php $msg=session()->get('error_msg'); @endphp
         <script>
@@ -1029,6 +1030,7 @@
                 icon: "error",
             });
         </script>
+        @php session()->forget('error_msg'); @endphp
     @endif
 
 </body>
