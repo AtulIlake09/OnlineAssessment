@@ -13,7 +13,8 @@
                 <th class="min-w-50px">ID</th>
                 <th class="min-w-150px">Name</th>
                 <th class="min-w-150px">Email</th>
-                <th class="min-w-150px">Company</th>
+                <th class="min-w-200px">Company</th>
+                <th class="min-w-100px">Position</th>
                 <th class="min-w-150px text-center">Status</th>
                 <th class="min-w-100px text-center">Actions</th>
             </tr>
@@ -44,6 +45,10 @@
                     </td>
                     <td>
                         <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val['company'] }}</label>
+                    </td>
+                    <td>
+                        <label href="#"
+                            class="text-muted fw-bolder d-block fs-6">{{$val['position']}}</label>
                     </td>
                     <td class="text-center">
                         <span

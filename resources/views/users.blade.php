@@ -163,7 +163,8 @@
                                                                 <th class="min-w-50px">ID</th>
                                                                 <th class="min-w-150px">Name</th>
                                                                 <th class="min-w-150px">Email</th>
-                                                                <th class="min-w-150px">Company</th>
+                                                                <th class="min-w-200px">Company</th>
+                                                                <th class="min-w-100px">Position</th>
                                                                 <th class="min-w-150px text-center">Status</th>
                                                                 <th class="min-w-100px text-center">Actions</th>
                                                             </tr>
@@ -201,6 +202,10 @@
                                                                     <td>
                                                                         <label href="#"
                                                                             class="text-muted fw-bolder d-block fs-6">{{ $val['company'] }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label href="#"
+                                                                            class="text-muted fw-bolder d-block fs-6">{{$val['position']}}</label>
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <span
@@ -334,21 +339,23 @@
                                                 <div class="d-flex flex-column mb-8 fv-row">
                                                     <label class="required fs-6 fw-bold mb-2" for="name"
                                                         style="margin-left: 5px">Name</label>
-                                                    <input type="text" class="form-control form-control-solid mb-8"
+                                                    <input type="text" class="form-control form-control-solid"
                                                         name="name" id="uname" placeholder="User Name" required>
                                                 </div>
                                                 <div class="row g-9 mb-8">
-                                                    <div class="col-md-6 fv-row">
+                                                    <div class="col-md-12 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2" for="email"
                                                             style="margin-left: 5px">Email</label>
                                                         <input type="email"
-                                                            class="form-control form-control-solid mb-8" name="email"
+                                                            class="form-control form-control-solid" name="email"
                                                             id="uemail" placeholder="User Email" required>
                                                     </div>
+                                                </div>
+                                                <div class="row g-9 mb-8">
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2" for="password"
                                                             style="margin-left: 5px">Password</label>
-                                                        <div class="input-group mb-3">
+                                                        <div class="input-group">
                                                             <input type="password"
                                                                 class="form-control form-control-solid" name="password"
                                                                 id="upassword" placeholder="User Password"
@@ -370,20 +377,11 @@
                                                                     </svg></button>
                                                             </div>
                                                         </div>
-                                                        <div class="input-group mb-3" style="margin-left: 8px">
+                                                        <div class="input-group" style="margin-left: 8px">
                                                             <input id="passcheckbox" type="checkbox"
                                                                 onclick="showpass()" style="margin-right: 5px">Show
                                                             Password
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row g-9 mb-8">
-                                                    <div class="col-md-6 fv-row">
-                                                        <label class="required fs-6 fw-bold mb-2"
-                                                            style="margin-left: 5px" for="phone">Phone</label>
-                                                        <input type="number" class="form-control form-control-solid"
-                                                            name="phone" style="cursor: pointer;" placeholder="phone"
-                                                            id="phone" required>
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
@@ -399,6 +397,30 @@
                                                                     {{ $val->cname }}
                                                                 </option>
                                                             @endforeach
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
+                                                </div>
+                                                <div class="row g-9 mb-8">
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px" for="phone">Phone</label>
+                                                        <input type="number" class="form-control form-control-solid"
+                                                            name="phone" style="cursor: pointer;" placeholder="phone"
+                                                            id="phone" required>
+                                                    </div>
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px" for="company">Position</label>
+                                                        <!--begin::Select2-->
+                                                        <select name="position" id="position"
+                                                            style="cursor: pointer;"
+                                                            class="form-control form-select form-select-solid"
+                                                            required>
+                                                            <option value="">Choose Position...</option>
+                                                            <option value="0">Admin</option>
+                                                            <option value="2">Recruiter</option>
+                                                            <option value="3">Hiring Manager</option>
                                                         </select>
                                                         <!--end::Select2-->
                                                     </div>
@@ -466,28 +488,18 @@
                                                     <div class="d-flex flex-column mb-8 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="name">Name</label>
-                                                        <input type="text" class="form-control form-control-solid mb-8"
+                                                        <input type="text" class="form-control form-control-solid"
                                                             name="name" id="name" placeholder="Name"
                                                             value="{{ empty($val['name']) ? '' : $val['name'] }}"
-                                                            required>
-
-                                                        <label class="required fs-6 fw-bold mb-2"
-                                                            style="margin-left: 5px" for="inputEmail4">Email</label>
-                                                        <input type="email" disabled
-                                                            class="form-control form-control-solid" name="email"
-                                                            id="email" placeholder="Email"
-                                                            value="{{ empty($val['email']) ? '' : $val['email'] }}"
                                                             required>
                                                     </div>
                                                     <div class="row g-9 mb-8">
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="phone">Phone</label>
-                                                            <input type="number"
-                                                                class="form-control form-control-solid" name="phone"
-                                                                style="cursor: pointer;" placeholder="phone"
-                                                                id="user_phone"
-                                                                value="{{ empty($val['phone']) ? '' : $val['phone'] }}"
+                                                                style="margin-left: 5px" for="inputEmail4">Email</label>
+                                                            <input type="email" class="form-control form-control-solid" name="email"
+                                                                id="email" placeholder="Email"
+                                                                value="{{ empty($val['email']) ? '' : $val['email'] }}"
                                                                 required>
                                                         </div>
                                                         <div class="col-md-6 fv-row">
@@ -512,6 +524,33 @@
                                                             </select>
                                                             <!--end::Select2-->
                                                         </div>
+                                                    </div>
+                                                    <div class="row g-9 mb-8">
+                                                        <div class="col-md-6 fv-row">
+                                                            <label class="required fs-6 fw-bold mb-2"
+                                                                style="margin-left: 5px" for="phone">Phone</label>
+                                                            <input type="number"
+                                                                class="form-control form-control-solid" name="phone"
+                                                                style="cursor: pointer;" placeholder="phone"
+                                                                id="user_phone"
+                                                                value="{{ empty($val['phone']) ? '' : $val['phone'] }}"
+                                                                required>
+                                                        </div>
+                                                        <div class="col-md-6 fv-row">
+                                                            <label class="required fs-6 fw-bold mb-2"
+                                                                style="margin-left: 5px" for="company">Position</label>
+                                                            <!--begin::Select2-->
+                                                            <select name="position" id="position"
+                                                                style="cursor: pointer;"
+                                                                class="form-control form-select form-select-solid"
+                                                                required>
+                                                                <option value="">Choose Position...</option>
+                                                                <option @if($val['position_id']==0) selected @endif value="0">Admin</option>
+                                                                <option @if($val['position_id']==2) selected @endif value="2">Recruiter</option>
+                                                                <option @if($val['position_id']==3) selected @endif value="3">Hiring Manager</option>
+                                                            </select>
+                                                            <!--end::Select2-->
+                                                        </div>
                                                         <div class="col-md-12 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2" for="address"
                                                                 style="margin-left: 5px">Address</label>
@@ -519,8 +558,8 @@
                                                                 placeholder="Enter User Address" required>{{ empty($val['address']) ? '' : $val['address'] }}</textarea>
                                                         </div>
                                                         <div class="text-center">
-                                                            <button type="submit" id="update"
-                                                                class="btn btn-primary mt-5">Update
+                                                            <button type="submit"
+                                                                class="update btn btn-primary mt-5">Update
                                                                 User</button>
                                                         </div>
                                                     </div>
@@ -593,6 +632,7 @@
                                                                 <th class="min-w-150px">Name</th>
                                                                 <th class="min-w-150px">Email</th>
                                                                 <th class="min-w-150px">Phone</th>
+                                                                <th class="min-w-100px">Position</th>
                                                                 <th class="min-w-150px text-center">Status</th>
                                                                 <th class="min-w-100px text-center">Actions</th>
                                                             </tr>
@@ -630,6 +670,10 @@
                                                                     <td>
                                                                         <label href="#"
                                                                             class="text-muted fw-bolder d-block fs-6">{{ $val['phone'] }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label href="#"
+                                                                            class="text-muted fw-bolder d-block fs-6">{{$val['position']}}</label>
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <span
@@ -808,13 +852,30 @@
                                                     </div>
                                                 </div>
                                                 <div class="row g-9 mb-8">
-                                                    <div class="col-md-12 fv-row">
+                                                    <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="phone">Phone</label>
                                                         <input type="number" class="form-control form-control-solid"
                                                             name="phone" style="cursor: pointer;" placeholder="phone"
                                                             id="phone" required>
                                                     </div>
+                                                    <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px" for="company">Position</label>
+                                                        <!--begin::Select2-->
+                                                        <select name="position" id="position"
+                                                            style="cursor: pointer;"
+                                                            class="form-control form-select form-select-solid"
+                                                            required>
+                                                            <option value="">Choose Position...</option>
+                                                            <option value="0">Admin</option>
+                                                            <option value="2">Recruiter</option>
+                                                            <option value="3">Hiring Manager</option>
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
+                                                </div>
+                                                <div class="row g-9 mb-8">
                                                     <div class="col-md-12 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2" for="address"
                                                             style="margin-left: 5px">Address</label>
@@ -888,14 +949,13 @@
 
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="inputEmail4">Email</label>
-                                                        <input type="email" disabled
-                                                            class="form-control form-control-solid" name="email"
+                                                        <input type="email" class="form-control form-control-solid" name="email"
                                                             id="user_email" placeholder="Email"
                                                             value="{{ empty($val['email']) ? '' : $val['email'] }}"
                                                             required>
                                                     </div>
                                                     <div class="row g-9 mb-8">
-                                                        <div class="col-md-12 fv-row">
+                                                        <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
                                                                 style="margin-left: 5px" for="phone">Phone</label>
                                                             <input type="number"
@@ -905,6 +965,23 @@
                                                                 value="{{ empty($val['phone']) ? '' : $val['phone'] }}"
                                                                 required>
                                                         </div>
+                                                        <div class="col-md-6 fv-row">
+                                                            <label class="required fs-6 fw-bold mb-2"
+                                                                style="margin-left: 5px" for="company">Position</label>
+                                                            <!--begin::Select2-->
+                                                            <select name="position" id="position"
+                                                                style="cursor: pointer;"
+                                                                class="form-control form-select form-select-solid"
+                                                                required>
+                                                                <option value="">Choose Position...</option>
+                                                                <option @if($val['position_id']==0) selected @endif value="0">Admin</option>
+                                                                <option @if($val['position_id']==2) selected @endif value="2">Recruiter</option>
+                                                                <option @if($val['position_id']==3) selected @endif value="3">Hiring Manager</option>
+                                                            </select>
+                                                            <!--end::Select2-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-9 mb-8">
                                                         <div class="col-md-12 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2" for="address"
                                                                 style="margin-left: 5px">Address</label>
@@ -912,8 +989,8 @@
                                                                 placeholder="Enter User Address" required>{{ empty($val['address']) ? '' : $val['address'] }}</textarea>
                                                         </div>
                                                         <div class="text-center">
-                                                            <button type="submit" id="update"
-                                                                class="btn btn-primary mt-5">Update
+                                                            <button type="submit" 
+                                                                class="update btn btn-primary mt-5">Update
                                                                 User</button>
                                                         </div>
                                                     </div>
@@ -963,6 +1040,7 @@
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+        $("#copypassword").hide();
         function showpass() {
             var x = document.getElementById("upassword");
             if (x.type === "password") {
@@ -971,7 +1049,11 @@
                 x.type = "password";
             }
 
+            $("#copypassword").prop('disabled', true);
+
             if (x.type == "text") {
+                $("#copypassword").show();
+                $("#copypassword").prop('disabled', false);
                 $("#copypassword").click(function(e) {
                     e.preventDefault();
                     var pass = $('#upassword');
@@ -980,6 +1062,10 @@
 
                     console.log($(this).tooltip('hide').attr('title', 'Link Copied').tooltip('show'));
                 });
+            }
+            else{
+
+                $("#copypassword").hide();
             }
         }
     </script>
@@ -992,7 +1078,7 @@
                 this.scrollLeft -= (delta * 30);
                 event.preventDefault();
         
-        });
+            });
         });
     </script>
 
@@ -1073,7 +1159,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#update").on("click", function(e) {
+            $(".update").on("click", function(e) {
 
                 e.preventDefault();
 
@@ -1086,7 +1172,7 @@
                 }).then((willupdate) => {
                     if (willupdate) {
 
-                        $('#update_form').submit();
+                        $('.update_form').submit();
 
                     } else {
                         swal("Update cancel!", {
@@ -1152,6 +1238,14 @@
                 icon: "error",
             });
         </script>
+    @enderror
+    @error('position')
+    <script>
+        var error = "<?php echo "$message"; ?>";
+        swal(error, {
+            icon: "error",
+        });
+    </script>
     @enderror
 
     {{-- <script>

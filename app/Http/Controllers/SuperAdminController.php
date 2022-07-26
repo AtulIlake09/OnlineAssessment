@@ -17,7 +17,8 @@ class SuperAdminController extends Controller
             'phone' => 'required',
             'address' => 'required',
             'company_id' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'position'=>'required'
         ]);
 
         $name = $request->name;
@@ -26,6 +27,7 @@ class SuperAdminController extends Controller
         $address = $request->address;
         $password = $request->password;
         $company_id = $request->company_id;
+        $position=$request->position;
         $pass = bcrypt($password);
 
         $data = [
@@ -35,25 +37,25 @@ class SuperAdminController extends Controller
             'address' => $address,
             'password' => $pass,
             'company_id' => $company_id,
-            'user' => 0
+            'user' => $position
         ];
 
         $query = User::insert($data);
 
-        if ($query == true) {
-            $array = ['email' => $email, 'password' => $password];
+        // if ($query == true) {
+        //     $array = ['email' => $email, 'password' => $password];
 
-            Mail::send('sendpassword', $array, function ($message) use ($email) {
-                $message->to($email);
-                $message->subject('Login Details');
-            });
+        //     Mail::send('sendpassword', $array, function ($message) use ($email) {
+        //         $message->to($email);
+        //         $message->subject('Login Details');
+        //     });
 
-            if (Mail::failures()) {
-                return redirect()->back()->with('error_msg', "User Created But Password Not Send");
-            }
-        } else {
-            return redirect()->back()->with('error_msg', "User Not Created");
-        }
+        //     if (Mail::failures()) {
+        //         return redirect()->back()->with('error_msg', "User Created But Password Not Send");
+        //     }
+        // } else {
+        //     return redirect()->back()->with('error_msg', "User Not Created");
+        // }
 
         return redirect()->back()->with('success_msg', "User Created Successfully");
     }
@@ -93,6 +95,23 @@ class SuperAdminController extends Controller
 
                 $users = [];
                 foreach ($query->all() as $val) {
+                    $position="";
+                    if($val->user==0)
+                    {
+                        $position='Admin';
+                    }
+                    elseif($val->user==1)
+                    {
+                        $position='Super admin';
+                    }
+                    elseif($val->user==2)
+                    {
+                        $position='Recruiter';
+                    }
+                    elseif($val->user==3)
+                    {
+                        $position='Hiring Manager';
+                    }
 
                     $users[] = [
                         'id' => $val->id,
@@ -103,7 +122,9 @@ class SuperAdminController extends Controller
                         'company_id' => $val->company_id,
                         'company' => $val->cname,
                         'status' => $val->status,
-                        'user' => $val->user
+                        'user' => $val->user,
+                        'position'=>$position,
+                        'position_id'=>$val->user
                     ];
                 }
 
@@ -130,6 +151,24 @@ class SuperAdminController extends Controller
         $users = [];
         foreach ($query->all() as $val) {
 
+            $position="";
+            if($val->user==0)
+            {
+                $position='admin';
+            }
+            elseif($val->user==1)
+            {
+                $position='Super admin';
+            }
+            elseif($val->user==2)
+            {
+                $position='Recruiter';
+            }
+            elseif($val->user==3)
+            {
+                $position='Hiring Manager';
+            }
+
             $users[] = [
                 'id' => $val->id,
                 'name' => $val->name,
@@ -139,7 +178,9 @@ class SuperAdminController extends Controller
                 'company_id' => $val->company_id,
                 'company' => $val->cname,
                 'status' => $val->status,
-                'user' => $val->user
+                'user' => $val->user,
+                'position'=>$position,
+                'position_id'=>$val->user
             ];
         }
 
@@ -178,9 +219,11 @@ class SuperAdminController extends Controller
         if ($flag == 1 || $flag == 0) {
             $request->validate([
                 'name' => 'required',
+                'email'=>'unique:users,email,'.$request->id,
                 'company_id' => 'required',
                 'phone' => 'required',
                 'address' => 'required',
+                'position'=>'required'
             ]);
 
             $id = $request->id;
@@ -188,9 +231,11 @@ class SuperAdminController extends Controller
 
             $data = [
                 'name' => $request->name,
+                'email'=>$request->email,
                 'company_id' => $request->company_id,
                 'phone' => $request->phone,
                 'address' => $request->address,
+                'user'=>$request->position,
                 'updated_at' => $time
             ];
 

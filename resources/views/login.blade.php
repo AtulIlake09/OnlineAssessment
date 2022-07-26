@@ -153,9 +153,8 @@
                                         @error('file')
                                             {{ $message }}
                                         @enderror
-                                    </span>
-                                    <label for="formFile" class="form-label text-white-custom-colour">Upload
-                                        Resume:</label>
+                                    </span><br>
+                                    <label for="formFile" class="form-label text-white-custom-colour">Upload Resume:</label>
                                     <input class="form-control" type="file" id="formFile" name='file'
                                         accept=".docx,.doc,.txt,.xlx,.xls,.pdf" style="color:#03045e">
                                 </div>

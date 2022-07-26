@@ -24,46 +24,46 @@ class InfoController extends Controller
             ->select('id', 'description')
             ->where('id', '=', $cat)
             ->first();
-
+        
         if (empty($query) || empty($category) || $query->status == 0) {
             $err = "You can not give a test !";
             return view('AfterSubmit', compact('err'));
         } else {
-                $query = DB::table('candidate')
-                    ->where('category_id', '=', $cat)
-                    ->where('candidate_id', '=', $key)
-                    ->first();
-
-                if (!empty($query)) {
-                    if ($query->status == 0) {
-                        $name = $query->name;
-                        $email = $query->email;
-                        $phone = $query->mobile;
+            $query = DB::table('candidate')
+                ->where('category_id', '=', $cat)
+                ->where('candidate_id', '=', $key)
+                ->first();
+                
+            if (!empty($query)) {
+                if ($query->status == 0) {
+                    $name = $query->name;
+                    $email = $query->email;
+                    $phone = $query->mobile;
                     $company_id = $query->company_id;
-                        $link = $query->link;
+                    $link = $query->link;
                     $descrip = $category->description;
 
                     return view('login', compact('name', 'email', 'company_id', 'phone', 'cat', 'key', 'link', 'descrip'));
-                    } else {
-
-                        $err = "You can not give a test !";
-                        return view('AfterSubmit', compact('err'));
-                    }
                 } else {
 
-                    $query = DB::table('candidate_test_link as cn')
-                        ->join('category as cat', 'cn.test_category_id', 'cat.id')
-                    ->select('cn.name', 'cn.email', 'cn.phone', 'cn.link', 'cat.description', 'cn.company_id')
-                        ->where('cn.test_category_id', '=', $cat)
-                        ->where('cn.candidate_id', '=', $key)
-                        ->first();
+                    $err = "You can not give a test !";
+                    return view('AfterSubmit', compact('err'));
+                }
+            } else {
 
-                    $name = $query->name;
-                    $email = $query->email;
+                $query = DB::table('candidate_test_link as cn')
+                    ->join('category as cat', 'cn.test_category_id', 'cat.id')
+                    ->select('cn.name', 'cn.email', 'cn.phone', 'cn.link', 'cat.description', 'cn.company_id')
+                    ->where('cn.test_category_id', '=', $cat)
+                    ->where('cn.candidate_id', '=', $key)
+                    ->first();
+
+                $name = $query->name;
+                $email = $query->email;
                 $company_id = $query->company_id;
-                    $phone = $query->phone;
-                    $link = $query->link;
-                    $descrip = $query->description;
+                $phone = $query->phone;
+                $link = $query->link;
+                $descrip = $query->description;
 
                 return view('login', compact('name', 'email', 'company_id', 'phone', 'cat', 'key', 'link', 'descrip'));
             }
@@ -97,7 +97,7 @@ class InfoController extends Controller
         $ip = $request->ip();
 
         $query = DB::table('candidate')
-        ->where('candidate_id', '=', $candidate_id);
+            ->where('candidate_id', '=', $candidate_id);
 
         $new_query = $query->first();
         if (!empty($new_query)) {
@@ -138,7 +138,7 @@ class InfoController extends Controller
                     'email' => $email,
                     'mobile' => $mobile,
                     'category_id' => $category_id,
-                'company_id' => $company_id,
+                    'company_id' => $company_id,
                     'resume' => $path,
                     'link' => $link,
                     'ip' => $ip,

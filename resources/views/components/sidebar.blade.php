@@ -85,6 +85,7 @@ $flag=$user->user;
                                 </a>
                             </div>
                         @endif
+                        @if($flag==1 || $flag==0)
                         <div class="menu-item">
                             <a class="menu-link {{ (request()->is('users')) ? 'active' : '' }}" href="{{ url('/users') }}">
                                 <span class="menu-bullet">
@@ -93,6 +94,7 @@ $flag=$user->user;
                                 <span class="menu-title">Users</span>
                             </a>
                         </div>
+                        @endif
                         <div class="menu-item">
                             <a class="menu-link {{ (request()->is('generatelink')) ? 'active' : '' }}" href="{{ url('/generatelink') }}">
                                 <span class="menu-bullet">
