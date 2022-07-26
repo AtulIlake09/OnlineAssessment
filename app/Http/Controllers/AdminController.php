@@ -87,7 +87,7 @@ class AdminController extends Controller
                 return redirect('/adminlogin')->with('fail', 'Login Not Allowed');
             }
 
-            
+
 
             return redirect('dashboard');
         } else {
@@ -153,7 +153,7 @@ class AdminController extends Controller
                 ->whereIn('cl.status', [0, 1])
             ->orderBy('id', 'desc');
             
-            if ($flag == 0) {
+            if ($flag == 0 || $flag==2 || $flag==3) {
                 $query->where('cl.company_id', $company_id);
             } elseif ($request->ajax()) {
 
@@ -176,7 +176,7 @@ class AdminController extends Controller
                 ->select('id', 'category')
             ->where('active', 1);
 
-            if ($flag == 0) {
+            if ($flag == 0 || $flag==2 || $flag==3) {
                 $query->where('company_id', $company_id);
             }
 
@@ -377,7 +377,7 @@ class AdminController extends Controller
                 )
                 ->orderBy('cn.id','desc');
                
-            if ($flag == 0) {
+            if ($flag == 0 || $flag==2 || $flag==3) {
                 $query->where('cn.company_id', $company_id);
             } elseif ($request->ajax()) {
 
