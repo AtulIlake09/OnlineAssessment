@@ -565,7 +565,7 @@
                                 <!--end::Modal dialog-->
                             </div>
                         @endforeach
-                    @elseif($flag == 0)
+                    @elseif($flag == 0 || $flag==2 || $flag==3)
                         <div class="modal fade" id="kt_generate_link" tabindex="-1" aria-hidden="true">
                             <!--begin::Modal dialog-->
                             <div class="modal-dialog mw-650px">

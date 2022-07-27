@@ -225,7 +225,7 @@ class SuperAdminController extends Controller
                 'address' => 'required',
                 'position'=>'required'
             ]);
-
+            
             $id = $request->id;
             $time = date('Y-m-d h:i:s');
 

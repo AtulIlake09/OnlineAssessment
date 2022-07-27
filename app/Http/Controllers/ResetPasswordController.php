@@ -52,7 +52,7 @@ class ResetPasswordController extends Controller
     public function reset_password_step2_post(Request $request)
     {
         $request->validate([
-            'password' => 'required|min:8|max:16',
+            'password' => 'required|min:7|max:16',
             'confirm_password' => 'required|same:password'
         ]);
 

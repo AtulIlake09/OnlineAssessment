@@ -21,7 +21,7 @@ class AdminController extends Controller
 
             $query = DB::table('category')
                 ->where('active','!=',2);
-                if($flag==0)
+                if($flag==0 || $flag==2 || $flag==3)
                 {
                     $query->where('company_id',$user->company_id);
                 }
@@ -29,7 +29,7 @@ class AdminController extends Controller
             
             $query = DB::table('candidate')
                 ->where('active_status','!=',2);
-                if($flag==0)
+                if($flag==0 || $flag==2 || $flag==3)
                 {
                     $query->where('company_id',$user->company_id);
                 }
@@ -56,7 +56,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
@@ -603,7 +603,7 @@ class AdminController extends Controller
             $user = auth()->user();
             $flag = $user->user;
 
-            if ($flag == 0) {
+            if ($flag == 0 || $flag==2 || $flag==3) {
 
                 $company_id = $user->company_id;
                 $category = $this->getcattbl($company_id);

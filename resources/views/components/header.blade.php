@@ -187,7 +187,7 @@ $flag=$user->user;
             <!--begin::Modal header-->
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                <form class="form">
+                <form action="{{url('/edit_users')}}" method="POST" class="form">
                     @csrf
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
@@ -199,23 +199,35 @@ $flag=$user->user;
                     <div class="d-flex flex-column mb-8 fv-row">
                         <label class="required fs-6 fw-bold mb-2" for="uname"
                             style="margin-left: 5px">Name</label>
-                        <input type="text" readonly class="form-control form-control-solid"
+                        <input type="text" @if($user->user == 1)  @else readonly @endif class="form-control form-control-solid"
                             name="name" id="uname" placeholder="Name" value="{{$user->name}}" required>
+                            <input type="hidden" name="company_id" value="{{$user->company_id}}">
+                            <input type="hidden" name="id" value="{{$user->id}}">
+
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-12 fv-row">
+                            <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                            for="email">Email</label>
+                            <input @if($user->user == 1)  @else readonly @endif type="email" class="form-control form-control-solid"
+                            name="email" id="email" placeholder="Email" value="{{$user->email}}"
+                            required> 
+                        </div>
                     </div>
                     <div class="row g-9 mb-8">
                         <div class="col-md-6 fv-row">
                             <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
-                            for="email">Email</label>
-                            <input readonly type="email" class="form-control form-control-solid"
-                            name="email" id="email" placeholder="Email" value="{{$user->email}}"
+                                for="phone">Phone</label>
+                            <input type="number" @if($user->user == 1)  @else readonly @endif class="form-control form-control-solid"
+                            name="phone" id="phone" placeholder="Phone" value="{{$user->phone}}"
                             required> 
                         </div>
                         <div class="col-md-6 fv-row">
-                            <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
-                                for="phone">Phone</label>
-                            <input type="number" readonly class="form-control form-control-solid"
-                            name="phone" id="phone" placeholder="Phone" value="{{$user->phone}}"
-                            required> 
+                            <label class="required fs-6 fw-bold mb-2"
+                                style="margin-left: 5px" for="position">Position</label>
+                            <input type="text" readonly class="form-control form-control-solid" id="position" placeholder="Position" 
+                            value="{{($user->user==1)? "Super Admin" : (($user->user==0)? "Admin" : (($user->user==2)? "Recruiter" : (($user->user==3)? "Hiring Manager" : "")))}}" required>
+                            <input type="hidden" name="position" value="{{$user->user}}">
                         </div>
                     </div>
                     <div class="row g-9 mb-8">
@@ -223,10 +235,13 @@ $flag=$user->user;
                             <label class="required fs-6 fw-bold mb-2"
                                 style="margin-left: 5px"
                                 for="address">Address</label>
-                            <textarea type="text" readonly class="form-control form-control-solid w-100 h-100px" name="address"
+                            <textarea type="text" @if($user->user == 1)  @else readonly @endif class="form-control form-control-solid w-100 h-100px" name="address"
                                 placeholder="Address" id="address" required>{{$user->address}}</textarea>
                         </div>
                         <div class="text-center">
+                            @if($user->user==1)
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            @endif
                             <a href="{{url('/resetpassword_step1')}}" class="btn btn-primary">Change Password</a>
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Close</button>

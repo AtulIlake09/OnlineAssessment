@@ -245,7 +245,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                        @elseif($flag==0)
+                                        @elseif($flag==0 || $flag==2 || $flag==3)
                                             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                                                 <form action="{{ url('/addcategory') }}" method="POST"
                                                     class="form">

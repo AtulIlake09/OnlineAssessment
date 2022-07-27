@@ -55,6 +55,24 @@
       padding:10px 10px;
       color:#03045e;
      }
+
+     .registration_form::-webkit-input-placeholder {
+        font-weight: 300;
+        font-family: Poppins;
+     }
+     #footer {
+        position:absolute;
+        bottom:0;
+        width:100%;
+        height:60px;   / Height of the footer /
+        background:#6cf;
+    }
+   
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
     </style>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -140,73 +158,8 @@
     <!-- end header -->
     <!-- banner -->
     <section class="banner_main">
-        <div class="container">
-            <div class="row d_flex justify-content-md-center">
-                <div class="mx-auto">
-                    <form action="{{ url('/adminlog') }}" method="POST" id="request" class="main_form"
-                        style="width: 33vmax;">
-                        <h2 style="color: #03045e; font-family: Poppins; font-weight: bold;text-align: center;">User Login</h2>
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12 Icon-inside">
-                                <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-                                <input class="contactus input100" placeholder="Email" type="email" name="email"
-                                    style="margin-top: 20px; margin-bottom: 0px;" required>
-                                <span style="color: rgb(230, 33, 33)">
-                                    @error('email')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <div class="col-md-12 Icon-inside">
-                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
-                                <input class="contactus input100" placeholder="Password" type="password" name="password"
-                                    style="margin-top: 20px; margin-bottom: 0px;" required>
-                                <span style="color: rgb(230, 33, 33)">
-                                    @error('password')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-                            <input hidden name="ip" type="text" id="ip">
-                            <input hidden name="time" type="text" id="time">
-                            <div class="col-sm-12 mb-3">
-                                <button type="submit" class="send_btn" style="font-family: Poppins; margin-top: 20px;">Login</button>
-                            </div>
-                            <div class="col-sm-12" style='text-align: center'>
-                                <a href="{{url('/forgotpassword')}}">Forgot Password</a>
-                            </div>
-                            <div class="col-sm-12" style='text-align: center'>
-                                {{-- <p>Don't have an account? <a href="{{url('/new_user_registration_step1')}}">Create one here.</a> </p> --}}
-                                <a href="{{url('/new_user_registration_step1')}}">Sign Up</a>
-                            </div>
-                        </div>
-                        {{-- <div class="txt1 text-center p-t-30 p-b-20">
-                            <span style="color: #03045e;">
-                                Or Sign Up Using
-                            </span>
-                        </div>
-            
-                        <div class="flex-c-m">
-                            <a href="{{ route('login.google')}}" class="login100-social-item bg3">
-                                <i class="fa fa-google"></i>
-                            </a>
-            
-                            <a href="{{ route('login.github')}}" class="login100-social-item bg2">
-                                <i class="fa fa-github"></i>
-                            </a>
-            
-                            <a href="{{ route('login.facebook')}}" class="login100-social-item bg1">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </div> --}}
-                    </form>
-                </div>
-                
-            </div>
-            
+        @yield('content')
     </section>
-   
     <footer>
         <div class="footer">
             <div class="copyright">
@@ -232,6 +185,17 @@
     <script src="{{ asset('js/custom.js') }}"></script>
     {{-- <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script> --}}
     <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js') }}"></script>
+    <script>
+        function showpass() {
+            var x = document.getElementById("upassword");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+
+        }
+    </script>
 
 </body>
 

@@ -411,7 +411,7 @@
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
-                                                            style="margin-left: 5px" for="company">Position</label>
+                                                            style="margin-left: 5px" for="position">Position</label>
                                                         <!--begin::Select2-->
                                                         <select name="position" id="position"
                                                             style="cursor: pointer;"
@@ -474,7 +474,7 @@
                                             <!--begin::Modal header-->
                                             <!--begin::Modal body-->
                                             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                                <form id="update_form" action="{{ url('/edit_users') }}"
+                                                <form action="{{ url('/edit_users') }}"
                                                     method="POST">
                                                     @csrf
                                                     <!--begin::Heading-->
@@ -926,7 +926,7 @@
                                             <!--begin::Modal header-->
                                             <!--begin::Modal body-->
                                             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                                <form id="update_form" action="{{ url('/edit_users') }}"
+                                                <form action="{{ url('/edit_users') }}"
                                                     method="POST">
                                                     @csrf
                                                     <!--begin::Heading-->
@@ -990,8 +990,7 @@
                                                         </div>
                                                         <div class="text-center">
                                                             <button type="submit" 
-                                                                class="update btn btn-primary mt-5">Update
-                                                                User</button>
+                                                                class="update btn btn-primary mt-5">Update User</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -1125,7 +1124,6 @@
                     buttons: true,
                     dangerMode: true,
                 }).then((willDelete) => {
-                    console.log(id)
                     if (willDelete) {
                         $.ajax({
                             type: "get",
@@ -1157,7 +1155,7 @@
         });
     </script>
 
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $(document).ready(function() {
             $(".update").on("click", function(e) {
 
@@ -1170,6 +1168,7 @@
                     buttons: true,
                     dangerMode: true,
                 }).then((willupdate) => {
+                    console.log(id)
                     if (willupdate) {
 
                         $('.update_form').submit();
@@ -1184,7 +1183,7 @@
 
 
         });
-    </script>
+    </script> --}}
     <!--end::Javascript-->
     @if (session()->has('success_msg'))
         @php $msg=session()->get('success_msg'); @endphp

@@ -5,6 +5,7 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NewUserRegistrationController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SuperAdminController;
@@ -132,4 +133,12 @@ Route::post('/resetpassword_step1', [ResetPasswordController::class, 'reset_pass
 Route::get('/resetpassword_step2', [ResetPasswordController::class, 'reset_password_step2']);
 Route::post('/resetpassword_step2', [ResetPasswordController::class, 'reset_password_step2_post']);
 
-Route::get('/update_user_profile', [SuperAdminController::class, 'user_profile']);
+Route::get('/new_user_registration_step1',[NewUserRegistrationController::class,'newuserregistration_step1']);
+Route::post('/new_user_registration_step1',[NewUserRegistrationController::class,'newuserregistration_step1_post']);
+Route::get('/new_company_registration',[NewUserRegistrationController::class,'register_company'])->name('register_company');
+Route::post('/new_company_registration',[NewUserRegistrationController::class,'register_company_post']);
+Route::get('/new_user_registration_step2',[NewUserRegistrationController::class,'newuserregistration_step2']);
+Route::post('/new_user_registration_step2',[NewUserRegistrationController::class,'newuserregistration_step2_post']);
+
+
+
