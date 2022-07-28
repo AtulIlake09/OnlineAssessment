@@ -40,8 +40,11 @@
                             <textarea type="text" class="registration_form form-control form-control-solid mt-3" style="color: #03045e; font-family: Poppins; font-weight: bold;" name="address" 
                                 placeholder="Company Address" required></textarea>
                         </div>
-                        <div class="col-sm-12 mb-3">
+                        <div class="col-sm-6 mb-3">
                             <button type="submit" class="send_btn" style="font-family: Poppins; margin-top: 20px;">Next</button>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <a href="{{url('/new_user_registration_step1')}}" class="send_btn" style="font-family: Poppins; text-align: center; margin-top: 20px;">Cancel</a>
                         </div>
                     </div>
                 </form>

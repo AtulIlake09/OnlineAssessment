@@ -82,12 +82,14 @@ class AdminController extends Controller
             // $user = User::where(['email' => $request->email, 'status' => 1])->first();
             $user = auth()->user();
             $status = $user->status;
-            if ($status == 0) {
+            $query=DB::table('companies')
+            ->where('id',$user->company_id)
+            ->first();
+            $cstatus=$query->status;
+            if ($cstatus!=1 || $status != 1) {
                 Auth::logout();
                 return redirect('/adminlogin')->with('fail', 'Login Not Allowed');
             }
-
-
 
             return redirect('dashboard');
         } else {

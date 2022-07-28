@@ -56,7 +56,9 @@
             <!--begin::Aside-->
             <x-sidebar />
             <!--end::Aside-->
-
+            @php
+            $user=auth()->user();
+            @endphp
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
@@ -84,6 +86,7 @@
                                 </h1>
                                 <!--end::Title-->
                             </div>
+                            <a href="{{ url('/users/requests/'.$user->company_id) }}" class="btn btn-sm btn-primary">Users Requests</a>
                             <!--end::Page title-->
                         </div>
                         <!--end::Container-->

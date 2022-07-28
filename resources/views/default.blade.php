@@ -20,17 +20,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="images/logometricoid.png" />
+    <link rel="shortcut icon" href="{{url('images/logometricoid.png')}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Page Vendor Stylesheets(used by this page)-->
-    <link href="{{asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
+        type="text/css" />
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
-    <link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
     <style>
         input::-webkit-outer-spin-button,
@@ -38,7 +40,6 @@
             -webkit-appearance: none;
             margin: 0;
         }
-
     </style>
 </head>
 <!--end::Head-->
@@ -49,20 +50,20 @@
     style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
     <!--begin::Main-->
     @php
-        $user=auth()->user();
+        $user = auth()->user();
     @endphp
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root">
         <!--begin::Page-->
         <div class="page d-flex flex-row flex-column-fluid">
             <!--begin::Aside-->
-            <x-sidebar/>
+            <x-sidebar />
             <!--end::Aside-->
 
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
-                <x-header/>
+                <x-header />
                 <!--end::Header-->
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -75,27 +76,43 @@
                                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                 <!--begin::Title-->
-                                @if(request()->is('resetpassword_step1')||request()->is('resetpassword_step2'))
-                                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Reset Password
-                                    <!--begin::Separator-->
-                                    <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
-                                    <!--end::Separator-->
-                                    <!--begin::Description-->
-                                    {{-- <span class="text-muted fs-7 fw-bold mt-2">#XRS-45670</span> --}}
-                                    <!--end::Description-->
-                                </h1>
-                                @else
-                                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ $category }}
-                                    <!--begin::Separator-->
-                                    <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
-                                    <!--end::Separator-->
-                                    <!--begin::Description-->
-                                    {{-- <span class="text-muted fs-7 fw-bold mt-2">#XRS-45670</span> --}}
-                                    <!--end::Description-->
-                                </h1>
+                                @if (request()->is('resetpassword_step1') || request()->is('resetpassword_step2'))
+                                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Reset Password
+                                        <!--begin::Separator-->
+                                        <span
+                                            class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
+                                        <!--end::Separator-->
+                                        <!--begin::Description-->
+                                        {{-- <span class="text-muted fs-7 fw-bold mt-2">#XRS-45670</span> --}}
+                                        <!--end::Description-->
+                                    </h1>
+                                @elseif(request()->is('users/requests/*'))
+                                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">User Request
+                                        <!--begin::Separator-->
+                                        <span
+                                            class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
+                                        <!--end::Separator-->
+                                        <!--begin::Description-->
+                                        {{-- <span class="text-muted fs-7 fw-bold mt-2">#XRS-45670</span> --}}
+                                        <!--end::Description-->
+                                    </h1>
+                                @elseif(request()->routeIs('question.*'))
+                                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">
+                                        {{ $category }}
+                                        <!--begin::Separator-->
+                                        <span
+                                            class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
+                                        <!--end::Separator-->
+                                        <!--begin::Description-->
+                                        {{-- <span class="text-muted fs-7 fw-bold mt-2">#XRS-45670</span> --}}
+                                        <!--end::Description-->
+                                    </h1>
                                 @endif
                                 <!--end::Title-->
                             </div>
+                            @if (request()->is('users/requests/*'))
+                                <a href="{{ url('/users') }}" class="btn btn-sm btn-primary">All User</a>
+                            @endif
                             {{-- <a class="nav-link" id="UserDropdown" href="myaccountview">
                                 <img class="img-xs rounded-circle" src="images/client.png" alt="Profile"> 
                             </a> --}}
@@ -129,20 +146,20 @@
         var hostUrl = "assets/";
     </script>
     <!--begin::Global Javascript Bundle(used by all pages)-->
-    <script src="{{asset('assets/plugins/global/plugins.bundle.js')}}"></script>
-    <script src="{{asset('assets/js/scripts.bundle.js')}}"></script>
+    <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <!--end::Global Javascript Bundle-->
     <!--begin::Page Vendors Javascript(used by this page)-->
-    <script src="{{asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
-    <script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
+    <script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
+    <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <!--end::Page Vendors Javascript-->
     <!--begin::Page Custom Javascript(used by this page)-->
-    <script src="{{asset('assets/js/widgets.bundle.js')}}"></script>
-    <script src="{{asset('assets/js/custom/widgets.js')}}"></script>
-    <script src="{{asset('assets/js/custom/apps/chat/chat.js')}}"></script>
-    <script src="{{asset('assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-    <script src="{{asset('assets/js/custom/utilities/modals/create-app.js')}}"></script>
-    <script src="{{asset('assets/js/custom/utilities/modals/users-search.js')}}"></script>
+    <script src="{{ asset('assets/js/widgets.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/apps/chat/chat.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/utilities/modals/create-app.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/utilities/modals/users-search.js') }}"></script>
     <!--end::Page Custom Javascript-->
     <script>
         const togglePassword = document.querySelector("#togglePassword");
@@ -150,81 +167,54 @@
         const password = document.querySelector("#password");
         const cpassword = document.querySelector("#cpassword");
 
-        togglePassword.addEventListener("click", function () {
+        togglePassword.addEventListener("click", function() {
             // toggle the type attribute
             const type = password.getAttribute("type") === "password" ? "text" : "password";
             password.setAttribute("type", type);
-            
+
             // toggle the icon
             this.classList.toggle("bi-eye");
         });
 
-        ctogglePassword.addEventListener("click", function () {
+        ctogglePassword.addEventListener("click", function() {
             // toggle the type attribute
             const type = cpassword.getAttribute("type") === "password" ? "text" : "password";
             cpassword.setAttribute("type", type);
-            
+
             // toggle the icon
             this.classList.toggle("bi-eye");
         });
 
         // prevent form submit
         const form = document.querySelector("form");
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
         });
     </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    @if (session()->has('success_msg'))
+        @php $msg=session()->get('success_msg'); @endphp
+        <script>
+            var success_msg = "<?php echo "$msg"; ?>";
+            console.log(success_msg);
+            swal(success_msg, {
+                icon: "success",
+            });
+        </script>
+    @elseif(session()->has('error_msg'))
+        @php $msg=session()->get('error_msg'); @endphp
+        <script>
+            var error_msg = "<?php echo "$msg"; ?>";
+            console.log(error_msg);
+            swal(error_msg, {
+                icon: "error",
+            });
+        </script>
+    @endif
     <!--end::Javascript-->
 </body>
 <!--end::Body-->
+
 </html>
 
-{{-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toggle Password Visibility</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="css/style.css" />
-</head>
-
-<body>
-    <div class="container">
-        <h1>Sign In</h1>
-        <form method="post">
-            <p>
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username">
-            </p>
-            <p>
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" />
-                <i class="bi bi-eye-slash" id="togglePassword"></i>
-            </p>
-            <button type="submit" id="submit" class="submit">Log In</button>
-        </form>
-    </div>
-    <script>
-        const togglePassword = document.querySelector("#togglePassword");
-        const password = document.querySelector("#password");
-
-        togglePassword.addEventListener("click", function () {
-            // toggle the type attribute
-            const type = password.getAttribute("type") === "password" ? "text" : "password";
-            password.setAttribute("type", type);
-            
-            // toggle the icon
-            this.classList.toggle("bi-eye");
-        });
-
-        // prevent form submit
-        const form = document.querySelector("form");
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-        });
-    </script>
-</body>
-
-</html> --}}

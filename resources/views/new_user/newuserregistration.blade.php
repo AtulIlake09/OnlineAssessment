@@ -50,8 +50,8 @@
 	 
      .Icon-inside i {
       position:absolute;
-      left:15px;
-      top:25px;
+      left:auto;
+      top:5px;
       padding:10px 10px;
       color:#03045e;
      }

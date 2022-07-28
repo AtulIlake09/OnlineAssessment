@@ -12,7 +12,7 @@
                         <div class="col-md-12 Icon-inside">
                             <i class="fa fa-building fa-lg fa-fw" aria-hidden="true"></i>
                             <input class="contactus input100" placeholder="Company Email" type="email" name="company_email"
-                                style="margin-top: 20px; margin-bottom: 0px;" required>
+                                style=" margin-bottom: 0px;" required>
                             <span style="color: rgb(230, 33, 33)">
                                 @error('email')
                                     {{ $message }}

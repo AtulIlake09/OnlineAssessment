@@ -120,7 +120,7 @@
             </button>
         </div>
     @elseif(session()->has('success_msg'))
-        <div style="margin-bottom: 0px;" class="alert alert-danger alert-dismissible fade show border border-danger"
+        <div style="margin-bottom: 0px;" class="alert alert-success alert-dismissible fade show border border-success"
                 role="alert">
                 <strong style="margin-right: 4vmax;margin-left: 11px;">{{ $success = session()->get('success_msg') }}</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">

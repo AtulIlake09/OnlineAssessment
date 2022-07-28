@@ -389,18 +389,14 @@ class SuperAdminController extends Controller
     {
         $query = DB::table('companies')
             ->select('status')
-            ->where('id', $id)
-            ->first();
-
-        $cstatus = DB::table('companies')
-            ->select('status')
             ->where('id', $id);
 
+        $status=$query->first();
 
-        if ($query->status == 1) {
-            $cstatus->update(['status' => 0]);
-        } elseif ($query->status == 0) {
-            $cstatus->update(['status' => 1]);
+        if ($status->status == 1) {
+            $query->update(['status' => 0]);
+        } elseif ($status->status == 0) {
+            $query->update(['status' => 1]);
         }
 
         return redirect()->back()->with('cstatus', 1);

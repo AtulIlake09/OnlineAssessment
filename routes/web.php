@@ -139,6 +139,11 @@ Route::get('/new_company_registration',[NewUserRegistrationController::class,'re
 Route::post('/new_company_registration',[NewUserRegistrationController::class,'register_company_post']);
 Route::get('/new_user_registration_step2',[NewUserRegistrationController::class,'newuserregistration_step2']);
 Route::post('/new_user_registration_step2',[NewUserRegistrationController::class,'newuserregistration_step2_post']);
+Route::get('/cancel_registration',[NewUserRegistrationController::class,'cancel_registration']);
+
+Route::get('/users/requests/{id}',[NewUserRegistrationController::class,'user_requests']);
+Route::get('/approved_user_request/{id}',[NewUserRegistrationController::class,'approved_user_request']);
+Route::get('/decline_user_request/{id}',[NewUserRegistrationController::class,'decline_user_request']);
 
 
 
