@@ -37,17 +37,17 @@
                                 style="cursor: pointer;" placeholder="Phone" id="phone" required>
                         </div>
                         <div class="col-md-6 fv-row Icon-inside">
-                            <div class="input-group">
-                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
-                                <input type="password" class="contactus input100 form-control form-control-solid"
-                                    name="password" id="upassword" placeholder="Password" aria-label="Password"
-                                    aria-describedby="basic-addon2" required />
-                            </div>
+                            <p><i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
+                            <input type="password" class="contactus input100 form-control form-control-solid"
+                                name="password" id="upassword" placeholder="Password" aria-label="Password"
+                                aria-describedby="basic-addon2" required />
+                            <i class="bi bi-eye-slash" style="right: 22px; top: 0px; font-size: 16px" id="togglePassword"></i></p>
+                      
                             {{-- <div class="input-group " style="margin-left: 8px">
                                     <input id="passcheckbox" type="checkbox"
                                         onclick="showpass()" style="margin-right: 5px">Show
                                     Password
-                                </div> --}}
+                            </div> --}}
                         </div>
                         <div class="col-md-12 fv-row Icon-inside">
                             <i class="fa fa-address-card fa-lg fa-fw" aria-hidden="true"></i>
@@ -62,9 +62,6 @@
                             <a href="{{ url('/new_user_registration_step1') }}" class="send_btn"
                                 style="font-family: Poppins; text-align: center; margin-top: 20px;">Cancel</a>
                         </div>
-                        {{-- <div class="text-center">
-                            <button type="submit" class="btn btn-primary mt-5">Submit</button>
-                        </div> --}}
                     </div>
                 </form>
             </div>

@@ -92,41 +92,7 @@ class SuperAdminController extends Controller
                 } else {
                     $query = $query->get();
                 }
-
-                $users = [];
-                foreach ($query->all() as $val) {
-                    $position="";
-                    if($val->user==0)
-                    {
-                        $position='Admin';
-                    }
-                    elseif($val->user==1)
-                    {
-                        $position='Super admin';
-                    }
-                    elseif($val->user==2)
-                    {
-                        $position='Recruiter';
-                    }
-                    elseif($val->user==3)
-                    {
-                        $position='Hiring Manager';
-                    }
-
-                    $users[] = [
-                        'id' => $val->id,
-                        'name' => $val->name,
-                        'email' => $val->email,
-                        'phone' => $val->phone,
-                        'address' => $val->address,
-                        'company_id' => $val->company_id,
-                        'company' => $val->cname,
-                        'status' => $val->status,
-                        'user' => $val->user,
-                        'position'=>$position,
-                        'position_id'=>$val->user
-                    ];
-                }
+                $users = users_array($query->all());
 
                 $view = view("userviewajax", compact('users'))->render();
                 return $view;
@@ -148,42 +114,7 @@ class SuperAdminController extends Controller
         }
 
         $query = $query->get();
-        $users = [];
-        foreach ($query->all() as $val) {
-
-            $position="";
-            if($val->user==0)
-            {
-                $position='admin';
-            }
-            elseif($val->user==1)
-            {
-                $position='Super admin';
-            }
-            elseif($val->user==2)
-            {
-                $position='Recruiter';
-            }
-            elseif($val->user==3)
-            {
-                $position='Hiring Manager';
-            }
-
-            $users[] = [
-                'id' => $val->id,
-                'name' => $val->name,
-                'email' => $val->email,
-                'phone' => $val->phone,
-                'address' => $val->address,
-                'company_id' => $val->company_id,
-                'company' => $val->cname,
-                'status' => $val->status,
-                'user' => $val->user,
-                'position'=>$position,
-                'position_id'=>$val->user
-            ];
-        }
-
+        $users = users_array($query->all());
 
         if ($flag == 1) {
             return view('users', compact('users', 'companies', 'flag'));

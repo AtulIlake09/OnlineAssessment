@@ -273,7 +273,6 @@
             </div>
     </section>
     <footer>
-        <div class="footer">
             <div class="copyright">
                 <div class="container">
                     <div class="row">
@@ -284,7 +283,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </footer>
     <!-- end footer -->
     <!-- Javascript files-->

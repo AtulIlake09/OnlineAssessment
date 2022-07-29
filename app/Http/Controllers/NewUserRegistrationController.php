@@ -67,9 +67,7 @@ class NewUserRegistrationController extends Controller
             $company_name = $request->name;
             $request->session()->put('cname', $company_name);
             return redirect('/new_user_registration_step2');
-        }
-        else
-        {
+        } else {
             return redirect('/new_user_registration_step1');
         }
     }
@@ -105,24 +103,20 @@ class NewUserRegistrationController extends Controller
             $pass = bcrypt($password);
             $company_id = 2;
             $position = 0;
-            $status=1;
+            $status = 1;
             if (session()->has('cname') && session()->has('cid')) {
 
                 $company_id = session()->get('cid');
-                $query=DB::table('users')
-                ->where('company_id',$company_id)
-                ->first();
-                
-                if(empty($query))
-                {
-                    $position=0;
-                }
-                else
-                {
-                    $status=3;
+                $query = DB::table('users')
+                    ->where('company_id', $company_id)
+                    ->first();
+
+                if (empty($query)) {
+                    $position = 0;
+                } else {
+                    $status = 3;
                     $position = 3;
                 }
-
             } elseif (session()->has('cname')) {
 
                 $company_name = session()->get('cname');
@@ -142,12 +136,12 @@ class NewUserRegistrationController extends Controller
                 'password' => $pass,
                 'company_id' => $company_id,
                 'user' => $position,
-                'status'=>$status
+                'status' => $status
             ];
 
             $query = User::insert($data);
 
-            if ($query == true && $status==1) {
+            if ($query == true && $status == 1) {
                 // $array = ['email' => $email, 'password' => $password];
 
                 // Mail::send('sendpassword', $array, function ($message) use ($email) {
@@ -161,101 +155,82 @@ class NewUserRegistrationController extends Controller
 
                 $request->session()->flush();
                 return redirect('/adminlogin')->with('success_msg', 'Registration Completed Successfully...');
+            } elseif ($query == true && $status == 3) {
 
-            } elseif($query == true && $status==3){
-                
                 $request->session()->flush();
                 return redirect('/adminlogin')->with('success_msg', 'Request for login sent Successfully...');
-
-            }else {
+            } else {
                 return redirect()->back()->with('error_msg', "User Not Created");
             }
-
         } else {
             return redirect('/new_user_registration_step1')->with('error_msg', 'Something went wrong please try again!');
         }
     }
 
     public function cancel_registration(Request $request)
-    {   
+    {
         $request->session()->flush();
         return redirect('/new_user_registration_step1');
     }
 
-    public function user_requests($id=null)
+    public function user_requests(Request $request, $id = null)
     {
-        $user=auth()->user();
-        $company_id=$user->company_id;
-        $query=DB::table('users')
-        ->where('company_id',$company_id)
-        ->where('status',3)
-        ->get();
+        $user = auth()->user();
+        $company_id = $user->company_id;
+        $query = DB::table('users as U')
+            ->select('U.id', 'U.name', 'U.email', 'U.phone', 'U.address', 'U.company_id', 'C.cname', 'U.status', 'U.user')
+            ->join('companies as C', 'U.company_id', '=', 'C.id')
+            ->where('U.status', 3)
+            ->where('C.status', '!=', 2);
 
-        $users=[];
-        foreach($query->all() as $val)
-        {
-            $position="";
-            if($val->user==0)
-            {
-                $position='admin';
+        if ($user->user != 1) {
+            $query = $query->where('U.company_id', $company_id);
+        } elseif ($request->ajax()) {
+            $id = $request->company_id;
+            if ($id != 0 && $id != null) {
+                $query = $query->where('U.company_id', $id)->get();
+            } else {
+                $query = $query->get();
             }
-            elseif($val->user==1)
-            {
-                $position='Super admin';
-            }
-            elseif($val->user==2)
-            {
-                $position='Recruiter';
-            }
-            elseif($val->user==3)
-            {
-                $position='Hiring Manager';
-            }
-            
-            $users[] = [
-                'id' => $val->id,
-                'name' => $val->name,
-                'email' => $val->email,
-                'phone' => $val->phone,
-                'address' => $val->address,
-                'company_id' => $val->company_id,
-                'status' => $val->status,
-                'user' => $val->user,
-                'position'=>$position,
-                'position_id'=>$val->user
-            ];
+
+            $users = users_array($query->all());
+
+            $view = view('new_user.user_request_ajax', compact('users'))->render();
+            return $view;
         }
-       
-        return view('user_request',compact('users'));   
+
+        $query = $query->get();
+        $users = users_array($query->all());
+
+        $companies = DB::table('companies')
+            ->select('id', 'cname')
+            ->whereIn('status', [0, 1])
+            ->get();
+
+        return view('new_user.user_request', compact('users', 'companies'));
     }
 
-    public function approved_user_request($id=null)
+    public function approved_user_request($id = null)
     {
-        if($id!=null)
-        {
-            $user=auth()->user();
-            $company_id=$user->company_id;
-            User::where('id',$id)->update(['status'=>1]);
-            return redirect('/users/requests/'.$company_id)->with('success_msg','Approved Successfully');
-        }
-        else
-        {
-            return redirect()->back()->with('error_msg','Something went wrong!');
+        if ($id != null) {
+            $user = auth()->user();
+            $company_id = $user->company_id;
+            User::where('id', $id)->update(['status' => 1]);
+            return redirect('/users/requests/' . $company_id)->with('success_msg', 'Approved Successfully');
+        } else {
+            return redirect()->back()->with('error_msg', 'Something went wrong!');
         }
     }
 
-    public function decline_user_request($id=null)
+    public function decline_user_request($id = null)
     {
-        if($id!=null)
-        {
-            $user=auth()->user();
-            $company_id=$user->company_id;
-            User::where('id',$id)->update(['status'=>2]);
-            return redirect('/users/requests/'.$company_id);
-        }
-        else
-        {
-            return redirect()->back()->with('error_msg','Something went wrong!');
+        if ($id != null) {
+            $user = auth()->user();
+            $company_id = $user->company_id;
+            User::where('id', $id)->update(['status' => 2]);
+            return redirect('/users/requests/' . $company_id);
+        } else {
+            return redirect()->back()->with('error_msg', 'Something went wrong!');
         }
     }
 }

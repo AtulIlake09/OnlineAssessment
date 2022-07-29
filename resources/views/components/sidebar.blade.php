@@ -87,7 +87,7 @@ $flag=$user->user;
                         @endif
                         @if($flag==1 || $flag==0)
                         <div class="menu-item">
-                            <a class="menu-link {{ (request()->is('users')) ? 'active' : '' }}" href="{{ url('/users') }}">
+                            <a class="menu-link {{ (request()->is('users') || request()->is('users/requests/*')) ? 'active' : '' }}" href="{{ url('/users') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -112,7 +112,7 @@ $flag=$user->user;
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ (request()->is('tests') || request()->is('tests/questions') ) ? 'active' : '' }}" href="{{ url('/tests') }}">
+                            <a class="menu-link {{ (request()->is('tests') || request()->is('tests/questions') || request()->routeIs('question.*')) ? 'active' : '' }}" href="{{ url('/tests') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>

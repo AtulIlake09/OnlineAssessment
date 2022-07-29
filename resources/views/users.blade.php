@@ -548,9 +548,9 @@
                                                                 class="form-control form-select form-select-solid"
                                                                 required>
                                                                 <option value="">Choose Position...</option>
-                                                                <option @if($val['position_id']==0) selected @endif value="0">Admin</option>
-                                                                <option @if($val['position_id']==2) selected @endif value="2">Recruiter</option>
-                                                                <option @if($val['position_id']==3) selected @endif value="3">Hiring Manager</option>
+                                                                <option @if($val['user']==0) selected @endif value="0">Admin</option>
+                                                                <option @if($val['user']==2) selected @endif value="2">Recruiter</option>
+                                                                <option @if($val['user']==3) selected @endif value="3">Hiring Manager</option>
                                                             </select>
                                                             <!--end::Select2-->
                                                         </div>
@@ -977,9 +977,9 @@
                                                                 class="form-control form-select form-select-solid"
                                                                 required>
                                                                 <option value="">Choose Position...</option>
-                                                                <option @if($val['position_id']==0) selected @endif value="0">Admin</option>
-                                                                <option @if($val['position_id']==2) selected @endif value="2">Recruiter</option>
-                                                                <option @if($val['position_id']==3) selected @endif value="3">Hiring Manager</option>
+                                                                <option @if($val['user']==0) selected @endif value="0">Admin</option>
+                                                                <option @if($val['user']==2) selected @endif value="2">Recruiter</option>
+                                                                <option @if($val['user']==3) selected @endif value="3">Hiring Manager</option>
                                                             </select>
                                                             <!--end::Select2-->
                                                         </div>

@@ -31,16 +31,18 @@
         media="screen">
     <!--other login-->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	{{-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css"> --}}
 	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	{{-- <link rel="stylesheet" type="text/css" href="css/main.css"> --}}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -48,13 +50,18 @@
       position:relative;
      }
 	 
-     .Icon-inside i {
+     /* .Icon-inside i {
       position:absolute;
       left:15px;
       top:25px;
       padding:10px 10px;
       color:#03045e;
-     }
+     } */
+
+     /* #togglePassword {
+        right:10px !important;
+        top:25px !important;
+     } */
     </style>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -149,9 +156,9 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-12 Icon-inside">
-                                <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+                                <i class="fa fa-user fa-lg fa-fw" style="position: absolute; left: 15px; top: 25px; padding:10px 10px; color:#03045e; " aria-hidden="true"></i>
                                 <input class="contactus input100" placeholder="Email" type="email" name="email"
-                                    style="margin-top: 20px; margin-bottom: 0px;" required>
+                                    style="margin-top: 20px; margin-bottom: 0px; padding-left: 35px; font-family: 'Poppins';" required>
                                 <span style="color: rgb(230, 33, 33)">
                                     @error('email')
                                         {{ $message }}
@@ -159,9 +166,12 @@
                                 </span>
                             </div>
                             <div class="col-md-12 Icon-inside">
-                                <i class="fa fa-lock fa-lg fa-fw" aria-hidden="true"></i>
-                                <input class="contactus input100" placeholder="Password" type="password" name="password"
-                                    style="margin-top: 20px; margin-bottom: 0px;" required>
+                                <p><i class="fa fa-lock fa-lg fa-fw"  style="position: absolute; left: 15px; top: 25px; padding:10px 10px; color:#03045e; " aria-hidden="true"></i>
+                               <input class="contactus input100" placeholder="Password" type="password" name="password" id="upassword"
+                                    style="margin-top: 20px; margin-bottom: 0px; padding-left: 35px; font-family: 'Poppins';" required>
+                                <i class="bi bi-eye-slash" style="position: absolute; right: 10px; top: 25px; padding:7px 10px; font-size: 18px" id="togglePassword" 
+                                data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i></p>
+
                                 <span style="color: rgb(230, 33, 33)">
                                     @error('password')
                                         {{ $message }}
@@ -224,14 +234,34 @@
     <!-- end footer -->
     <!-- Javascript files-->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.0.0.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery-3.0.0.min.js') }}"></script> --}}
     <!-- sidebar -->
     <script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     {{-- <script src="{{ asset('https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js') }}"></script> --}}
     <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js') }}"></script>
+
+    <script>
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#upassword");
+
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("bi-eye");
+        });
+
+        // prevent form submit
+        // const form = document.querySelector("form");
+        // form.addEventListener('submit', function (e) {
+        //     e.preventDefault();
+        // });
+    </script>
 
 </body>
 

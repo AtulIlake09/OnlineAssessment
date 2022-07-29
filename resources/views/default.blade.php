@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="{{url('images/logometricoid.png')}}" />
+    <link rel="shortcut icon" href="{{ url('images/logometricoid.png') }}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -186,11 +186,39 @@
         });
 
         // prevent form submit
-        const form = document.querySelector("form");
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // const form = document.querySelector("form");
+        // form.addEventListener('submit', function(e) {
+        //     e.preventDefault();
+        // });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#company').change(function(e) {
+                e.preventDefault();
+                var company_id = $(this).val();
+
+                $.ajax({
+                    type: "get",
+                    url: "/users/requests",
+                    data: {
+                        'company_id': company_id
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('#users_table').empty();
+                        $('#users_table').html(response);
+
+                    },
+                    error: function(e) {
+                        console.log(e)
+                    }
+                });
+            });
         });
     </script>
+
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     @if (session()->has('success_msg'))
@@ -217,4 +245,3 @@
 <!--end::Body-->
 
 </html>
-

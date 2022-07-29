@@ -83,7 +83,7 @@ $flag=$user->user;
                                 @endif
                                 @if($flag==1 || $flag==0)
                                 <div class="menu-item">
-                                    <a class="menu-link py-3 {{ (request()->is('users')) ? 'active' : '' }}" href="{{ url('/users') }}">
+                                    <a class="menu-link py-3 {{ (request()->is('users') || request()->is('users/requests/*')) ? 'active' : '' }}" href="{{ url('/users') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -108,7 +108,7 @@ $flag=$user->user;
                                     </a>
                                 </div>
                                 <div class="menu-item">
-                                    <a class="menu-link py-3 {{ (request()->is('tests') || request()->is('tests/questions')) ? 'active' : '' }}" href="{{ url('/tests') }}">
+                                    <a class="menu-link py-3 {{ (request()->is('tests') || request()->is('tests/questions') || request()->routeIs('question.*')) ? 'active' : '' }}" href="{{ url('/tests') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -213,6 +213,13 @@ $flag=$user->user;
                             name="email" id="email" placeholder="Email" value="{{$user->email}}"
                             required> 
                         </div>
+                        {{-- <div class="col-md-12 fv-row">
+                            <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
+                            for="company">Email</label>
+                            <input @if($user->user == 1)  @else readonly @endif type="text" class="form-control form-control-solid"
+                            name="company" id="company" placeholder="Company" value="{{$user->company_id}}"
+                            required> 
+                        </div> --}}
                     </div>
                     <div class="row g-9 mb-8">
                         <div class="col-md-6 fv-row">
