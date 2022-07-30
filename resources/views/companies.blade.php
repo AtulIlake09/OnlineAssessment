@@ -91,20 +91,23 @@
                                             <h3 class="card-title align-items-start flex-column">
                                                 <span class="card-label fw-bolder fs-3 mb-1">All Companies</span>
                                             </h3>
-                                            <div class="card-toolbar" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-trigger="hover"
-                                                title="Click to Add Company">
+                                            <div class="form-group" style="width: 34vmax; padding-top: 5px;">
+                                                <input type="text" class="form-control" id="search" placeholder="Search By Company Name" name="search">
+                                            </div>
+                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-trigger="hover" title="Click to Add Company">
                                                 <a href="#" class="btn btn-sm btn-light btn-active-primary"
                                                     data-bs-toggle="modal" data-bs-target="#kt_modal_companies">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                                     <span class="svg-icon svg-icon-3">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="11.364" y="20.364" width="16"
-                                                                height="2" rx="1" transform="rotate(-90 11.364 20.364)"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none">
+                                                            <rect opacity="0.5" x="11.364" y="20.364"
+                                                                width="16" height="2" rx="1"
+                                                                transform="rotate(-90 11.364 20.364)"
                                                                 fill="currentColor" />
-                                                            <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
-                                                                fill="currentColor" />
+                                                            <rect x="4.36396" y="11.364" width="16"
+                                                                height="2" rx="1" fill="currentColor" />
                                                         </svg>
                                                     </span>
                                                     <!--end::Svg Icon-->Add Company
@@ -121,7 +124,7 @@
                                                     class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                                     <!--begin::Table head-->
                                                     <thead>
-                                                        <tr class="fw-bolder text-muted">
+                                                        <tr class="fw-bolder text-dark">
                                                             <th class="w-25px">
                                                                 <div
                                                                     class="form-check form-check-sm form-check-custom form-check-solid">
@@ -153,25 +156,26 @@
                                                                 </td>
                                                                 <td style="display:none;">
                                                                     <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val['id'] }}</label>
+                                                                        class="text-dark d-block fs-6">{{ $val['id'] }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                        class="text-dark d-block fs-6">{{ $count }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <a href="{{ url('/cusers/' . $val['id']) }}"
-                                                                        class="text-dark text-hover-primary fw-bolder d-block fs-6"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                        class="text-dark text-hover-primary d-block fs-6"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top"
                                                                         title="view users">{{ $val['company'] }}</a>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val['email'] }}</label>
+                                                                        class="text-dark d-block fs-6">{{ $val['email'] }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
-                                                                        class="text-muted fw-bolder d-block fs-6">{{ $val['address'] }}</label>
+                                                                        class="text-dark d-block fs-6">{{ $val['address'] }}</label>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <span
@@ -185,13 +189,15 @@
                                                                             type="button"
                                                                             class="btn btn-sm btn-icon btn-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="tooltip"
-                                                                            data-bs-placement="top" title="view users">
+                                                                            data-bs-placement="top"
+                                                                            title="view users">
                                                                             <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
                                                                             <span
                                                                                 class="svg-icon svg-icon-2 svg-icon-gray-400">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path
                                                                                         d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z"
                                                                                         fill="currentColor" />
@@ -211,7 +217,8 @@
                                                                             <span class="svg-icon svg-icon-3">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path
                                                                                         d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
                                                                                         fill="currentColor" />
@@ -233,7 +240,8 @@
                                                                                 title="Edit Comapny Details">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path opacity="0.3"
                                                                                         d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z"
                                                                                         fill="currentColor" />
@@ -252,7 +260,8 @@
                                                                             <span class="svg-icon svg-icon-3">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path
                                                                                         d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
                                                                                         fill="currentColor" />
@@ -302,9 +311,11 @@
                                             <span class="svg-icon svg-icon-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none">
-                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                    <rect opacity="0.5" x="6" y="17.3137"
+                                                        width="16" height="2" rx="1"
                                                         transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <rect x="7.41422" y="6" width="16"
+                                                        height="2" rx="1"
                                                         transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                 </svg>
                                             </span>
@@ -328,12 +339,14 @@
                                                 <label class="required fs-6 fw-bold mb-2" for="cname"
                                                     style="margin-left: 5px">Name</label>
                                                 <input type="text" class="form-control form-control-solid mb-8"
-                                                    name="name" id="new_cname" placeholder="Company Name" required>
+                                                    name="name" id="new_cname" placeholder="Company Name"
+                                                    required>
 
                                                 <label class="required fs-6 fw-bold mb-2" for="inputEmail4"
                                                     style="margin-left: 5px">Email</label>
                                                 <input type="email" class="form-control form-control-solid"
-                                                    name="email" id="new_cemail" placeholder="Company Email" required>
+                                                    name="email" id="new_cemail" placeholder="Company Email"
+                                                    required>
                                             </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-12 fv-row">
@@ -369,12 +382,13 @@
                                                 data-bs-dismiss="modal">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                 <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                            rx="1" transform="rotate(-45 6 17.3137)"
-                                                            fill="currentColor" />
-                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="6" y="17.3137"
+                                                            width="16" height="2" rx="1"
+                                                            transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                        <rect x="7.41422" y="6" width="16"
+                                                            height="2" rx="1"
                                                             transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                     </svg>
                                                 </span>
@@ -395,7 +409,8 @@
                                                     <!--end::Title-->
                                                 </div>
                                                 <!--end::Heading-->
-                                                <input type="hidden" name="id" id="cid" value="{{ $val['id'] }}">
+                                                <input type="hidden" name="id" id="cid"
+                                                    value="{{ $val['id'] }}">
                                                 <div class="d-flex flex-column mb-8 fv-row">
                                                     <label class="required fs-6 fw-bold mb-2" for="cname"
                                                         style="margin-left: 5px">Name</label>
@@ -543,6 +558,22 @@
             });
 
         });
+    </script>
+
+    <script type="text/javascript">
+        $('#search').on('keyup', function() {
+            $value = $(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{ URL::to('search') }}',
+                data: {
+                    'search': $value
+                },
+                success: function(data) {
+                    $('tbody').html(data);
+                }
+            });
+        })
     </script>
 
     @if (session()->has('updated'))

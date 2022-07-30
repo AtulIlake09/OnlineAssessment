@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="d-flex justify-content-center">
-        <h1 @if(!empty($msg)) class="text-success" @else class="text-danger" @endif >{{$msg ?? $err}}</h1>
+        <h1 @if(!empty($msg) && $msg=="Time Out") class="text-danger" @elseif(!empty($msg)) class="text-success" @else class="text-danger" @endif >{{$msg ?? $err}}</h1>
     </div>
     @if(!empty($msg))
     <div class="d-flex justify-content-center">

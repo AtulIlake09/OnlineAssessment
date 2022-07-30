@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,7 +19,7 @@ class SuperAdminController extends Controller
             'address' => 'required',
             'company_id' => 'required',
             'password' => 'required',
-            'position'=>'required'
+            'position' => 'required'
         ]);
 
         $name = $request->name;
@@ -27,7 +28,7 @@ class SuperAdminController extends Controller
         $address = $request->address;
         $password = $request->password;
         $company_id = $request->company_id;
-        $position=$request->position;
+        $position = $request->position;
         $pass = bcrypt($password);
 
         $data = [
@@ -62,64 +63,71 @@ class SuperAdminController extends Controller
 
     public function users_view(Request $request)
     {
-        $user = auth()->user();
-        $flag = $user->user;
+        // $macAddr = exec('getmac');
+        // dd($macAddr);
+        if (Auth::user()) {
+            $user = auth()->user();
+            $flag = $user->user;
+            $query = User::join('companies', 'users.company_id', 'companies.id')
+                ->select(
+                    'users.id',
+                    'users.name',
+                    'users.email',
+                    'users.password',
+                    'users.company_id',
+                    'companies.cname',
+                    'users.status',
+                    'users.user',
+                    'users.phone',
+                    'users.address'
+                )
+                ->whereIn('users.status', [0, 1])
+                ->where('companies.status', '!=', 2)
+                ->where('users.user', '!=', 1);
 
-        $query = User::join('companies', 'users.company_id', 'companies.id')
-            ->select(
-                'users.id',
-                'users.name',
-                'users.email',
-                'users.password',
-                'users.company_id',
-                'companies.cname',
-                'users.status',
-                'users.user',
-                'users.phone',
-                'users.address'
-            )
-            ->whereIn('users.status', [0, 1])
-            ->where('companies.status', '!=', 2)
-            ->where('users.user', '!=', 1);
+            $id = 0;
+            if ($flag == 1) {
 
-        $id = 0;
-        if ($flag == 1) {
+                if ($request->ajax()) {
+                    $id = $request->company_id;
+                    if ($id != 0 && $id != null) {
+                        $query = $query->where('users.company_id', $id)->get();
+                    } else {
+                        $query = $query->get();
+                    }
+                    $users = users_array($query->all());
 
-            if ($request->ajax()) {
-                $id = $request->company_id;
-                if ($id != 0 && $id != null) {
-                    $query = $query->where('users.company_id', $id)->get();
-                } else {
-                    $query = $query->get();
+                    $view = view("userviewajax", compact('users'))->render();
+                    return $view;
                 }
-                $users = users_array($query->all());
+                if (session()->has('com_id')) {
+                    $id = $request->session()->get('com_id');
+                    if ($id != 0 && $id != null) {
 
-                $view = view("userviewajax", compact('users'))->render();
-                return $view;
-            }
-            if (session()->has('com_id')) {
-                $id = $request->session()->get('com_id');
-                if ($id != 0 && $id != null) {
-
-                    $query->where('users.company_id', $id);
+                        $query->where('users.company_id', $id);
+                    }
                 }
+                $companies = DB::table('companies')
+                    ->select('id', 'cname')
+                    ->whereIn('status', [0, 1])
+                    ->get();
+            } elseif ($flag == 0) {
+                $id = $user->company_id;
+                $query->where('users.company_id', $id);
             }
-            $companies = DB::table('companies')
-                ->select('id', 'cname')
-                ->whereIn('status', [0, 1])
-                ->get();
-        } elseif ($flag == 0) {
-            $id = $user->company_id;
-            $query->where('users.company_id', $id);
+
+            $query = $query->get();
+            $users = users_array($query->all());
+
+            if ($flag == 1) {
+                return view('users', compact('users', 'companies', 'flag'));
+            } elseif ($flag == 0) {
+                return view('users', compact('users', 'id', 'flag'));
+            }
         }
-
-        $query = $query->get();
-        $users = users_array($query->all());
-
-        if ($flag == 1) {
-            return view('users', compact('users', 'companies', 'flag'));
-        } elseif ($flag == 0) {
-            return view('users', compact('users', 'id', 'flag'));
+        else
+        {
+            return redirect('/adminlogin');
         }
     }
 
@@ -146,27 +154,27 @@ class SuperAdminController extends Controller
     {
         $user = auth()->user();
         $flag = $user->user;
-        
+
         if ($flag == 1 || $flag == 0) {
             $request->validate([
                 'name' => 'required',
-                'email'=>'unique:users,email,'.$request->id,
+                'email' => 'unique:users,email,' . $request->id,
                 'company_id' => 'required',
                 'phone' => 'required',
                 'address' => 'required',
-                'position'=>'required'
+                'position' => 'required'
             ]);
-            
+
             $id = $request->id;
             $time = date('Y-m-d h:i:s');
 
             $data = [
                 'name' => $request->name,
-                'email'=>$request->email,
+                'email' => $request->email,
                 'company_id' => $request->company_id,
                 'phone' => $request->phone,
                 'address' => $request->address,
-                'user'=>$request->position,
+                'user' => $request->position,
                 'updated_at' => $time
             ];
 
@@ -269,7 +277,7 @@ class SuperAdminController extends Controller
     {
         $user = auth()->user();
         $flag = $user->user;
-        
+
         $result = 0;
         if ($flag == 1) {
 
@@ -291,7 +299,7 @@ class SuperAdminController extends Controller
     {
         $user = auth()->user();
         $flag = $user->user;
-        
+
         $result = 0;
         if ($flag == 1) {
             $request->validate([
@@ -322,7 +330,7 @@ class SuperAdminController extends Controller
             ->select('status')
             ->where('id', $id);
 
-        $status=$query->first();
+        $status = $query->first();
 
         if ($status->status == 1) {
             $query->update(['status' => 0]);
@@ -332,5 +340,4 @@ class SuperAdminController extends Controller
 
         return redirect()->back()->with('cstatus', 1);
     }
-
 }

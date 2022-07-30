@@ -14,12 +14,31 @@ class ExamController extends Controller
     public function exam(Request $request, $key)
     {
         $data = $request->session()->get('data');
+        $timezone = 'ASIA/KOLKATA';
+        $date = new DateTime('now', new DateTimeZone($timezone));
+        $localtime = $date->format('Y-m-d h:i:s');
+        $can_id = $data['can_id'];
+
+        if($can_id!=null){
+
+            $query=DB::table('candidate')
+            ->where('candidate_id',$can_id);
+
+            $candidate_details=$query->first();
+            if($candidate_details->start_date_time==null)
+            {
+                $query=$query->update(['start_date_time' => $localtime]);
+                $start=$localtime;
+            }
+            else
+            {
+                $start=$candidate_details->start_date_time;
+            }
+        }
 
         if (session()->has('questions')) {
           
             $ip = $request->ip();
-            $can_id = $data['can_id'];
-
             $ques = $request->session()->get('allquestion');
 
             foreach ($ques as $k => $v) {
@@ -30,17 +49,14 @@ class ExamController extends Controller
             }
             $qnos = $request->session()->get('qnos');
             $questions = $request->session()->get('questions');
-            $data = $request->session()->get('data');
             $ip = $request->ip();
             $candidate_id = $data['can_id'];
             $count = $request->session()->get('count');
 
         } elseif (session()->has('data')) {
     
-            $data = $request->session()->get('data');
             $ip = $request->ip();
-            $can_id = $data['can_id'];
-
+            
             $query = DB::table('ip_details')
             ->where('candidate_id', '=', $can_id)
             ->orderBy('id', 'DESC')
@@ -112,11 +128,6 @@ class ExamController extends Controller
 
         $duration = $request->session()->get('duration');
 
-        $start = $data['time'];
-        $timezone = 'ASIA/KOLKATA';
-        $date = new DateTime('now', new DateTimeZone($timezone));
-        $localtime = $date->format('Y-m-d h:i:s');
-
         $end = date('Y-m-d h:i:s', strtotime('+' . $duration . 'minutes', strtotime($start)));
         $timefirst = strtotime($start);
         $times = strtotime($end);
@@ -142,7 +153,7 @@ class ExamController extends Controller
             return view('exam', compact('qno', 'count', 'answer', 'question','remain'));
         } else {
             $remain = 0;
-            return redirect('/finish')->with('message', 'Test Submitted Successfully');
+            return redirect('/finish')->with('message', 'Time Out');
         }
     }
 
@@ -349,6 +360,10 @@ class ExamController extends Controller
 
     public function After_Submit(Request $request)
     {
+        $timezone = 'ASIA/KOLKATA';
+        $date = new DateTime('now', new DateTimeZone($timezone));
+        $localtime = $date->format('Y-m-d h:i:s');
+
         if (session()->has('data')) {
             $data = $request->session()->get('data');
 
@@ -389,10 +404,6 @@ class ExamController extends Controller
             //     $message->to($email_bcc);
             //     $message->subject($subject);
             // });
-
-            $timezone = 'ASIA/KOLKATA';
-            $date = new DateTime('now', new DateTimeZone($timezone));
-            $localtime = $date->format('Y-m-d h:i:s');
 
             DB::table('candidate')
                 ->where('candidate_id', '=', $candidate_id)

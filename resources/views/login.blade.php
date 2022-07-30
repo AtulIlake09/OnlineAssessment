@@ -182,7 +182,6 @@
             </div>
     </section>
     <footer>
-        <div class="footer">
             {{-- <div class="container">
                <div class="row">
                   <div class="col-md-8 offset-md-2">
@@ -204,7 +203,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </footer>
     <!-- end footer -->
     <!-- Javascript files-->

@@ -154,7 +154,7 @@
                                                         class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                                         <!--begin::Table head-->
                                                         <thead>
-                                                            <tr class="fw-bolder text-muted">
+                                                            <tr class="fw-bolder text-dark">
                                                                 <th class="w-25px">
                                                                     <div
                                                                         class="form-check form-check-sm form-check-custom form-check-solid">
@@ -188,27 +188,27 @@
                                                                     </td>
                                                                     <td style="display:none;">
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $val['id'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val['id'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $count }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val['name'] }}</label>
+                                                                            class="text-dark text-hover-primary d-block fs-6">{{ $val['name'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $val['email'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val['email'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $val['company'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val['company'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{$val['position']}}</label>
+                                                                            class="text-dark d-block fs-6">{{$val['position']}}</label>
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <span
@@ -622,7 +622,7 @@
                                                         class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                                         <!--begin::Table head-->
                                                         <thead>
-                                                            <tr class="fw-bolder text-muted">
+                                                            <tr class="fw-bolder text-dark">
                                                                 <th class="w-25px">
                                                                     <div
                                                                         class="form-check form-check-sm form-check-custom form-check-solid">
@@ -656,27 +656,27 @@
                                                                     </td>
                                                                     <td style="display:none;">
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $val['id'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val['id'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $count }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val['name'] }}</label>
+                                                                            class="text-dark text-hover-primary d-block fs-6">{{ $val['name'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $val['email'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val['email'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{ $val['phone'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val['phone'] }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-muted fw-bolder d-block fs-6">{{$val['position']}}</label>
+                                                                            class="text-dark d-block fs-6">{{$val['position']}}</label>
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <span

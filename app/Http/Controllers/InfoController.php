@@ -24,7 +24,7 @@ class InfoController extends Controller
             ->select('id', 'description')
             ->where('id', '=', $cat)
             ->first();
-        
+
         if (empty($query) || empty($category) || $query->status == 0) {
             $err = "You can not give a test !";
             return view('AfterSubmit', compact('err'));
@@ -33,7 +33,7 @@ class InfoController extends Controller
                 ->where('category_id', '=', $cat)
                 ->where('candidate_id', '=', $key)
                 ->first();
-                
+
             if (!empty($query)) {
                 if ($query->status == 0) {
                     $name = $query->name;
@@ -100,7 +100,7 @@ class InfoController extends Controller
             ->where('candidate_id', '=', $candidate_id);
 
         $new_query = $query->first();
-        if (!empty($new_query)) {
+        if (!empty($new_query) && $new_query->start_date_time != null) {
 
             $starttime = $new_query->start_date_time;
             if ($new_query->status == 0) {
@@ -122,6 +122,21 @@ class InfoController extends Controller
                 $err = "You can not give a test !";
                 return view('AfterSubmit', compact('err'));
             }
+        } elseif (!empty($new_query) && $new_query->start_date_time == null) {
+            $timezone = 'ASIA/KOLKATA';
+            $date = new DateTime('now', new DateTimeZone($timezone));
+            $localtime = $date->format('Y-m-d h:i:s');
+            
+            $id = 1;
+            $data = [
+                'ip' => $ip,
+                'category_id' => $category_id,
+                'time' => $localtime,
+                'can_id' => $candidate_id
+            ];
+
+            $request->session()->put('data', $data);
+            return Redirect::route('exam', $id);
         } else {
 
             $timezone = 'ASIA/KOLKATA';
@@ -142,7 +157,7 @@ class InfoController extends Controller
                     'resume' => $path,
                     'link' => $link,
                     'ip' => $ip,
-                    'start_date_time' => $localtime
+                    // 'start_date_time' => $localtime
                 ]);
 
             $id = 1;

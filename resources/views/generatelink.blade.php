@@ -98,9 +98,8 @@
                                             {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                                         </h3>
                                         @if ($flag == 1)
-                                            <div class="card-toolbar" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-trigger="hover"
-                                                title="Choose company name">
+                                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-trigger="hover" title="Choose company name">
                                                 <input type="hidden" name="company" id="tempcomid"
                                                     value="{{ empty($id) ? '0' : $id }}">
                                                 <select name="company_id" id="company" style="cursor: pointer;"
@@ -120,13 +119,14 @@
                                                 data-bs-toggle="modal" data-bs-target="#kt_generate_link">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                                 <span class="svg-icon svg-icon-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
-                                                            rx="1" transform="rotate(-90 11.364 20.364)"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="11.364" y="20.364"
+                                                            width="16" height="2" rx="1"
+                                                            transform="rotate(-90 11.364 20.364)"
                                                             fill="currentColor" />
-                                                        <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
-                                                            fill="currentColor" />
+                                                        <rect x="4.36396" y="11.364" width="16"
+                                                            height="2" rx="1" fill="currentColor" />
                                                     </svg>
                                                 </span>
                                                 <!--end::Svg Icon-->Generate Link
@@ -135,7 +135,7 @@
                                     </div>
                                     <!--end::Header-->
                                     <!--begin::Body-->
-                                    <div class="card-body py-3">
+                                    <div id="table-card-body" class="card-body py-3">
                                         <!--begin::Table container-->
                                         <div id="mytable" class="table-responsive">
                                             <!--begin::Table-->
@@ -143,7 +143,7 @@
                                                 class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                                 <!--begin::Table head-->
                                                 <thead>
-                                                    <tr class="fw-bolder text-muted">
+                                                    <tr class="fw-bolder text-dark">
                                                         <th class="w-25px">
                                                             <div
                                                                 class="form-check form-check-sm form-check-custom form-check-solid">
@@ -159,8 +159,8 @@
                                                         <th class="min-w-50px"></th>
                                                         <th class="min-w-150px">Phone</th>
                                                         <th class="min-w-150px">category</th>
-                                                        @if($flag==1)
-                                                        <th class="min-w-150px">Company</th>
+                                                        @if ($flag == 1)
+                                                            <th class="min-w-150px">Company</th>
                                                         @endif
                                                         <th class="min-w-150px">Generated at</th>
                                                         <th class="min-w-150px text-center">Status</th>
@@ -182,70 +182,71 @@
                                                             </td>
                                                             <td style="display:none;">
                                                                 <label
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                                                                    class="text-dark d-block fs-6">{{ $val->id }}</label>
                                                             </td>
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                                                    class="text-dark d-block fs-6">{{ $count }}</label>
                                                             </td>
                                                             <td>
                                                                 <div class="d-flex align-items-center">
                                                                     <div
                                                                         class="d-flex justify-content-start flex-column">
                                                                         <a href="#"
-                                                                            class="text-dark fw-bolder text-hover-primary fs-6">{{ $val->name }}</a>
+                                                                            class="text-dark text-hover-primary fs-6">{{ $val->name }}</a>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <label href="#"
-                                                                class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
+                                                                    class="text-dark d-block fs-6">{{ $val->email }}</label>
                                                             </td>
                                                             <td>
                                                                 <label class="copylinktxt" href="#"
-                                                                class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
+                                                                    class="text-dark d-block fs-6">{{ url($val->link) }}</label>
                                                             </td>
                                                             <td>
                                                                 <a href="" class="copylink"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="Copy Link"><svg
-                                                                        xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                        height="16" fill="currentColor"
-                                                                        class="bi bi-clipboard" viewBox="0 0 16 16">
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        width="16" height="16"
+                                                                        fill="currentColor" class="bi bi-clipboard"
+                                                                        viewBox="0 0 16 16">
                                                                         <path
-                                                                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                                                            d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
                                                                         <path
-                                                                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                                                                            d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
                                                                     </svg></a>
                                                             </td>
                                                             <td>
                                                                 <label href="#"
-                                                                class="text-muted fw-bolder d-block fs-6">{{ $val->phone }}</label>
+                                                                    class="text-dark d-block fs-6">{{ $val->phone }}</label>
                                                             </td>
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
+                                                                    class="text-dark d-block fs-6">{{ $val->category }}</label>
                                                             </td>
-                                                            @if($flag==1)
-                                                            <td>
-                                                                <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->cname }}</label>
-                                                            </td>
+                                                            @if ($flag == 1)
+                                                                <td>
+                                                                    <label href="#"
+                                                                        class="text-dark d-block fs-6">{{ $val->cname }}</label>
+                                                                </td>
                                                             @endif
                                                             <td>
                                                                 <label href="#"
-                                                                    class="text-muted fw-bolder d-block fs-6">{{ $val->created_at }}</label>
+                                                                    class="text-dark d-block fs-6">{{ $val->created_at }}</label>
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td class="link_status text-center">
                                                                 <span
                                                                     @if ($val->status == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val->status == 1 ? 'Active' : 'Inactive' }}</span>
                                                             </td>
                                                             <td>
+                                                                {{-- href="{{ url('/changeStatusglink/' . $val->id) }}" --}}
                                                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                                                    <a href="{{ url('/changeStatusglink/' . $val->id) }}"
-                                                                        class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                        title="Change Status">
+                                                                    <a class="change_status btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top" title="Change Status">
                                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                                         <span class="svg-icon svg-icon-3">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -283,8 +284,8 @@
                                                                         <!--end::Svg Icon-->
                                                                     </a>
                                                                     <a class="delete btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                        title="Delete Link">
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top" title="Delete Link">
                                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                                         <span class="svg-icon svg-icon-3">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -313,6 +314,9 @@
                                             </table>
                                             <!--end::Table-->
                                         </div>
+                                        <div class="row mt-5">
+                                            {{ $data->links() }}
+                                        </div>
                                         <!--end::Table container-->
                                     </div>
                                     <!--begin::Body-->
@@ -322,9 +326,7 @@
                             <!--end::Col-->
                         </div>
                     </div>
-                    <div class="row">
-                        {{$data->links()}}
-                    </div>
+
                     <!--end::Container-->
                     @if ($flag == 1)
                         <div class="modal fade" id="kt_generate_link" tabindex="-1" aria-hidden="true">
@@ -341,9 +343,11 @@
                                             <span class="svg-icon svg-icon-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none">
-                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                    <rect opacity="0.5" x="6" y="17.3137"
+                                                        width="16" height="2" rx="1"
                                                         transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <rect x="7.41422" y="6" width="16"
+                                                        height="2" rx="1"
                                                         transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                 </svg>
                                             </span>
@@ -354,8 +358,7 @@
                                     <!--begin::Modal header-->
                                     <!--begin::Modal body-->
                                     <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                        <form action="{{ url('/linkgenerate') }}" method="POST"
-                                            class="form">
+                                        <form action="{{ url('/linkgenerate') }}" method="POST" class="form">
                                             @csrf
                                             <!--begin::Heading-->
                                             <div class="mb-13 text-center">
@@ -367,31 +370,48 @@
                                             <div class="d-flex flex-column mb-8 fv-row">
                                                 <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
                                                     for="cname">Name</label>
-                                                <input type="text" class="form-control form-control-solid" name="name"
-                                                    id="cname" placeholder="Name" style="cursor: pointer;" required>
+                                                <input type="text" class="form-control form-control-solid"
+                                                    name="name" id="cname" placeholder="Name"
+                                                    style="cursor: pointer;" required>
                                             </div>
                                             <div class="row g-9 mb-8">
-                                                <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="inputEmail4">Email</label>
+                                                <div class="col-md-12 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="inputEmail4">Email</label>
                                                     <input type="email" class="form-control form-control-solid"
                                                         style="cursor: pointer;" name="email" id="inputEmail4"
                                                         placeholder="Email" required>
                                                 </div>
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="phone">Phone</label>
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="phone">Phone</label>
                                                     <input type="number" class="form-control form-control-solid"
                                                         name="phone" style="cursor: pointer;" placeholder="phone"
                                                         id="phone" required>
                                                 </div>
-                                            </div>
-                                            <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="inputCategory">Category</label>
+                                                    <!--begin::Select2-->
+                                                    <select name="category" style="cursor: pointer;"
+                                                        id="inputCategory"
+                                                        class="form-control form-select form-select-solid" required>
+                                                        <option value="">Choose...</option>
+
+                                                        @foreach ($categories as $val)
+                                                            <option value="{{ $val->id }}">{{ $val->category }}
+                                                            </option>
+                                                        @endforeach
+
+                                                    </select>
+                                                    <!--end::Select2-->
+                                                </div>
+                                                <div class="col-md-12 fv-row">
                                                     <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px"
                                                         for="company">Company</label>
                                                     <!--begin::Select2-->
-                                                    <select name="company_id" id="company_id" style="cursor: pointer;"
+                                                    <select name="company_id" id="company_id"
+                                                        style="cursor: pointer;"
                                                         class="form-control form-select form-select-solid" required>
                                                         <option value="">Choose Company...</option>
                                                         @foreach ($companies as $val)
@@ -399,25 +419,6 @@
                                                                 {{ $val->cname }}
                                                             </option>
                                                         @endforeach
-                                                    </select>
-                                                    <!--end::Select2-->
-                                                </div>
-                                                <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="inputCategory">Category</label>
-                                                    <!--begin::Select2-->
-                                                    <select name="category" style="cursor: pointer;" id="inputCategory"
-                                                        class="form-control form-select form-select-solid mb-8"
-                                                        required>
-                                                        <option value="">Choose...</option>
-
-                                                        @php $i=1; @endphp
-                                                        @foreach ($categories as $val)
-                                                            <option value="{{ $i }}">{{ $val->category }}
-                                                            </option>
-                                                            @php $i++; @endphp
-                                                        @endforeach
-
                                                     </select>
                                                     <!--end::Select2-->
                                                 </div>
@@ -448,12 +449,13 @@
                                                 data-bs-dismiss="modal">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                 <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                            rx="1" transform="rotate(-45 6 17.3137)"
-                                                            fill="currentColor" />
-                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="6" y="17.3137"
+                                                            width="16" height="2" rx="1"
+                                                            transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                        <rect x="7.41422" y="6" width="16"
+                                                            height="2" rx="1"
                                                             transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                     </svg>
                                                 </span>
@@ -473,37 +475,57 @@
                                                     <!--end::Title-->
                                                 </div>
                                                 <!--end::Heading-->
-                                                <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
+                                                <input type="hidden" name="id" id="cid"
+                                                    value="{{ $val->id }}">
                                                 <div class="d-flex flex-column mb-8 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="cname">Name</label>
-                                                    <input type="text" class="form-control form-control-solid mb-8"
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="cname">Name</label>
+                                                    <input type="text" class="form-control form-control-solid"
                                                         style="cursor: pointer;" name="name" id="cname"
                                                         placeholder="Name"
                                                         value="{{ empty($val->name) ? '' : $val->name }}" required>
                                                 </div>
                                                 <div class="row g-9 mb-8">
-                                                    <div class="col-md-6 fv-row">
+                                                    <div class="col-md-12 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px;" for="inputEmail4">Email</label>
                                                         <input type="email" readonly
                                                             class="form-control form-control-solid" name="email"
-                                                            style="cursor: pointer;" id="cemail" placeholder="Email"
+                                                            style="cursor: pointer;" id="cemail"
+                                                            placeholder="Email"
                                                             value="{{ empty($val->email) ? '' : $val->email }}"
                                                             required>
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px;" for="phone">Phone</label>
-                                                        <input type="number"
-                                                            class="form-control form-control-solid mb-8" name="phone"
-                                                            style="cursor: pointer;" id="cphone" placeholder="phone"
+                                                        <input type="number" class="form-control form-control-solid"
+                                                            name="phone" style="cursor: pointer;" id="cphone"
+                                                            placeholder="phone"
                                                             value="{{ empty($val->phone) ? '' : $val->phone }}"
                                                             required>
                                                     </div>
-                                                </div>
-                                                <div class="row g-9 mb-8">
                                                     <div class="col-md-6 fv-row">
+                                                        <label class="required fs-6 fw-bold mb-2"
+                                                            style="margin-left: 5px;" for="">Category</label>
+                                                        <!--begin::Select2-->
+                                                        <select name="category" id="inputnCategory"
+                                                            style="cursor: pointer;"
+                                                            class="form-control form-select form-select-solid"
+                                                            required>
+                                                            @foreach ($categories as $value)
+                                                                @if ($val->test_category_id == $value->id)
+                                                                    <option value="{{ $value->id }}" selected>
+                                                                        {{ $value->category }}</option>
+                                                                @else
+                                                                    <option value="{{ $value->id }}">
+                                                                        {{ $value->category }}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
+                                                    <div class="col-md-12 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="company">Company</label>
                                                         <!--begin::Select2-->
@@ -521,28 +543,6 @@
                                                                         {{ $value->cname }}
                                                                     </option>
                                                                 @endif
-                                                            @endforeach
-                                                        </select>
-                                                        <!--end::Select2-->
-                                                    </div>
-                                                    <div class="col-md-6 fv-row">
-                                                        <label class="required fs-6 fw-bold mb-2"
-                                                            style="margin-left: 5px;" for="">Category</label>
-                                                        <!--begin::Select2-->
-                                                        <select name="category" id="inputnCategory"
-                                                            style="cursor: pointer;"
-                                                            class="form-control form-select form-select-solid mb-8"
-                                                            required>
-                                                            @php $i=1; @endphp
-                                                            @foreach ($categories as $value)
-                                                                @if ($val->test_category_id == $value->id)
-                                                                    <option value="{{ $i }}" selected>
-                                                                        {{ $value->category }}</option>
-                                                                @else
-                                                                    <option value="{{ $i }}">
-                                                                        {{ $value->category }}</option>
-                                                                @endif
-                                                                @php $i++; @endphp
                                                             @endforeach
                                                         </select>
                                                         <!--end::Select2-->
@@ -565,7 +565,7 @@
                                 <!--end::Modal dialog-->
                             </div>
                         @endforeach
-                    @elseif($flag == 0 || $flag==2 || $flag==3)
+                    @elseif($flag == 0 || $flag == 2 || $flag == 3)
                         <div class="modal fade" id="kt_generate_link" tabindex="-1" aria-hidden="true">
                             <!--begin::Modal dialog-->
                             <div class="modal-dialog mw-650px">
@@ -580,9 +580,11 @@
                                             <span class="svg-icon svg-icon-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none">
-                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                    <rect opacity="0.5" x="6" y="17.3137"
+                                                        width="16" height="2" rx="1"
                                                         transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <rect x="7.41422" y="6" width="16"
+                                                        height="2" rx="1"
                                                         transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                 </svg>
                                             </span>
@@ -593,8 +595,7 @@
                                     <!--begin::Modal header-->
                                     <!--begin::Modal body-->
                                     <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                        <form action="{{ url('/linkgenerate') }}" method="POST"
-                                            class="form">
+                                        <form action="{{ url('/linkgenerate') }}" method="POST" class="form">
                                             @csrf
                                             <!--begin::Heading-->
                                             <div class="mb-13 text-center">
@@ -607,8 +608,8 @@
                                                 <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
                                                     for="cname">Name</label>
                                                 <input type="text" class="form-control form-control-solid mb-8"
-                                                    name="name" id="cname" placeholder="Name" style="cursor: pointer;"
-                                                    required>
+                                                    name="name" id="cname" placeholder="Name"
+                                                    style="cursor: pointer;" required>
                                                 <input type="hidden" name="company_id" id="company"
                                                     value="{{ $company_id }}">
 
@@ -620,26 +621,25 @@
                                             </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="phone">Phone</label>
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="phone">Phone</label>
                                                     <input type="number" class="form-control form-control-solid mb-8"
                                                         name="phone" style="cursor: pointer;" placeholder="phone"
                                                         id="phone" required>
                                                 </div>
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="inputCategory">Category</label>
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="inputCategory">Category</label>
                                                     <!--begin::Select2-->
-                                                    <select name="category" style="cursor: pointer;" id="inputCategory"
+                                                    <select name="category" style="cursor: pointer;"
+                                                        id="inputCategory"
                                                         class="form-control form-select form-select-solid mb-8"
                                                         required>
                                                         <option value="">Choose...</option>
 
-                                                        @php $i=1; @endphp
                                                         @foreach ($categories as $val)
-                                                            <option value="{{ $i }}">{{ $val->category }}
+                                                            <option value="{{ $val->id }}">{{ $val->category }}
                                                             </option>
-                                                            @php $i++; @endphp
                                                         @endforeach
 
                                                     </select>
@@ -672,12 +672,13 @@
                                                 data-bs-dismiss="modal">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                 <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                            rx="1" transform="rotate(-45 6 17.3137)"
-                                                            fill="currentColor" />
-                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="6" y="17.3137"
+                                                            width="16" height="2" rx="1"
+                                                            transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                        <rect x="7.41422" y="6" width="16"
+                                                            height="2" rx="1"
                                                             transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                     </svg>
                                                 </span>
@@ -697,18 +698,20 @@
                                                     <!--end::Title-->
                                                 </div>
                                                 <!--end::Heading-->
-                                                <input type="hidden" name="id" id="cid" value="{{ $val->id }}">
+                                                <input type="hidden" name="id" id="cid"
+                                                    value="{{ $val->id }}">
                                                 <div class="d-flex flex-column mb-8 fv-row">
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="cname">Name</label>
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="cname">Name</label>
                                                     <input type="text" class="form-control form-control-solid mb-8"
                                                         style="cursor: pointer;" name="name" id="cname"
                                                         placeholder="Name"
                                                         value="{{ empty($val->name) ? '' : $val->name }}" required>
-                                                    <input type="hidden" name="company_id" value="{{ $company_id }}">
+                                                    <input type="hidden" name="company_id"
+                                                        value="{{ $company_id }}">
 
-                                                    <label class="required fs-6 fw-bold mb-2" style="margin-left: 5px;"
-                                                        for="inputEmail4">Email</label>
+                                                    <label class="required fs-6 fw-bold mb-2"
+                                                        style="margin-left: 5px;" for="inputEmail4">Email</label>
                                                     <input type="email" readonly
                                                         class="form-control form-control-solid" name="email"
                                                         style="cursor: pointer;" id="cemail" placeholder="Email"
@@ -719,8 +722,9 @@
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px;" for="phone">Phone</label>
                                                         <input type="number"
-                                                            class="form-control form-control-solid mb-8" name="phone"
-                                                            style="cursor: pointer;" id="cphone" placeholder="phone"
+                                                            class="form-control form-control-solid mb-8"
+                                                            name="phone" style="cursor: pointer;" id="cphone"
+                                                            placeholder="phone"
                                                             value="{{ empty($val->phone) ? '' : $val->phone }}"
                                                             required>
                                                     </div>
@@ -732,16 +736,14 @@
                                                             style="cursor: pointer;"
                                                             class="form-control form-select form-select-solid mb-8"
                                                             required>
-                                                            @php $i=1; @endphp
                                                             @foreach ($categories as $value)
                                                                 @if ($val->test_category_id == $value->id)
-                                                                    <option value="{{ $i }}" selected>
+                                                                    <option value="{{ $value->id }}" selected>
                                                                         {{ $value->category }}</option>
                                                                 @else
-                                                                    <option value="{{ $i }}">
+                                                                    <option value="{{ $value->id }}">
                                                                         {{ $value->category }}</option>
                                                                 @endif
-                                                                @php $i++; @endphp
                                                             @endforeach
                                                         </select>
                                                         <!--end::Select2-->
@@ -803,14 +805,14 @@
     <!--end::Javascript-->
 
     <script>
-        $(document).ready(function(){
-              $("#mytable").mousewheel(function(event, delta) {
-        
-                 //The "30" represents speed. preventDefault ensures the page won't scroll down.
-                 this.scrollLeft -= (delta * 30);
+        $(document).ready(function() {
+            $("#mytable").mousewheel(function(event, delta) {
+
+                //The "30" represents speed. preventDefault ensures the page won't scroll down.
+                this.scrollLeft -= (delta * 30);
                 event.preventDefault();
-        
-         });
+
+            });
         });
     </script>
 
@@ -827,9 +829,12 @@
                         'company_id': company_id
                     },
                     success: function(response) {
-                        console.log(response);
-                        $('#mytable').empty();
-                        $('#mytable').html(response);
+                        if (response != false) {
+                            $('#table-card-body').empty();
+                            $('#table-card-body').html(response);
+                        } else {
+                            window.location.reload();
+                        }
 
                     },
                     error: function(e) {
@@ -843,12 +848,11 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $(".delete").on("click", function() {
-
+                e.preventDefault();
                 var currentRow = $(this).closest("tr");
                 var col1 = currentRow.find("td:eq(1)").text(); // get current row 1st TD value
                 var id = col1.trim();
                 var string_url = '/deletelink/' + id;
-                console.log(string_url)
 
                 swal({
                     title: "Are you sure!",
@@ -888,13 +892,59 @@
                 });
             });
 
+            $(".change_status").on("click", function() {
+
+                var currentRow = $(this).closest("tr");
+                var col1 = currentRow.find("td:eq(1)").text(); // get current row 1st TD value
+                var id = col1.trim();
+                var string_url = '/changeStatusglink/' + id;
+
+                swal({
+                    title: "Are you sure!",
+                    text: "Do you really want to Change status!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: "get",
+                            url: string_url,
+                            data: "",
+                            success: function(data) {
+                                if (data != false) {
+                                    // swal("Status Changed successfully...", {
+                                    //     icon: "success",
+                                    // });
+
+                                    var td = currentRow.find('.link_status');
+                                    td.html(data);
+                                } else {
+                                    swal("Failed to Change Status!", {
+                                        icon: "error",
+                                    });
+                                }
+
+                            }
+                        })
+
+
+                    }
+                    // else {
+                    //     swal("Status not Changed!", {
+                    //         icon: "error",
+                    //     });
+                    // }
+                });
+            });
+
         });
     </script>
 
     <script>
         $(document).ready(function() {
-            $('.copylink').click(function() {
-
+            $('.copylink').click(function(e) {
+                e.preventDefault();
                 var currentRow = $(this).closest("tr");
                 var col1 = currentRow.find("td:eq(5)").text();
                 var link = col1.trim();
@@ -908,6 +958,14 @@
                 console.log($(this).tooltip('hide').attr('title', 'Link Copied').tooltip('show'));
 
             });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'csrftoken': '{{ csrf_token() }}'
+            }
         });
     </script>
 

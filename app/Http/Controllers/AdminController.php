@@ -162,13 +162,13 @@ class AdminController extends Controller
                 $company_id = $request->company_id;
                 if ($company_id != 0 && $company_id != null) {
                     $query = $query->where('cl.company_id', $company_id)->get();
-                } else {
-                    $query = $query->paginate(3);
+                    $data = $query;
+                    $view = view("generatelinkviewajax", compact('data'))->render();
+                    return $view;
+                } 
+                else {
+                   return false;
                 }
-
-                $data = $query;
-                $view = view("generatelinkviewajax", compact('data'))->render();
-                return $view;
             }
 
             $query = $query->paginate(3);
@@ -298,9 +298,21 @@ class AdminController extends Controller
             ->update(['status' => $status]);
 
         if ($result == false) {
-            return redirect()->back()->with('error_msg', "Status Not changed!");
+            // return redirect()->back()->with('error_msg', "Status Not changed!");
+            return false ;
         }
-        return redirect()->back()->with('success_msg', "Status changed!");
+
+        if($status == 1)
+        {
+            $html='<span class="badge badge-light-success">Active</span>';
+        }
+        elseif($status==0)
+        {
+            $html='<span class="badge badge-light-danger">Inactive</span>';
+            
+        }
+        // return redirect()->back()->with('success_msg', "Status changed!");
+        return $html ;
     }
 
     public function edit_link(Request $request)

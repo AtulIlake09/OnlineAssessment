@@ -31,24 +31,24 @@
                         </div>
                     </td>
                     <td style="display:none;">
-                        <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val['id'] }}</label>
+                        <label href="#" class="text-dark d-block fs-6">{{ $val['id'] }}</label>
                     </td>
                     <td>
-                        <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
-                    </td>
-                    <td>
-                        <label href="#"
-                            class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val['name'] }}</label>
-                    </td>
-                    <td>
-                        <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val['email'] }}</label>
-                    </td>
-                    <td>
-                        <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val['company'] }}</label>
+                        <label href="#" class="text-dark d-block fs-6">{{ $count }}</label>
                     </td>
                     <td>
                         <label href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{$val['position']}}</label>
+                            class="text-dark text-hover-primary d-block fs-6">{{ $val['name'] }}</label>
+                    </td>
+                    <td>
+                        <label href="#" class="text-dark d-block fs-6">{{ $val['email'] }}</label>
+                    </td>
+                    <td>
+                        <label href="#" class="text-dark d-block fs-6">{{ $val['company'] }}</label>
+                    </td>
+                    <td>
+                        <label href="#"
+                            class="text-dark d-block fs-6">{{$val['position']}}</label>
                     </td>
                     <td class="text-center">
                         <span

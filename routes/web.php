@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NewUserRegistrationController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -145,5 +146,5 @@ Route::get('/users/requests/{id?}',[NewUserRegistrationController::class,'user_r
 Route::get('/approved_user_request/{id}',[NewUserRegistrationController::class,'approved_user_request']);
 Route::get('/decline_user_request/{id}',[NewUserRegistrationController::class,'decline_user_request']);
 
-
+Route::get('/search',[SearchController::class,'search']);
 
