@@ -115,7 +115,7 @@
                                         </div>
                                         <!--end::Header-->
                                         <!--begin::Body-->
-                                        <div class="card-body py-3">
+                                        <div class="card-body py-3" id="table-card-body">
                                             <!--begin::Table container-->
                                             <div id="mytable" class="table-responsive">
                                                 <!--begin::Table-->
@@ -137,8 +137,8 @@
                                                             <th class="min-w-150px">Email</th>
                                                             <th class="min-w-150px">Phone</th>
                                                             <th class="min-w-150px">category</th>
-                                                            @if($flag==1)
-                                                            <th class="min-w-150px">Company</th>
+                                                            @if ($flag == 1)
+                                                                <th class="min-w-150px">Company</th>
                                                             @endif
                                                             <th class="min-w-150px">Test Link</th>
                                                             <th class="min-w-150px">IP address</th>
@@ -164,40 +164,50 @@
                                                                     </div>
                                                                 </td>
                                                                 <td style="display:none;">
-                                                                    <label class="text-dark d-block fs-6">{{ $val->id }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $val->id }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $count }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $count }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <a href="{{ url('/getqueans/' . $val->candidate_id) }}"
                                                                         class="text-dark text-hover-primary d-block fs-6">{{ $val->name }}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $val->email }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $val->email }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $val->mobile }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $val->mobile }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $val->category }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $val->category }}</label>
                                                                 </td>
-                                                                @if($flag==1)
-                                                                <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $val->cname }}</label>
-                                                                </td>
+                                                                @if ($flag == 1)
+                                                                    <td>
+                                                                        <label
+                                                                            class="text-dark d-block fs-6">{{ $val->cname }}</label>
+                                                                    </td>
                                                                 @endif
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ url($val->link) }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ url($val->link) }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $val->ip }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $val->ip }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $val->start_date_time }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $val->start_date_time }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <label class="text-dark d-block fs-6">{{ $val->end_date_time }}</label>
+                                                                    <label
+                                                                        class="text-dark d-block fs-6">{{ $val->end_date_time }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <span
@@ -236,7 +246,8 @@
                                                                                 class="svg-icon svg-icon-2 svg-icon-gray-400">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path
                                                                                         d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z"
                                                                                         fill="currentColor" />
@@ -256,7 +267,8 @@
                                                                             <span class="svg-icon svg-icon-3">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path
                                                                                         d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
                                                                                         fill="currentColor" />
@@ -278,7 +290,8 @@
                                                                                 title="Edit Candidate Details">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path opacity="0.3"
                                                                                         d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z"
                                                                                         fill="currentColor" />
@@ -297,7 +310,8 @@
                                                                             <span class="svg-icon svg-icon-3">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none">
+                                                                                    viewBox="0 0 24 24"
+                                                                                    fill="none">
                                                                                     <path
                                                                                         d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
                                                                                         fill="currentColor" />
@@ -349,6 +363,9 @@
                                                 </table>
                                                 <!--end::Table-->
                                             </div>
+                                            <div class="row mt-3">
+                                                {{ $candidates->links() }}
+                                            </div>
                                             <!--end::Table container-->
                                         </div>
                                         <!--begin::Body-->
@@ -375,13 +392,16 @@
                                                     data-bs-dismiss="modal">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                     <span class="svg-icon svg-icon-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                                rx="1" transform="rotate(-45 6 17.3137)"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none">
+                                                            <rect opacity="0.5" x="6" y="17.3137"
+                                                                width="16" height="2" rx="1"
+                                                                transform="rotate(-45 6 17.3137)"
                                                                 fill="currentColor" />
-                                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                            <rect x="7.41422" y="6" width="16"
+                                                                height="2" rx="1"
+                                                                transform="rotate(45 7.41422 6)"
+                                                                fill="currentColor" />
                                                         </svg>
                                                     </span>
                                                     <!--end::Svg Icon-->
@@ -405,7 +425,8 @@
                                                     <div class="d-flex flex-column mb-8 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="cname">Name</label>
-                                                        <input type="text" class="form-control form-control-solid mb-8"
+                                                        <input type="text"
+                                                            class="form-control form-control-solid mb-8"
                                                             name="name" id="cname" placeholder="Name"
                                                             value="{{ empty($val->name) ? '' : $val->name }}"
                                                             required>
@@ -431,7 +452,8 @@
                                                         </div>
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="">Category</label>
+                                                                style="margin-left: 5px"
+                                                                for="">Category</label>
                                                             <!--begin::Select2-->
                                                             <select name="category" disabled id="inputnCategory"
                                                                 class="form-control form-select form-select-solid mb-8"
@@ -451,7 +473,8 @@
                                                             <!--end::Select2-->
                                                         </div>
                                                         <div class="text-center">
-                                                            <button type="submit" class="btn btn-primary mt-5">Update Candidate Details</button>
+                                                            <button type="submit" class="btn btn-primary mt-5">Update
+                                                                Candidate Details</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -478,13 +501,16 @@
                                                     data-bs-dismiss="modal">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                     <span class="svg-icon svg-icon-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                                rx="1" transform="rotate(-45 6 17.3137)"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none">
+                                                            <rect opacity="0.5" x="6" y="17.3137"
+                                                                width="16" height="2" rx="1"
+                                                                transform="rotate(-45 6 17.3137)"
                                                                 fill="currentColor" />
-                                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                            <rect x="7.41422" y="6" width="16"
+                                                                height="2" rx="1"
+                                                                transform="rotate(45 7.41422 6)"
+                                                                fill="currentColor" />
                                                         </svg>
                                                     </span>
                                                     <!--end::Svg Icon-->
@@ -516,17 +542,20 @@
                                                     <div class="row g-9 mb-8">
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="inputEmail4">Email</label>
-                                                            <input type="email" class="form-control form-control-solid"
-                                                                name="email" id="cemail" placeholder="Email"
+                                                                style="margin-left: 5px"
+                                                                for="inputEmail4">Email</label>
+                                                            <input type="email"
+                                                                class="form-control form-control-solid" name="email"
+                                                                id="cemail" placeholder="Email"
                                                                 value="{{ empty($val->email) ? '' : $val->email }}"
                                                                 required>
                                                         </div>
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
                                                                 for="phone">Phone</label>
-                                                            <input type="text" class="form-control form-control-solid"
-                                                                name="phone" id="cphone" placeholder="phone"
+                                                            <input type="text"
+                                                                class="form-control form-control-solid" name="phone"
+                                                                id="cphone" placeholder="phone"
                                                                 value="{{ empty($val->mobile) ? '' : $val->mobile }}"
                                                                 required>
                                                         </div>
@@ -534,7 +563,8 @@
                                                     <div class="row g-9 mb-8">
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="company">Company</label>
+                                                                style="margin-left: 5px"
+                                                                for="company">Company</label>
                                                             <!--begin::Select2-->
                                                             <select name="company_id" style="cursor: pointer;"
                                                                 class="form-control form-select form-select-solid"
@@ -576,7 +606,8 @@
                                                             <!--end::Select2-->
                                                         </div>
                                                         <div class="text-center">
-                                                            <button type="submit" class="btn btn-primary mt-5">Update Candidate Details</button>
+                                                            <button type="submit" class="btn btn-primary mt-5">Update
+                                                                Candidate Details</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -589,9 +620,6 @@
                                 </div>
                             @endforeach
                         @endif
-                    </div>
-                    <div class="row">
-                        {{$candidates->links()}}
                     </div>
                     <!--end::Post-->
                 </div>
@@ -628,14 +656,14 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
-        $(document).ready(function(){
-              $("#mytable").mousewheel(function(event, delta) {
-        
-                 //The "30" represents speed. preventDefault ensures the page won't scroll down.
-                 this.scrollLeft -= (delta * 30);
+        $(document).ready(function() {
+            $("#mytable").mousewheel(function(event, delta) {
+
+                //The "30" represents speed. preventDefault ensures the page won't scroll down.
+                this.scrollLeft -= (delta * 30);
                 event.preventDefault();
-        
-         });
+
+            });
         });
     </script>
 
@@ -703,9 +731,13 @@
                         'company_id': company_id
                     },
                     success: function(response) {
-                        console.log(response);
-                        $('#mytable').empty();
-                        $('#mytable').html(response);
+                        if (response == false) {
+                            window.location.reload();
+                        } else {
+
+                            $('#table-card-body').empty();
+                            $('#table-card-body').html(response);
+                        }
 
                     },
                     error: function(e) {

@@ -3,7 +3,7 @@
     <table  class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
         <!--begin::Table head-->
         <thead>
-            <tr class="fw-bolder text-muted">
+            <tr class="fw-bolder text-dark">
                 <th class="w-25px">
                     <div
                         class="form-check form-check-sm form-check-custom form-check-solid">
@@ -40,28 +40,28 @@
                     </td>
                     <td style="display:none;">
                         <label
-                            class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                            class="text-dark d-block fs-6">{{ $val->id }}</label>
                     </td>
                     <td>
                         <label href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                            class="text-dark d-block fs-6">{{ $count }}</label>
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
                             <div
                                 class="d-flex justify-content-start flex-column">
                                 <a href="#"
-                                    class="text-dark fw-bolder text-hover-primary fs-6">{{ $val->name }}</a>
+                                    class="text-dark text-hover-primary fs-6">{{ $val->name }}</a>
                             </div>
                         </div>
                     </td>
                     <td>
                         <label href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
+                            class="text-dark d-block fs-6">{{ $val->email }}</label>
                     </td>
                     <td>
                         <label class="copylinktxt" href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
+                            class="text-dark d-block fs-6">{{ url($val->link) }}</label>
                     </td>
                     <td>
                         <a href="" class="copylink"
@@ -79,19 +79,19 @@
                     </td>
                     <td>
                         <label href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{ $val->phone }}</label>
+                            class="text-dark d-block fs-6">{{ $val->phone }}</label>
                     </td>
                     <td>
                         <label href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
+                            class="text-dark d-block fs-6">{{ $val->category }}</label>
                     </td>
                     {{-- <td>
                         <label href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{ $val->cname }}</label>
+                            class="text-dark d-block fs-6">{{ $val->cname }}</label>
                     </td> --}}
                     <td>
                         <label href="#"
-                            class="text-muted fw-bolder d-block fs-6">{{ $val->created_at }}</label>
+                            class="text-dark d-block fs-6">{{ $val->created_at }}</label>
                     </td>
                     <td class="link_status text-center">
                         <span

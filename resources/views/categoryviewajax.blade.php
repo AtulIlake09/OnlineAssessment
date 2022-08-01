@@ -1,21 +1,21 @@
     <!--begin::Table container-->
-    <div class="table-responsive">
+    <div id="mytable" class="table-responsive">
         <!--begin::Table-->
         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
             <!--begin::Table head-->
             <thead>
-                <tr class="fw-bolder text-muted">
+                <tr class="fw-bolder text-dark">
                     <th class="w-25px">
                         <div class="form-check form-check-sm form-check-custom form-check-solid">
                             <input class="form-check-input" type="checkbox" value="1" data-kt-check="true"
                                 data-kt-check-target=".widget-9-check" />
                         </div>
                     </th>
-                    <th class="min-w-150px">ID</th>
-                    <th class="min-w-200px">Test</th>
+                    <th class="min-w-50px">ID</th>
+                    <th class="min-w-150px">Test</th>
                     <th class="min-w-150px text-center">Test duration</th>
                     @if($flag==1)
-                    <th class="min-w-150px">Company</th>
+                    <th class="min-w-200px">Company</th>
                     @endif
                     <th class="min-w-150px text-center">Status</th>
                     <th class="min-w-100px text-center">Actions</th>
@@ -33,31 +33,30 @@
                             </div>
                         </td>
                         <td style="display: none">
-                            <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
-                            {{-- <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span> --}}
+                            <label href="#" class="text-dark d-block fs-6">{{ $val->id }}</label>
                         </td>
                         <td>
                             <label href="#"
-                                class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                                class="text-dark d-block fs-6">{{ $count }}</label>
                                 @php $count++; @endphp
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
                                 <div class="d-flex justify-content-start flex-column">
                                     <a href="{{ url('/getques/' . $val->id) }}"
-                                        class="text-dark fw-bolder text-hover-primary fs-6" data-bs-toggle="tooltip"
+                                        class="text-dark text-hover-primary fs-6" data-bs-toggle="tooltip"
                                         data-bs-placement="top" title="view Questions">{{ $val->category }}</a>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <label href="#"
-                                class="text-muted text-center fw-bolder d-block fs-6">{{ $val->time_period . ' min' }}</label>
+                                class="text-dark text-center d-block fs-6">{{ $val->time_period . ' min' }}</label>
                         </td>
                         @if($flag==1)
                         <td>
                             <label href="#"
-                                class="text-muted fw-bolder d-block fs-6">{{ $val->cname }}</label>
+                                class="text-dark d-block fs-6">{{ $val->cname }}</label>
                         </td>
                         @endif
                         <td class="text-center">
@@ -162,3 +161,6 @@
         <!--end::Table-->
     </div>
     <!--end::Table container-->
+    {{-- <div class="row">
+        {{$category->links()}}
+    </div> --}}

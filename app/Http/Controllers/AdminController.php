@@ -20,25 +20,23 @@ class AdminController extends Controller
             $flag = $user->user;
 
             $query = DB::table('category')
-                ->where('active','!=',2);
-                if($flag==0 || $flag==2 || $flag==3)
-                {
-                    $query->where('company_id',$user->company_id);
-                }
+                ->where('active', '!=', 2);
+            if ($flag == 0 || $flag == 2 || $flag == 3) {
+                $query->where('company_id', $user->company_id);
+            }
             $cat = $query->count();
-            
+
             $query = DB::table('candidate')
-                ->where('active_status','!=',2);
-                if($flag==0 || $flag==2 || $flag==3)
-                {
-                    $query->where('company_id',$user->company_id);
-                }
+                ->where('active_status', '!=', 2);
+            if ($flag == 0 || $flag == 2 || $flag == 3) {
+                $query->where('company_id', $user->company_id);
+            }
             $can = $query->count();
-           
+
             $companies = DB::table('companies')
-            ->select('id', 'cname')
-            ->whereIn('status', [0, 1])
-            ->get();
+                ->select('id', 'cname')
+                ->whereIn('status', [0, 1])
+                ->get();
 
             return view('dashboard', compact('cat', 'can', 'flag', 'companies'));
         } else {
@@ -82,11 +80,11 @@ class AdminController extends Controller
             // $user = User::where(['email' => $request->email, 'status' => 1])->first();
             $user = auth()->user();
             $status = $user->status;
-            $query=DB::table('companies')
-            ->where('id',$user->company_id)
-            ->first();
-            $cstatus=$query->status;
-            if ($cstatus!=1 || $status != 1) {
+            $query = DB::table('companies')
+                ->where('id', $user->company_id)
+                ->first();
+            $cstatus = $query->status;
+            if ($cstatus != 1 || $status != 1) {
                 Auth::logout();
                 return redirect('/adminlogin')->with('fail', 'Login Not Allowed');
             }
@@ -107,13 +105,16 @@ class AdminController extends Controller
     public function getcattbl($id = null)
     {
         $query = DB::table('category as ct')
-        ->join('companies as co', 'ct.company_id', '=', 'co.id')
-        ->select('ct.id', 'ct.category', 'ct.time_period', 'ct.description', 'ct.active', 'ct.company_id', 'co.cname')
-        ->where('ct.active', '!=', 2);
+            ->join('companies as co', 'ct.company_id', '=', 'co.id')
+            ->select('ct.id', 'ct.category', 'ct.time_period', 'ct.description', 'ct.active', 'ct.company_id', 'co.cname')
+            ->where('ct.active', '!=', 2);
         if ($id != 0 && $id != null) {
-            $query->where('ct.company_id', $id);
+            $query = $query->where('ct.company_id', $id)
+                ->get();
+        } else {
+
+            $query = $query->paginate(5);
         }
-        $query = $query->paginate(3);
         $category = $query;
         return $category;
     }
@@ -153,9 +154,9 @@ class AdminController extends Controller
                 ->join('companies as co', 'cl.company_id', '=', 'co.id')
                 ->select('cl.id', 'cl.name', 'cl.email', 'cl.phone', 'cl.test_category_id', 'cl.company_id', 'co.cname', 'ct.category', 'cl.link', 'cl.created_at', 'cl.status')
                 ->whereIn('cl.status', [0, 1])
-            ->orderBy('id', 'desc');
-            
-            if ($flag == 0 || $flag==2 || $flag==3) {
+                ->orderBy('id', 'desc');
+
+            if ($flag == 0 || $flag == 2 || $flag == 3) {
                 $query->where('cl.company_id', $company_id);
             } elseif ($request->ajax()) {
 
@@ -165,9 +166,8 @@ class AdminController extends Controller
                     $data = $query;
                     $view = view("generatelinkviewajax", compact('data'))->render();
                     return $view;
-                } 
-                else {
-                   return false;
+                } else {
+                    return false;
                 }
             }
 
@@ -176,9 +176,9 @@ class AdminController extends Controller
 
             $query = DB::table('category')
                 ->select('id', 'category')
-            ->where('active', 1);
+                ->where('active', 1);
 
-            if ($flag == 0 || $flag==2 || $flag==3) {
+            if ($flag == 0 || $flag == 2 || $flag == 3) {
                 $query->where('company_id', $company_id);
             }
 
@@ -189,7 +189,7 @@ class AdminController extends Controller
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
                 ->get();
-                
+
             return view('generatelink', compact('data', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
@@ -203,10 +203,10 @@ class AdminController extends Controller
                 'name' => 'required',
                 'email' => 'required|email',
                 'company_id' => 'required',
-                'phone' => 'required',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
                 'category' => 'required'
             ]);
-            
+
             $name = $request->name;
             $email = $request->email;
             $company_id = $request->company_id;
@@ -241,7 +241,7 @@ class AdminController extends Controller
             // if (Mail::failures()) {
             //     $status = 0;
             // } else {
-                $status = 1;
+            $status = 1;
             // }
             // return redirect()->back()->with('msg', $status);
             return redirect('/generatelink')->with('msg', $status);
@@ -281,7 +281,6 @@ class AdminController extends Controller
     public function change_status_glink($id)
     {
         $query = DB::table('candidate_test_link')
-            ->select('status')
             ->where('id', '=', $id)
             ->first();
 
@@ -289,8 +288,18 @@ class AdminController extends Controller
 
         if ($status == 0) {
             $status = 1;
+            DB::table('candidate')
+                ->where('candidate_id', '=', $query->candidate_id)
+                ->update(['status' => 0,'end_date_time'=>null]);
+
+            DB::table('candidate_remark')
+                ->where('candidate_id', '=', $query->candidate_id)
+                ->update(['status' => 1]);
         } elseif ($status == 1) {
             $status = 0;
+            DB::table('candidate')
+            ->where('candidate_id', '=', $query->candidate_id)
+            ->update(['status' => 1]);
         }
 
         $result = DB::table('candidate_test_link')
@@ -299,20 +308,16 @@ class AdminController extends Controller
 
         if ($result == false) {
             // return redirect()->back()->with('error_msg', "Status Not changed!");
-            return false ;
+            return false;
         }
 
-        if($status == 1)
-        {
-            $html='<span class="badge badge-light-success">Active</span>';
-        }
-        elseif($status==0)
-        {
-            $html='<span class="badge badge-light-danger">Inactive</span>';
-            
+        if ($status == 1) {
+            $html = '<span class="badge badge-light-success">Active</span>';
+        } elseif ($status == 0) {
+            $html = '<span class="badge badge-light-danger">Inactive</span>';
         }
         // return redirect()->back()->with('success_msg', "Status changed!");
-        return $html ;
+        return $html;
     }
 
     public function edit_link(Request $request)
@@ -370,6 +375,7 @@ class AdminController extends Controller
                 ->join('companies as co', 'cn.company_id', '=', 'co.id')
                 ->join('candidate_remark as cr', 'cn.candidate_id', '=', 'cr.candidate_id')
                 ->where('cn.active_status', '!=', 2)
+                ->where('cr.status', 1)
                 ->select(
                     'cn.id',
                     'cn.candidate_id',
@@ -377,8 +383,8 @@ class AdminController extends Controller
                     'cn.email',
                     'cn.mobile',
                     'cn.category_id',
-                'cn.company_id',
-                'co.cname',
+                    'cn.company_id',
+                    'co.cname',
                     'ct.category',
                     'cr.result',
                     'cr.feedback',
@@ -389,26 +395,26 @@ class AdminController extends Controller
                     'cn.end_date_time',
                     'cn.status'
                 )
-                ->orderBy('cn.id','desc');
-               
-            if ($flag == 0 || $flag==2 || $flag==3) {
+                ->orderBy('cn.id', 'desc');
+
+            if ($flag == 0 || $flag == 2 || $flag == 3) {
                 $query->where('cn.company_id', $company_id);
             } elseif ($request->ajax()) {
 
                 $company_id = $request->company_id;
                 if ($company_id != 0 && $company_id != null) {
-                    $query = $query->where('cn.company_id', $company_id)->paginate(3);
+                    $query = $query->where('cn.company_id', $company_id)->get();
                 } else {
-                    $query = $query->paginate(3);
+                    return false;
                 }
                 $candidates = $query;
 
                 $view = view("assessmentviewajax", compact('candidates'))->render();
                 return $view;
             }
-            $query=$query->paginate(3);
+            $query = $query->paginate(3);
             $candidates = $query;
-            // dd($candidates);
+
             $query = DB::table('category')
                 ->select('id', 'category')
                 ->get();
@@ -418,8 +424,8 @@ class AdminController extends Controller
             $companies = DB::table('companies')
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
-            ->get();
-        
+                ->get();
+
             return view('assessment', compact('candidates', 'categories', 'flag', 'company_id', 'companies'));
         } else {
             return redirect('/adminlogin');
@@ -428,35 +434,43 @@ class AdminController extends Controller
 
     public function change_status_candidate($id)
     {
-        $query = DB::table('candidate')
-            ->where('id', '=', $id)
-            ->first();
-
-        $status = $query->status;
-
-        if ($status == 1) {
-            $category = DB::table('category')
-                ->where('id', '=', $query->category_id)
-                ->select('time_period')
+        if (Auth::user()) {
+            $query = DB::table('candidate')
+                ->where('id', '=', $id)
                 ->first();
-            $duration = $category->time_period;
+            
+            if (!empty($query)) {
+                $status = $query->status;
+                $category = DB::table('category')
+                    ->where('id', '=', $query->category_id)
+                    ->select('time_period')
+                    ->first();
+                $duration = $category->time_period;
 
-            $starttime = $query->start_date_time;
-            $endtime = $query->end_date_time;
-            $start = date_create($starttime);
-            $end = date_create($endtime);
-            $diff = date_diff($start, $end);
-            $timediff = $diff->format("%i");
+                $starttime = $query->start_date_time;
+                $endtime = $query->end_date_time;
+                $start = date_create($starttime);
+                $end = date_create($endtime);
+                $diff = date_diff($start, $end);
+                $timediff = $diff->format("%i");
 
-            if ($timediff < $duration) {
-                $status = 0;
-                DB::table('candidate')
-                    ->where('id', '=', $id)
-                    ->update(['status' => $status]);
-                return redirect()->back()->with('success_msg', "Status Changed");
+                $query=DB::table('candidate')
+                ->where('id', '=', $id);
+          
+                if ($timediff < $duration) {
+                    $status = 0;
+                    $query->update(['status' => $status,'end_date_time'=>null]);
+                    return redirect()->back()->with('success_msg', "Status Changed");
+                }
+                else
+                {
+                    $status = 1;
+                    $query->update(['status' => $status]);
+                    return redirect()->back()->with('success_msg', "Status Changed");
+                }
             }
+            return redirect()->back()->with('error_msg', "Time is over");
         }
-        return redirect()->back()->with('error_msg', "Time is over");
     }
 
     public function edit_can(Request $request)
@@ -517,9 +531,10 @@ class AdminController extends Controller
     {
         if (Auth::user()) {
             $query = DB::table('candidate_answers as cs')
-            ->select('cs.candidate_id','qs.questions','cs.answers','cs.type','cs.ques_id')
-                ->join('questions as qs','qs.id','=','cs.ques_id')
+                ->select('cs.candidate_id', 'qs.questions', 'cs.answers', 'cs.type', 'cs.ques_id')
+                ->join('questions as qs', 'qs.id', '=', 'cs.ques_id')
                 ->where('cs.candidate_id', '=', $id)
+                ->where('cs.status', 1)
                 ->get();
             $queans = $query->all();
             $request->session()->put('queans', $queans);
@@ -538,7 +553,7 @@ class AdminController extends Controller
                 if ($val->type == 2) {
                     if ($val->answers != null) {
                         $query = DB::table('question_options')
-                        ->select('option')
+                            ->select('option')
                             ->where('option_id', $val->answers)
                             ->orWhere('option', $val->answers)
                             ->first();
@@ -561,6 +576,7 @@ class AdminController extends Controller
 
                 $query = DB::table('candidate_remark')
                     ->where('candidate_id', '=', $can_id)
+                    ->where('status', 1)
                     ->first();
 
                 if (!empty($query)) {
@@ -577,7 +593,6 @@ class AdminController extends Controller
             } else {
                 return redirect()->back()->with('error_msg', "Record not found");
             }
-           
         } else {
             return redirect('/adminlogin');
         }
@@ -611,13 +626,13 @@ class AdminController extends Controller
     //Test Category
     public function categories_view(Request $request)
     {
-       
+
         if (Auth::user()) {
 
             $user = auth()->user();
             $flag = $user->user;
 
-            if ($flag == 0 || $flag==2 || $flag==3) {
+            if ($flag == 0 || $flag == 2 || $flag == 3) {
 
                 $company_id = $user->company_id;
                 $category = $this->getcattbl($company_id);
@@ -627,8 +642,11 @@ class AdminController extends Controller
 
                 if ($request->ajax()) {
 
-                    $company_id = $request->company_id;
-                    $category = $this->getcattbl($company_id);
+                    if ($request->company_id == 0 || $request->company_id == null) {
+                        return false;
+                    }
+
+                    $category = $this->getcattbl($request->company_id);
 
                     $view = view("categoryviewajax", compact('category', 'flag'))->render();
                     return $view;
@@ -656,7 +674,7 @@ class AdminController extends Controller
             'company_id' => 'required',
             'description' => 'required',
         ]);
-     
+
         $name = $request->name;
         $company_id = $request->company_id;
         $duration = $request->duration;
@@ -759,7 +777,7 @@ class AdminController extends Controller
                 ->where('category_id', '=', $cat_id)
                 ->whereIn('status', [0, 1])
                 ->orderBy('id', 'desc')
-            ->paginate(3);
+                ->paginate(5);
 
             $questions = $query;
 
@@ -767,8 +785,8 @@ class AdminController extends Controller
                 if ($val->type == 2) {
                     $c = 1;
                     $query = DB::table('question_options')
-                    ->where('ques_id', $val->id)
-                    ->get();
+                        ->where('ques_id', $val->id)
+                        ->get();
 
                     foreach ($query->all() as $value) {
                         $options = "option" . $c;
@@ -777,8 +795,8 @@ class AdminController extends Controller
                     }
 
                     $query = DB::table('question_solution')
-                    ->where('ques_id', $val->id)
-                    ->first();
+                        ->where('ques_id', $val->id)
+                        ->first();
 
                     if (isset($query->option_id)) {
                         $val->selected_option = $query->option_id;
@@ -787,7 +805,7 @@ class AdminController extends Controller
                     }
                 }
             }
-        
+
             $query = DB::table('category')
                 ->select('category')
                 ->where('id', '=', $cat_id)
@@ -863,7 +881,7 @@ class AdminController extends Controller
         $type = $request->type;
         $question = $request->question;
         $selected_option_id = $request->selected_option_id;
-        
+
         $arr = [
             [$request->option_id1, $request->option1],
             [$request->option_id2, $request->option2],
@@ -879,17 +897,17 @@ class AdminController extends Controller
         if ($type == 2) {
 
             DB::table('question_solution')
-            ->where('ques_id', $id)
-            ->update(['option_id' => $selected_option_id, 'updated_at' => date('Y-m-d H:i:s')]);
+                ->where('ques_id', $id)
+                ->update(['option_id' => $selected_option_id, 'updated_at' => date('Y-m-d H:i:s')]);
 
             foreach ($arr as $val) {
                 DB::table('question_options')
-                ->where('ques_id', $id)
-                ->where('option_id', $val[0])
+                    ->where('ques_id', $id)
+                    ->where('option_id', $val[0])
                     ->update(['option' => $val[1], 'updated_at' => date('Y-m-d H:i:s')]);
             }
         }
-        
+
 
         if ($query == true) {
             return redirect()->back()->with('success_msg', 'Question Updated Successfully!');

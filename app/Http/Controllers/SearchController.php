@@ -10,7 +10,6 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         if ($request->ajax()) {
-            $output = "";
             $query = DB::table('companies')
                 ->where('cname', 'LIKE', '%' . $request->search . "%")
                 ->whereIn('status', [0, 1])

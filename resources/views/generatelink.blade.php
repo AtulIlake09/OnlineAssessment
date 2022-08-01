@@ -1000,10 +1000,10 @@
         }
     ?>
 
-    @if ($errors->has('email'))
+    @if ($errors->any())
         <script>
             $(document).ready(function() {
-                var error = "<?php echo $errors->first('email'); ?>";
+                var error = "<?php echo $errors->first(); ?>";
                 console.log(error, '///');
 
                 swal("error !", error, "error");

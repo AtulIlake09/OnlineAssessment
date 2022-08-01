@@ -93,7 +93,7 @@ class SuperAdminController extends Controller
                     if ($id != 0 && $id != null) {
                         $query = $query->where('users.company_id', $id)->get();
                     } else {
-                        $query = $query->get();
+                        return false;
                     }
                     $users = users_array($query->all());
 
@@ -116,9 +116,8 @@ class SuperAdminController extends Controller
                 $query->where('users.company_id', $id);
             }
 
-            $query = $query->get();
-            $users = users_array($query->all());
-
+            $users = $query->paginate(4);
+            // $users = users_array($query->all());
             if ($flag == 1) {
                 return view('users', compact('users', 'companies', 'flag'));
             } elseif ($flag == 0) {
@@ -218,20 +217,20 @@ class SuperAdminController extends Controller
         if ($flag == 1) {
             $query = DB::table('companies')
                 ->whereIn('status', [0, 1])
-                ->get();
+                ->paginate(4);
 
-            $records = $query->all();
+            $companies = $query;
 
-            $companies = [];
-            foreach ($records as $val) {
-                $companies[] = [
-                    'id' => $val->id,
-                    'company' => $val->cname,
-                    'email' => $val->email,
-                    'address' => $val->address,
-                    'status' => $val->status
-                ];
-            }
+            // $companies = [];
+            // foreach ($records as $val) {
+            //     $companies[] = [
+            //         'id' => $val->id,
+            //         'company' => $val->cname,
+            //         'email' => $val->email,
+            //         'address' => $val->address,
+            //         'status' => $val->status
+            //     ];
+            // }
 
             return view('companies', compact('companies', 'flag'));
         }

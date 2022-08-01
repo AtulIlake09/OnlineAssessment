@@ -3,7 +3,7 @@
     <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
         <!--begin::Table head-->
         <thead>
-            <tr class="fw-bolder text-muted">
+            <tr class="fw-bolder text-dark">
                 <th class="w-25px">
                     <div class="form-check form-check-sm form-check-custom form-check-solid">
                         <input class="form-check-input" type="checkbox" value="1" data-kt-check="true"

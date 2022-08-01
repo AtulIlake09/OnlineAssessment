@@ -57,7 +57,7 @@
             <x-sidebar />
             <!--end::Aside-->
             @php
-            $user=auth()->user();
+                $user = auth()->user();
             @endphp
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
@@ -86,7 +86,8 @@
                                 </h1>
                                 <!--end::Title-->
                             </div>
-                            <a href="{{ url('/users/requests/'.$user->company_id) }}" class="btn btn-sm btn-primary">Users Requests</a>
+                            <a href="{{ url('/users/requests/' . $user->company_id) }}"
+                                class="btn btn-sm btn-primary">Users Requests</a>
                             <!--end::Page title-->
                         </div>
                         <!--end::Container-->
@@ -132,12 +133,13 @@
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                 height="24" viewBox="0 0 24 24" fill="none">
-                                                                <rect opacity="0.5" x="11.364" y="20.364" width="16"
-                                                                    height="2" rx="1"
+                                                                <rect opacity="0.5" x="11.364" y="20.364"
+                                                                    width="16" height="2" rx="1"
                                                                     transform="rotate(-90 11.364 20.364)"
                                                                     fill="currentColor" />
-                                                                <rect x="4.36396" y="11.364" width="16" height="2"
-                                                                    rx="1" fill="currentColor" />
+                                                                <rect x="4.36396" y="11.364" width="16"
+                                                                    height="2" rx="1"
+                                                                    fill="currentColor" />
                                                             </svg>
                                                         </span>
                                                         <!--end::Svg Icon-->Add User
@@ -158,8 +160,9 @@
                                                                 <th class="w-25px">
                                                                     <div
                                                                         class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            value="1" data-kt-check="true"
+                                                                        <input class="form-check-input"
+                                                                            type="checkbox" value="1"
+                                                                            data-kt-check="true"
                                                                             data-kt-check-target=".widget-9-check" />
                                                                     </div>
                                                                 </th>
@@ -168,7 +171,7 @@
                                                                 <th class="min-w-150px">Email</th>
                                                                 <th class="min-w-200px">Company</th>
                                                                 <th class="min-w-100px">Position</th>
-                                                                <th class="min-w-150px text-center">Status</th>
+                                                                <th class="min-w-100px text-center">Status</th>
                                                                 <th class="min-w-100px text-center">Actions</th>
                                                             </tr>
                                                         </thead>
@@ -188,7 +191,7 @@
                                                                     </td>
                                                                     <td style="display:none;">
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{ $val['id'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val->id }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
@@ -200,24 +203,33 @@
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{ $val['email'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val->email }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{ $val['company'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val->cname }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{$val['position']}}</label>
+                                                                            class="text-dark d-block fs-6"><?php if ($val->user == 0) {
+                                                                                $position = 'Admin';
+                                                                            } elseif ($val->user == 1) {
+                                                                                $position = 'Super admin';
+                                                                            } elseif ($val->user == 2) {
+                                                                                $position = 'Recruiter';
+                                                                            } elseif ($val->user == 3) {
+                                                                                $position = 'Hiring Manager';
+                                                                            }
+                                                                            echo $position; ?></label>
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <span
-                                                                            @if ($val['status'] == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val['status'] == 1 ? 'Active' : 'Inactive' }}</span>
+                                                                            @if ($val->status == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val['status'] == 1 ? 'Active' : 'Inactive' }}</span>
                                                                     </td>
                                                                     <td>
                                                                         <div
                                                                             class="d-flex justify-content-end flex-shrink-0">
-                                                                            <a href="{{ url('/user_status/' . $val['id']) }}"
+                                                                            <a href="{{ url('/user_status/' . $val->id) }}"
                                                                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                                 data-bs-toggle="tooltip"
                                                                                 data-bs-placement="top"
@@ -226,7 +238,8 @@
                                                                                 <span class="svg-icon svg-icon-3">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         width="24" height="24"
-                                                                                        viewBox="0 0 24 24" fill="none">
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none">
                                                                                         <path
                                                                                             d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
                                                                                             fill="currentColor" />
@@ -240,7 +253,7 @@
                                                                             <a href="#"
                                                                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                                 data-bs-toggle="modal"
-                                                                                data-bs-target="#kt_modal_edit_user_{{ $val['id'] }}">
+                                                                                data-bs-target="#kt_modal_edit_user_{{ $val->id }}">
                                                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                                 <span class="svg-icon svg-icon-3"
                                                                                     data-bs-toggle="tooltip"
@@ -248,7 +261,8 @@
                                                                                     title="Edit User Details">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         width="24" height="24"
-                                                                                        viewBox="0 0 24 24" fill="none">
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none">
                                                                                         <path opacity="0.3"
                                                                                             d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z"
                                                                                             fill="currentColor" />
@@ -267,7 +281,8 @@
                                                                                 <span class="svg-icon svg-icon-3">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         width="24" height="24"
-                                                                                        viewBox="0 0 24 24" fill="none">
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none">
                                                                                         <path
                                                                                             d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
                                                                                             fill="currentColor" />
@@ -290,6 +305,9 @@
                                                         <!--end::Table body-->
                                                     </table>
                                                     <!--end::Table-->
+                                                </div>
+                                                <div class="row mt-5">
+                                                    {{ $users->links() }}
                                                 </div>
                                                 <!--end::Table container-->
                                             </div>
@@ -314,12 +332,13 @@
                                                 data-bs-dismiss="modal">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                 <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                            rx="1" transform="rotate(-45 6 17.3137)"
-                                                            fill="currentColor" />
-                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="6" y="17.3137"
+                                                            width="16" height="2" rx="1"
+                                                            transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                        <rect x="7.41422" y="6" width="16"
+                                                            height="2" rx="1"
                                                             transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                     </svg>
                                                 </span>
@@ -343,15 +362,16 @@
                                                     <label class="required fs-6 fw-bold mb-2" for="name"
                                                         style="margin-left: 5px">Name</label>
                                                     <input type="text" class="form-control form-control-solid"
-                                                        name="name" id="uname" placeholder="User Name" required>
+                                                        name="name" id="uname" placeholder="User Name"
+                                                        required>
                                                 </div>
                                                 <div class="row g-9 mb-8">
                                                     <div class="col-md-12 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2" for="email"
                                                             style="margin-left: 5px">Email</label>
-                                                        <input type="email"
-                                                            class="form-control form-control-solid" name="email"
-                                                            id="uemail" placeholder="User Email" required>
+                                                        <input type="email" class="form-control form-control-solid"
+                                                            name="email" id="uemail" placeholder="User Email"
+                                                            required>
                                                     </div>
                                                 </div>
                                                 <div class="row g-9 mb-8">
@@ -360,8 +380,9 @@
                                                             style="margin-left: 5px">Password</label>
                                                         <div class="input-group">
                                                             <input type="password"
-                                                                class="form-control form-control-solid" name="password"
-                                                                id="upassword" placeholder="User Password"
+                                                                class="form-control form-control-solid"
+                                                                name="password" id="upassword"
+                                                                placeholder="User Password"
                                                                 value="{{ rand(0000000, 9999999) }}"
                                                                 aria-label="User Password"
                                                                 aria-describedby="basic-addon2" required />
@@ -370,9 +391,10 @@
                                                                     class="btn form-control form-control-solid"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="Copy Password"><svg
-                                                                        xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                        height="16" fill="currentColor"
-                                                                        class="bi bi-clipboard" viewBox="0 0 16 16">
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        width="16" height="16"
+                                                                        fill="currentColor" class="bi bi-clipboard"
+                                                                        viewBox="0 0 16 16">
                                                                         <path
                                                                             d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
                                                                         <path
@@ -409,8 +431,8 @@
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="phone">Phone</label>
                                                         <input type="number" class="form-control form-control-solid"
-                                                            name="phone" style="cursor: pointer;" placeholder="phone"
-                                                            id="phone" required>
+                                                            name="phone" style="cursor: pointer;"
+                                                            placeholder="phone" id="phone" required>
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
@@ -448,7 +470,7 @@
                                 <!--end::Modal dialog-->
                             </div>
                             @foreach ($users as $val)
-                                <div class="modal fade" id="kt_modal_edit_user_{{ $val['id'] }}" tabindex="-1"
+                                <div class="modal fade" id="kt_modal_edit_user_{{ $val->id }}" tabindex="-1"
                                     aria-hidden="true">
                                     <!--begin::Modal dialog-->
                                     <div class="modal-dialog mw-650px">
@@ -461,13 +483,16 @@
                                                     data-bs-dismiss="modal">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                     <span class="svg-icon svg-icon-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                                rx="1" transform="rotate(-45 6 17.3137)"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none">
+                                                            <rect opacity="0.5" x="6" y="17.3137"
+                                                                width="16" height="2" rx="1"
+                                                                transform="rotate(-45 6 17.3137)"
                                                                 fill="currentColor" />
-                                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                            <rect x="7.41422" y="6" width="16"
+                                                                height="2" rx="1"
+                                                                transform="rotate(45 7.41422 6)"
+                                                                fill="currentColor" />
                                                         </svg>
                                                     </span>
                                                     <!--end::Svg Icon-->
@@ -477,8 +502,7 @@
                                             <!--begin::Modal header-->
                                             <!--begin::Modal body-->
                                             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                                <form action="{{ url('/edit_users') }}"
-                                                    method="POST">
+                                                <form action="{{ url('/edit_users') }}" method="POST">
                                                     @csrf
                                                     <!--begin::Heading-->
                                                     <div class="mb-13 text-center">
@@ -487,34 +511,38 @@
                                                         <!--end::Title-->
                                                     </div>
                                                     <!--end::Heading-->
-                                                    <input type="hidden" name="id" id="id" value="{{ $val['id'] }}">
+                                                    <input type="hidden" name="id" id="id"
+                                                        value="{{ $val->id }}">
                                                     <div class="d-flex flex-column mb-8 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="name">Name</label>
                                                         <input type="text" class="form-control form-control-solid"
                                                             name="name" id="name" placeholder="Name"
-                                                            value="{{ empty($val['name']) ? '' : $val['name'] }}"
+                                                            value="{{ empty($val->name) ? '' : $val->name }}"
                                                             required>
                                                     </div>
                                                     <div class="row g-9 mb-8">
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="inputEmail4">Email</label>
-                                                            <input type="email" class="form-control form-control-solid" name="email"
+                                                                style="margin-left: 5px"
+                                                                for="inputEmail4">Email</label>
+                                                            <input type="email"
+                                                                class="form-control form-control-solid" name="email"
                                                                 id="email" placeholder="Email"
-                                                                value="{{ empty($val['email']) ? '' : $val['email'] }}"
+                                                                value="{{ empty($val->email) ? '' : $val->email }}"
                                                                 required>
                                                         </div>
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="company">Company</label>
+                                                                style="margin-left: 5px"
+                                                                for="company">Company</label>
                                                             <!--begin::Select2-->
                                                             <select name="company_id" id="userscompany_id"
                                                                 style="cursor: pointer;"
                                                                 class="form-control form-select form-select-solid"
                                                                 required>
                                                                 @foreach ($companies as $value)
-                                                                    @if ($value->id == $val['company_id'])
+                                                                    @if ($value->id == $val->company_id)
                                                                         <option selected value="{{ $value->id }}">
                                                                             {{ $value->cname }}
                                                                         </option>
@@ -536,21 +564,28 @@
                                                                 class="form-control form-control-solid" name="phone"
                                                                 style="cursor: pointer;" placeholder="phone"
                                                                 id="user_phone"
-                                                                value="{{ empty($val['phone']) ? '' : $val['phone'] }}"
+                                                                value="{{ empty($val->phone) ? '' : $val->phone }}"
                                                                 required>
                                                         </div>
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="company">Position</label>
+                                                                style="margin-left: 5px"
+                                                                for="company">Position</label>
                                                             <!--begin::Select2-->
                                                             <select name="position" id="position"
                                                                 style="cursor: pointer;"
                                                                 class="form-control form-select form-select-solid"
                                                                 required>
                                                                 <option value="">Choose Position...</option>
-                                                                <option @if($val['user']==0) selected @endif value="0">Admin</option>
-                                                                <option @if($val['user']==2) selected @endif value="2">Recruiter</option>
-                                                                <option @if($val['user']==3) selected @endif value="3">Hiring Manager</option>
+                                                                <option
+                                                                    @if ($val->user == 0) selected @endif
+                                                                    value="0">Admin</option>
+                                                                <option
+                                                                    @if ($val->user == 2) selected @endif
+                                                                    value="2">Recruiter</option>
+                                                                <option
+                                                                    @if ($val->user == 3) selected @endif
+                                                                    value="3">Hiring Manager</option>
                                                             </select>
                                                             <!--end::Select2-->
                                                         </div>
@@ -558,7 +593,7 @@
                                                             <label class="required fs-6 fw-bold mb-2" for="address"
                                                                 style="margin-left: 5px">Address</label>
                                                             <textarea type="text" class="form-control form-control-solid" name="address" id="user_address"
-                                                                placeholder="Enter User Address" required>{{ empty($val['address']) ? '' : $val['address'] }}</textarea>
+                                                                placeholder="Enter User Address" required>{{ empty($val->address) ? '' : $val->address }}</textarea>
                                                         </div>
                                                         <div class="text-center">
                                                             <button type="submit"
@@ -600,12 +635,13 @@
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                 height="24" viewBox="0 0 24 24" fill="none">
-                                                                <rect opacity="0.5" x="11.364" y="20.364" width="16"
-                                                                    height="2" rx="1"
+                                                                <rect opacity="0.5" x="11.364" y="20.364"
+                                                                    width="16" height="2" rx="1"
                                                                     transform="rotate(-90 11.364 20.364)"
                                                                     fill="currentColor" />
-                                                                <rect x="4.36396" y="11.364" width="16" height="2"
-                                                                    rx="1" fill="currentColor" />
+                                                                <rect x="4.36396" y="11.364" width="16"
+                                                                    height="2" rx="1"
+                                                                    fill="currentColor" />
                                                             </svg>
                                                         </span>
                                                         <!--end::Svg Icon-->Add User
@@ -626,8 +662,9 @@
                                                                 <th class="w-25px">
                                                                     <div
                                                                         class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            value="1" data-kt-check="true"
+                                                                        <input class="form-check-input"
+                                                                            type="checkbox" value="1"
+                                                                            data-kt-check="true"
                                                                             data-kt-check-target=".widget-9-check" />
                                                                     </div>
                                                                 </th>
@@ -656,7 +693,7 @@
                                                                     </td>
                                                                     <td style="display:none;">
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{ $val['id'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val->id }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
@@ -664,28 +701,37 @@
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark text-hover-primary d-block fs-6">{{ $val['name'] }}</label>
+                                                                            class="text-dark text-hover-primary d-block fs-6">{{ $val->name }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{ $val['email'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val->email }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{ $val['phone'] }}</label>
+                                                                            class="text-dark d-block fs-6">{{ $val->phone }}</label>
                                                                     </td>
                                                                     <td>
                                                                         <label href="#"
-                                                                            class="text-dark d-block fs-6">{{$val['position']}}</label>
+                                                                            class="text-dark d-block fs-6"><?php if ($val->user == 0) {
+                                                                                $position = 'Admin';
+                                                                            } elseif ($val->user == 1) {
+                                                                                $position = 'Super admin';
+                                                                            } elseif ($val->user == 2) {
+                                                                                $position = 'Recruiter';
+                                                                            } elseif ($val->user == 3) {
+                                                                                $position = 'Hiring Manager';
+                                                                            }
+                                                                            echo $position; ?></label>
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <span
-                                                                            @if ($val['status'] == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val['status'] == 1 ? 'Active' : 'Inactive' }}</span>
+                                                                            @if ($val->status == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val['status'] == 1 ? 'Active' : 'Inactive' }}</span>
                                                                     </td>
                                                                     <td>
                                                                         <div
                                                                             class="d-flex justify-content-end flex-shrink-0">
-                                                                            <a href="{{ url('/user_status/' . $val['id']) }}"
+                                                                            <a href="{{ url('/user_status/' . $val->id) }}"
                                                                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                                 data-bs-toggle="tooltip"
                                                                                 data-bs-placement="top"
@@ -694,7 +740,8 @@
                                                                                 <span class="svg-icon svg-icon-3">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         width="24" height="24"
-                                                                                        viewBox="0 0 24 24" fill="none">
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none">
                                                                                         <path
                                                                                             d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
                                                                                             fill="currentColor" />
@@ -708,7 +755,7 @@
                                                                             <a href="#"
                                                                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                                 data-bs-toggle="modal"
-                                                                                data-bs-target="#kt_modal_edit_user_{{ $val['id'] }}">
+                                                                                data-bs-target="#kt_modal_edit_user_{{ $val->id }}">
                                                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                                 <span class="svg-icon svg-icon-3"
                                                                                     data-bs-toggle="tooltip"
@@ -716,7 +763,8 @@
                                                                                     title="Edit User Details">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         width="24" height="24"
-                                                                                        viewBox="0 0 24 24" fill="none">
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none">
                                                                                         <path opacity="0.3"
                                                                                             d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z"
                                                                                             fill="currentColor" />
@@ -735,7 +783,8 @@
                                                                                 <span class="svg-icon svg-icon-3">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                                         width="24" height="24"
-                                                                                        viewBox="0 0 24 24" fill="none">
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none">
                                                                                         <path
                                                                                             d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
                                                                                             fill="currentColor" />
@@ -782,12 +831,13 @@
                                                 data-bs-dismiss="modal">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                 <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none">
-                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                            rx="1" transform="rotate(-45 6 17.3137)"
-                                                            fill="currentColor" />
-                                                        <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none">
+                                                        <rect opacity="0.5" x="6" y="17.3137"
+                                                            width="16" height="2" rx="1"
+                                                            transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                                        <rect x="7.41422" y="6" width="16"
+                                                            height="2" rx="1"
                                                             transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                     </svg>
                                                 </span>
@@ -812,23 +862,26 @@
                                                     <label class="required fs-6 fw-bold mb-2" for="name"
                                                         style="margin-left: 5px">Name</label>
                                                     <input type="text" class="form-control form-control-solid mb-8"
-                                                        name="name" id="uname" placeholder="User Name" required>
+                                                        name="name" id="uname" placeholder="User Name"
+                                                        required>
                                                 </div>
                                                 <div class="row g-9 mb-8">
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2" for="email"
                                                             style="margin-left: 5px">Email</label>
                                                         <input type="email"
-                                                            class="form-control form-control-solid mb-8" name="email"
-                                                            id="uemail" placeholder="User Email" required>
+                                                            class="form-control form-control-solid mb-8"
+                                                            name="email" id="uemail" placeholder="User Email"
+                                                            required>
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2" for="password"
                                                             style="margin-left: 5px">Password</label>
                                                         <div class="input-group mb-3">
                                                             <input type="password"
-                                                                class="form-control form-control-solid" name="password"
-                                                                id="upassword" placeholder="User Password"
+                                                                class="form-control form-control-solid"
+                                                                name="password" id="upassword"
+                                                                placeholder="User Password"
                                                                 value="{{ rand(0000000, 9999999) }}"
                                                                 aria-label="User Password"
                                                                 aria-describedby="basic-addon2" required />
@@ -837,9 +890,10 @@
                                                                     class="btn form-control form-control-solid"
                                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                                     title="Copy Password"><svg
-                                                                        xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                        height="16" fill="currentColor"
-                                                                        class="bi bi-clipboard" viewBox="0 0 16 16">
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        width="16" height="16"
+                                                                        fill="currentColor" class="bi bi-clipboard"
+                                                                        viewBox="0 0 16 16">
                                                                         <path
                                                                             d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
                                                                         <path
@@ -859,8 +913,8 @@
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="phone">Phone</label>
                                                         <input type="number" class="form-control form-control-solid"
-                                                            name="phone" style="cursor: pointer;" placeholder="phone"
-                                                            id="phone" required>
+                                                            name="phone" style="cursor: pointer;"
+                                                            placeholder="phone" id="phone" required>
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
@@ -900,7 +954,7 @@
                                 <!--end::Modal dialog-->
                             </div>
                             @foreach ($users as $val)
-                                <div class="modal fade" id="kt_modal_edit_user_{{ $val['id'] }}" tabindex="-1"
+                                <div class="modal fade" id="kt_modal_edit_user_{{ $val->id }}" tabindex="-1"
                                     aria-hidden="true">
                                     <!--begin::Modal dialog-->
                                     <div class="modal-dialog mw-650px">
@@ -913,13 +967,16 @@
                                                     data-bs-dismiss="modal">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                     <span class="svg-icon svg-icon-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                            viewBox="0 0 24 24" fill="none">
-                                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                                rx="1" transform="rotate(-45 6 17.3137)"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none">
+                                                            <rect opacity="0.5" x="6" y="17.3137"
+                                                                width="16" height="2" rx="1"
+                                                                transform="rotate(-45 6 17.3137)"
                                                                 fill="currentColor" />
-                                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                                transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                                            <rect x="7.41422" y="6" width="16"
+                                                                height="2" rx="1"
+                                                                transform="rotate(45 7.41422 6)"
+                                                                fill="currentColor" />
                                                         </svg>
                                                     </span>
                                                     <!--end::Svg Icon-->
@@ -929,8 +986,7 @@
                                             <!--begin::Modal header-->
                                             <!--begin::Modal body-->
                                             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                                                <form action="{{ url('/edit_users') }}"
-                                                    method="POST">
+                                                <form action="{{ url('/edit_users') }}" method="POST">
                                                     @csrf
                                                     <!--begin::Heading-->
                                                     <div class="mb-13 text-center">
@@ -940,21 +996,23 @@
                                                     </div>
                                                     <!--end::Heading-->
                                                     <input type="hidden" name="id" id="user_id"
-                                                        value="{{ $val['id'] }}">
-                                                    <input type="hidden" name="company_id" value="{{ $id }}">
+                                                        value="{{ $val->id }}">
+                                                    <input type="hidden" name="company_id"
+                                                        value="{{ $id }}">
                                                     <div class="d-flex flex-column mb-8 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="name">Name</label>
-                                                        <input type="text" class="form-control form-control-solid mb-8"
+                                                        <input type="text"
+                                                            class="form-control form-control-solid mb-8"
                                                             name="name" id="name" placeholder="Name"
-                                                            value="{{ empty($val['name']) ? '' : $val['name'] }}"
+                                                            value="{{ empty($val->name) ? '' : $val->name }}"
                                                             required>
 
                                                         <label class="required fs-6 fw-bold mb-2"
                                                             style="margin-left: 5px" for="inputEmail4">Email</label>
-                                                        <input type="email" class="form-control form-control-solid" name="email"
-                                                            id="user_email" placeholder="Email"
-                                                            value="{{ empty($val['email']) ? '' : $val['email'] }}"
+                                                        <input type="email" class="form-control form-control-solid"
+                                                            name="email" id="user_email" placeholder="Email"
+                                                            value="{{ empty($val->email) ? '' : $val->email }}"
                                                             required>
                                                     </div>
                                                     <div class="row g-9 mb-8">
@@ -965,21 +1023,28 @@
                                                                 class="form-control form-control-solid" name="phone"
                                                                 style="cursor: pointer;" placeholder="phone"
                                                                 id="user_phone"
-                                                                value="{{ empty($val['phone']) ? '' : $val['phone'] }}"
+                                                                value="{{ empty($val->phone) ? '' : $val->phone }}"
                                                                 required>
                                                         </div>
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                style="margin-left: 5px" for="company">Position</label>
+                                                                style="margin-left: 5px"
+                                                                for="company">Position</label>
                                                             <!--begin::Select2-->
                                                             <select name="position" id="position"
                                                                 style="cursor: pointer;"
                                                                 class="form-control form-select form-select-solid"
                                                                 required>
                                                                 <option value="">Choose Position...</option>
-                                                                <option @if($val['user']==0) selected @endif value="0">Admin</option>
-                                                                <option @if($val['user']==2) selected @endif value="2">Recruiter</option>
-                                                                <option @if($val['user']==3) selected @endif value="3">Hiring Manager</option>
+                                                                <option
+                                                                    @if ($val->user == 0) selected @endif
+                                                                    value="0">Admin</option>
+                                                                <option
+                                                                    @if ($val->user == 2) selected @endif
+                                                                    value="2">Recruiter</option>
+                                                                <option
+                                                                    @if ($val->user == 3) selected @endif
+                                                                    value="3">Hiring Manager</option>
                                                             </select>
                                                             <!--end::Select2-->
                                                         </div>
@@ -989,11 +1054,12 @@
                                                             <label class="required fs-6 fw-bold mb-2" for="address"
                                                                 style="margin-left: 5px">Address</label>
                                                             <textarea type="text" class="form-control form-control-solid" name="address" id="user_address"
-                                                                placeholder="Enter User Address" required>{{ empty($val['address']) ? '' : $val['address'] }}</textarea>
+                                                                placeholder="Enter User Address" required>{{ empty($val->address) ? '' : $val->address }}</textarea>
                                                         </div>
                                                         <div class="text-center">
-                                                            <button type="submit" 
-                                                                class="update btn btn-primary mt-5">Update User</button>
+                                                            <button type="submit"
+                                                                class="update btn btn-primary mt-5">Update
+                                                                User</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -1043,6 +1109,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $("#copypassword").hide();
+
         function showpass() {
             var x = document.getElementById("upassword");
             if (x.type === "password") {
@@ -1062,17 +1129,14 @@
                     pass.select();
                     document.execCommand("copy");
 
-                    console.log($(this).tooltip('hide').attr('title', 'Link Copied').tooltip('show'));
                 });
-            }
-            else{
+            } else {
 
                 $("#copypassword").hide();
             }
         }
     </script>
-
-    <script>
+    {{-- <script>
         $(document).ready(function(){
             $("#mytable").mousewheel(function(event, delta) {
         
@@ -1082,7 +1146,7 @@
         
             });
         });
-    </script>
+    </script> --}}
 
     <script>
         $(document).ready(function() {
@@ -1097,10 +1161,12 @@
                         'company_id': company_id
                     },
                     success: function(response) {
-                        console.log(response);
-                        $('#users_table').empty();
-                        $('#users_table').html(response);
-
+                        if (response == false) {
+                            window.location.reload();
+                        } else {
+                            $('#users_table').empty();
+                            $('#users_table').html(response);
+                        }
                     },
                     error: function(e) {
                         console.log(e)
@@ -1242,12 +1308,12 @@
         </script>
     @enderror
     @error('position')
-    <script>
-        var error = "<?php echo "$message"; ?>";
-        swal(error, {
-            icon: "error",
-        });
-    </script>
+        <script>
+            var error = "<?php echo "$message"; ?>";
+            swal(error, {
+                icon: "error",
+            });
+        </script>
     @enderror
 
     {{-- <script>

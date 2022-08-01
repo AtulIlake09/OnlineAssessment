@@ -8,36 +8,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
+use SebastianBergmann\Timer\Duration;
 
 class ExamController extends Controller
 {
     public function exam(Request $request, $key)
     {
-        $data = $request->session()->get('data');
+        $data = "";
+        $can_id = "";
+        if (session()->has('data')) {
+            $data = $request->session()->get('data');
+            $can_id = $data['can_id'];
+        }
         $timezone = 'ASIA/KOLKATA';
         $date = new DateTime('now', new DateTimeZone($timezone));
         $localtime = $date->format('Y-m-d h:i:s');
-        $can_id = $data['can_id'];
 
-        if($can_id!=null){
+        if ($can_id != null) {
 
-            $query=DB::table('candidate')
-            ->where('candidate_id',$can_id);
+            $query = DB::table('candidate')
+                ->where('candidate_id', $can_id);
 
-            $candidate_details=$query->first();
-            if($candidate_details->start_date_time==null)
-            {
-                $query=$query->update(['start_date_time' => $localtime]);
-                $start=$localtime;
-            }
-            else
-            {
-                $start=$candidate_details->start_date_time;
+            $candidate_details = $query->first();
+            
+            if ($candidate_details->start_date_time == null) {
+                $query = $query->update(['start_date_time' => $localtime]);
+                $start = $localtime;
+            } else {
+                $start = $candidate_details->start_date_time;
             }
         }
 
         if (session()->has('questions')) {
-          
             $ip = $request->ip();
             $ques = $request->session()->get('allquestion');
 
@@ -52,29 +54,28 @@ class ExamController extends Controller
             $ip = $request->ip();
             $candidate_id = $data['can_id'];
             $count = $request->session()->get('count');
-
         } elseif (session()->has('data')) {
-    
+      
             $ip = $request->ip();
-            
+
             $query = DB::table('ip_details')
-            ->where('candidate_id', '=', $can_id)
-            ->orderBy('id', 'DESC')
-            ->first();
+                ->where('candidate_id', '=', $can_id)
+                ->orderBy('id', 'DESC')
+                ->first();
 
             $ip_id = $query->id;
 
             $query = DB::table('candidate_answers as cs')
-            ->select('cs.ques_id as id', 'qs.questions', 'cs.type')
-            ->join('questions as qs', 'qs.id', '=', 'cs.ques_id')
-            ->where('cs.candidate_id', '=', $can_id)
-            ->where('cs.status', 1)
-            ->get();
-            
+                ->select('cs.ques_id as id', 'qs.questions', 'cs.type')
+                ->join('questions as qs', 'qs.id', '=', 'cs.ques_id')
+                ->where('cs.candidate_id', '=', $can_id)
+                ->where('cs.status', 1)
+                ->get();
+
             if (!empty($query->first())) {
                 $allquestion = $query->all();
             } else {
-                
+
                 $query = DB::table('questions')
                     ->select('id', 'questions', 'type')
                     ->where('category_id', '=', $data['category_id'])
@@ -83,12 +84,10 @@ class ExamController extends Controller
                     ->limit(5)
                     ->get();
                 $allquestion = $query->all();
-        
                 foreach ($allquestion as $val) {
                     DB::table('candidate_answers')
                         ->insert(['candidate_id' => $can_id, 'ip_id' => $ip_id, 'ques_id' => $val->id, 'type' => $val->type]);
                 }
-              
             }
 
             $questions = [];
@@ -99,7 +98,7 @@ class ExamController extends Controller
                 $questions[$key] = ['id' => $val->id, 'question' => $val->questions, 'type' => $val->type];
                 $key++;
             }
-          
+
             $count = count($questions);
             $request->session()->put('count', $count);
 
@@ -121,36 +120,36 @@ class ExamController extends Controller
 
             $duration = $query->time_period;
             $request->session()->put('duration', $duration);
-
+           
         } else {
             return redirect()->back()->with('error_msg', "Test not available");
         }
 
         $duration = $request->session()->get('duration');
-
+        
         $end = date('Y-m-d h:i:s', strtotime('+' . $duration . 'minutes', strtotime($start)));
+        
         $timefirst = strtotime($start);
         $times = strtotime($end);
         $diffinsec = $times - $timefirst;
-
         $timesecond = strtotime($localtime);
         $difftime = $timesecond - $timefirst;
-
-        if ($difftime <= $diffinsec) {
+       
+        if ($difftime>=0 && $difftime <= $diffinsec) {
             $remain = $diffinsec - $difftime;
-
             $query = DB::table('candidate_answers')
                 ->select('answers')
                 ->where('candidate_id', '=', $can_id)
-            ->where('ques_id', '=', $question['id'])
-            ->where('status', 1)
-            ->first();
+                ->where('ques_id', '=', $question['id'])
+                ->where('status', 1)
+                ->first();
+
             if (!empty($query)) {
                 $answer = $query->answers;
             } else {
                 $answer = "";
             }
-            return view('exam', compact('qno', 'count', 'answer', 'question','remain'));
+            return view('exam', compact('qno', 'count', 'answer', 'question', 'remain'));
         } else {
             $remain = 0;
             return redirect('/finish')->with('message', 'Time Out');
@@ -159,7 +158,7 @@ class ExamController extends Controller
 
     public function next_que(Request $request)
     {
-        $ques_id=$request->ques_id;
+        $ques_id = $request->ques_id;
         if (session()->has('questions')) {
             $que = $request->session()->get('question');
             $data = $request->session()->get('data');
@@ -196,7 +195,8 @@ class ExamController extends Controller
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
                     ->where('ques_id', '=', $ques_id)
-                    ->update(['answers' => $ans,'updated_at'=>date("Y-m-d h:i:s")]);
+                    ->where('status',1)
+                    ->update(['answers' => $ans, 'updated_at' => date("Y-m-d h:i:s")]);
             } else {
                 DB::table('candidate_answers')
                     ->insert(['candidate_id' => $candidate_id, 'ques_id' => $que['id'], 'answers' => $ans]);
@@ -220,14 +220,14 @@ class ExamController extends Controller
             $request->session()->put('questions', $questions);
             $request->session()->put('qno', $qno);
             $request->session()->put('question', $question);
-            
+
             return Redirect::route('exam', $qno);
         }
     }
 
     public function prev_que(Request $request)
     {
-        $ques_id=$request->ques_id;
+        $ques_id = $request->ques_id;
         if (session()->has('questions')) {
 
             $data = $request->session()->get('data');
@@ -242,7 +242,7 @@ class ExamController extends Controller
             $query = DB::table('candidate')
                 ->select('status')
                 ->where('candidate.candidate_id', '=', $candidate_id)
-            ->first();
+                ->first();
 
             $status = $query->status;
 
@@ -256,6 +256,7 @@ class ExamController extends Controller
                 ->select('answers')
                 ->where('candidate_id', '=', $candidate_id)
                 ->where('ques_id', '=', $ques_id)
+                ->where('status',1)
                 ->first();
 
 
@@ -264,7 +265,8 @@ class ExamController extends Controller
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
                     ->where('ques_id', '=', $ques_id)
-                    ->update(['answers' => $ans,'updated_at'=>date("Y-m-d h:i:s")]);
+                    ->where('status',1)
+                    ->update(['answers' => $ans, 'updated_at' => date("Y-m-d h:i:s")]);
             } else {
 
                 DB::table('candidate_answers')
@@ -295,17 +297,25 @@ class ExamController extends Controller
 
     public function submit_test(Request $request)
     {
-        $ques_id=$request->ques_id;
+        $ques_id = $request->ques_id;
         if (session()->has('questions')) {
             $data = $request->session()->get('data');
             $que = $request->session()->get('question');
-            $ans = $_POST['answer'];
+            if(isset($_POST['answer']))
+            {
+
+                $ans = $_POST['answer'];
+            }
+            else
+            {
+                $ans="";
+            }
             $candidate_id = $data['can_id'];
 
             $query = DB::table('candidate')
-            ->select('status')
-            ->where('candidate.candidate_id', '=', $candidate_id)
-            ->first();
+                ->select('status')
+                ->where('candidate.candidate_id', '=', $candidate_id)
+                ->first();
 
             $status = $query->status;
 
@@ -320,6 +330,7 @@ class ExamController extends Controller
                 ->where('candidate_id', '=', $candidate_id)
                 ->where('ques_id', '=', $ques_id)
                 ->where('answers', '=', $ans)
+                ->where('status',1)
                 ->first();
 
             $ip_id = DB::table('ip_details')
@@ -331,23 +342,22 @@ class ExamController extends Controller
 
             if (!empty($query)) {
 
-                if($que['type']==2)
-                {
-                    if($ans!="")
-                    {
-                        $query=DB::table('question_options')
-                        ->select('option')
-                        ->where('option_id',$ans)
-                        ->first();
-                        $ans=$query->option;
+                if ($que['type'] == 2) {
+                    if ($ans != "") {
+                        $query = DB::table('question_options')
+                            ->select('option')
+                            ->where('option_id', $ans)
+                            ->first();
+                        $ans = $query->option;
                     }
                 }
 
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
                     ->where('ip_id', '=', $ip_id)
-                ->where('ques_id', '=', $ques_id)
-                ->update(['answers' => $ans,'updated_at'=>date("Y-m-d h:i:s") ]);
+                    ->where('ques_id', '=', $ques_id)
+                    ->where('status',1)
+                    ->update(['answers' => $ans, 'updated_at' => date("Y-m-d h:i:s")]);
             } else {
 
                 DB::table('candidate_answers')
@@ -380,9 +390,10 @@ class ExamController extends Controller
             $user_name = $query->name;
 
             $query = DB::table('candidate_answers as cs')
-            ->select('qs.questions', 'cs.answers')
+                ->select('qs.questions', 'cs.answers')
                 ->join('questions as qs', 'qs.id', '=', 'cs.ques_id')
                 ->where('cs.candidate_id', '=', $candidate_id)
+                ->where('cs.status',1)
                 ->get();
 
             $questions = [];
@@ -413,8 +424,15 @@ class ExamController extends Controller
                 ->where('candidate_id', '=', $candidate_id)
                 ->update(['status' => 0]);
 
-            DB::table('candidate_remark')
+            $query=DB::table('candidate_remark')
+                ->where(['candidate_id' => $candidate_id])
+                ->first();
+
+            if(empty($query))
+            {
+                DB::table('candidate_remark')
                 ->insert(['candidate_id' => $candidate_id]);
+            }
 
             $id = $data['category_id'];
             $msg = session()->get('message');

@@ -265,6 +265,9 @@
                                             </table>
                                             <!--end::Table-->
                                         </div>
+                                        <div class="row">
+                                            {{$questions->links()}}
+                                        </div>
                                         <!--end::Table container-->
                                     </div>
                                     <!--begin::Body-->
@@ -274,9 +277,6 @@
                             <!--end::Col-->
                         </div>
                         <!--end::Row-->
-                    </div>
-                    <div class="row">
-                        {{$questions->links()}}
                     </div>
                     <div class="modal fade" id="kt_modal_new_question" tabindex="-1" aria-hidden="true">
                         <!--begin::Modal dialog-->
@@ -551,7 +551,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function(){
             $("#mytable").mousewheel(function(event, delta) {
         
@@ -561,7 +561,7 @@
         
         });
         });
-    </script>
+    </script> --}}
 
     @if (session()->has('success_msg'))
         @php $msg=session()->get('success_msg'); @endphp

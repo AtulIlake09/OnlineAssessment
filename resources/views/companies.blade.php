@@ -156,36 +156,36 @@
                                                                 </td>
                                                                 <td style="display:none;">
                                                                     <label href="#"
-                                                                        class="text-dark d-block fs-6">{{ $val['id'] }}</label>
+                                                                        class="text-dark d-block fs-6">{{ $val->id }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
                                                                         class="text-dark d-block fs-6">{{ $count }}</label>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ url('/cusers/' . $val['id']) }}"
+                                                                    <a href="{{ url('/cusers/' . $val->id) }}"
                                                                         class="text-dark text-hover-primary d-block fs-6"
                                                                         data-bs-toggle="tooltip"
                                                                         data-bs-placement="top"
-                                                                        title="view users">{{ $val['company'] }}</a>
+                                                                        title="view users">{{ $val->cname }}</a>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
-                                                                        class="text-dark d-block fs-6">{{ $val['email'] }}</label>
+                                                                        class="text-dark d-block fs-6">{{ $val->email }}</label>
                                                                 </td>
                                                                 <td>
                                                                     <label href="#"
-                                                                        class="text-dark d-block fs-6">{{ $val['address'] }}</label>
+                                                                        class="text-dark d-block fs-6">{{ $val->address }}</label>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <span
-                                                                        @if ($val['status'] == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val['status'] == 1 ? 'Active' : 'Inactive' }}</span>
+                                                                        @if ($val->status == 1) class="badge badge-light-success" @else class="badge badge-light-danger" @endif>{{ $val->status == 1 ? 'Active' : 'Inactive' }}</span>
                                                                 </td>
                                                                 <td>
                                                                     <div
                                                                         class="d-flex justify-content-end flex-shrink-0">
                                                                         <a id="viewques"
-                                                                            href="{{ url('/cusers/' . $val['id']) }}"
+                                                                            href="{{ url('/cusers/' . $val->id) }}"
                                                                             type="button"
                                                                             class="btn btn-sm btn-icon btn-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="tooltip"
@@ -208,7 +208,7 @@
                                                                             </span>
                                                                             <!--end::Svg Icon-->
                                                                         </a>
-                                                                        <a href="{{ url('/company_status/' . $val['id']) }}"
+                                                                        <a href="{{ url('/company_status/' . $val->id) }}"
                                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="tooltip"
                                                                             data-bs-placement="top"
@@ -232,7 +232,7 @@
                                                                         <a href="#"
                                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="modal"
-                                                                            data-bs-target="#kt_modal_edit_company_{{ $val['id'] }}">
+                                                                            data-bs-target="#kt_modal_edit_company_{{ $val->id }}">
                                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                                             <span class="svg-icon svg-icon-3"
                                                                                 data-bs-toggle="tooltip"
@@ -284,6 +284,9 @@
                                                     <!--end::Table body-->
                                                 </table>
                                                 <!--end::Table-->
+                                            </div>
+                                            <div class="row mt-5">
+                                                {{ $companies->links() }}
                                             </div>
                                             <!--end::Table container-->
                                         </div>
@@ -369,7 +372,7 @@
                             <!--end::Modal dialog-->
                         </div>
                         @foreach ($companies as $val)
-                            <div class="modal fade" id="kt_modal_edit_company_{{ $val['id'] }}" tabindex="-1"
+                            <div class="modal fade" id="kt_modal_edit_company_{{ $val->id }}" tabindex="-1"
                                 aria-hidden="true">
                                 <!--begin::Modal dialog-->
                                 <div class="modal-dialog mw-650px">
@@ -410,20 +413,20 @@
                                                 </div>
                                                 <!--end::Heading-->
                                                 <input type="hidden" name="id" id="cid"
-                                                    value="{{ $val['id'] }}">
+                                                    value="{{ $val->id }}">
                                                 <div class="d-flex flex-column mb-8 fv-row">
                                                     <label class="required fs-6 fw-bold mb-2" for="cname"
                                                         style="margin-left: 5px">Name</label>
                                                     <input type="text" class="form-control form-control-solid mb-8"
                                                         name="name" id="cname" placeholder="Company Name"
-                                                        value="{{ empty($val['company']) ? '' : $val['company'] }}"
+                                                        value="{{ empty($val->company) ? '' : $val->company }}"
                                                         required>
 
                                                     <label class="required fs-6 mt-3 fw-bold mb-2" for="inputEmail4"
                                                         style="margin-left: 5px">Email</label>
                                                     <input type="email" class="form-control form-control-solid"
                                                         name="email" id="cemail" placeholder="Email"
-                                                        value="{{ empty($val['email']) ? '' : $val['email'] }}"
+                                                        value="{{ empty($val->email) ? '' : $val->email }}"
                                                         disabled>
                                                 </div>
                                                 <div class="row g-9 mb-8">
@@ -431,7 +434,7 @@
                                                         <label class="required fs-6 fw-bold mb-2" for="caddress"
                                                             style="margin-left: 5px">Address</label>
                                                         <textarea type="text" class="form-control form-control-solid" name="address" id="caddress"
-                                                            placeholder="Company Address" required>{{ empty($val['address']) ? '' : $val['address'] }}</textarea>
+                                                            placeholder="Company Address" required>{{ empty($val->address) ? '' : $val->address }}</textarea>
                                                     </div>
                                                     <div class="text-center">
                                                         <button id="update" type="submit"

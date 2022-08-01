@@ -1,7 +1,8 @@
+<div class="table-responsive">
 <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
     <!--begin::Table head-->
     <thead>
-        <tr class="fw-bolder text-muted">
+        <tr class="fw-bolder text-dark">
             <th class="w-25px">
                 <div class="form-check form-check-sm form-check-custom form-check-solid">
                     <input class="form-check-input" type="checkbox" value="1" data-kt-check="true"
@@ -35,35 +36,35 @@
                     </div>
                 </td>
                 <td style="display:none;">
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->id }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $val->id }}</label>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $count }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $count }}</label>
                 </td>
                 <td>
                     <a href="{{ url('/getqueans/' . $val->candidate_id) }}"
-                        class="text-dark text-hover-primary fw-bolder d-block fs-6">{{ $val->name }}</a>
+                        class="text-dark text-hover-primary d-block fs-6">{{ $val->name }}</a>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->email }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $val->email }}</label>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->mobile }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $val->mobile }}</label>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->category }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $val->category }}</label>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ url($val->link) }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ url($val->link) }}</label>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->ip }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $val->ip }}</label>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->start_date_time }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $val->start_date_time }}</label>
                 </td>
                 <td>
-                    <label href="#" class="text-muted fw-bolder d-block fs-6">{{ $val->end_date_time }}</label>
+                    <label href="#" class="text-dark d-block fs-6">{{ $val->end_date_time }}</label>
                 </td>
                 <td>
                     <span
@@ -190,3 +191,4 @@
     </tbody>
     <!--end::Table body-->
 </table>
+</div>
