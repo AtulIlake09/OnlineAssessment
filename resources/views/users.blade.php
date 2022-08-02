@@ -302,6 +302,7 @@
                                                                 @php $count++; @endphp
                                                             @endforeach
                                                         </tbody>
+
                                                         <!--end::Table body-->
                                                     </table>
                                                     <!--end::Table-->
@@ -309,6 +310,11 @@
                                                 <div class="row mt-5">
                                                     {{ $users->links() }}
                                                 </div>
+                                                @if (empty($users->all()))
+                                                    <div class="row mt-5 text-center">
+                                                        <span style="color: red;">Users Not Found</span>
+                                                    </div>
+                                                @endif
                                                 <!--end::Table container-->
                                             </div>
                                             <!--begin::Body-->

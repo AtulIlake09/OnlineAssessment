@@ -158,7 +158,7 @@
                                                         <th class="min-w-100px">Link</th>
                                                         <th class="min-w-50px"></th>
                                                         <th class="min-w-150px">Phone</th>
-                                                        <th class="min-w-150px">category</th>
+                                                        <th class="min-w-150px">Tests</th>
                                                         @if ($flag == 1)
                                                             <th class="min-w-150px">Company</th>
                                                         @endif
@@ -317,6 +317,11 @@
                                         <div class="row mt-5">
                                             {{ $data->links() }}
                                         </div>
+                                        @if (empty($data->all()))
+                                        <div class="row mt-5 text-center">
+                                            <span>Record not found</span>
+                                        </div>
+                                        @endif
                                         <!--end::Table container-->
                                     </div>
                                     <!--begin::Body-->
@@ -391,7 +396,7 @@
                                                 </div>
                                                 <div class="col-md-6 fv-row">
                                                     <label class="required fs-6 fw-bold mb-2"
-                                                        style="margin-left: 5px;" for="inputCategory">Category</label>
+                                                        style="margin-left: 5px;" for="inputCategory">Test</label>
                                                     <!--begin::Select2-->
                                                     <select name="category" style="cursor: pointer;"
                                                         id="inputCategory"
@@ -507,7 +512,7 @@
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
-                                                            style="margin-left: 5px;" for="">Category</label>
+                                                            style="margin-left: 5px;" for="">Test</label>
                                                         <!--begin::Select2-->
                                                         <select name="category" id="inputnCategory"
                                                             style="cursor: pointer;"
@@ -629,7 +634,7 @@
                                                 </div>
                                                 <div class="col-md-6 fv-row">
                                                     <label class="required fs-6 fw-bold mb-2"
-                                                        style="margin-left: 5px;" for="inputCategory">Category</label>
+                                                        style="margin-left: 5px;" for="inputCategory">Test</label>
                                                     <!--begin::Select2-->
                                                     <select name="category" style="cursor: pointer;"
                                                         id="inputCategory"
@@ -730,7 +735,7 @@
                                                     </div>
                                                     <div class="col-md-6 fv-row">
                                                         <label class="required fs-6 fw-bold mb-2"
-                                                            style="margin-left: 5px;" for="">Category</label>
+                                                            style="margin-left: 5px;" for="">Tests</label>
                                                         <!--begin::Select2-->
                                                         <select name="category" id="inputnCategory"
                                                             style="cursor: pointer;"

@@ -13,6 +13,23 @@ class InfoController extends Controller
 {
     public function index(Request $request, $key)
     {
+        $macAddr = exec('getmac');
+        
+        $candidates=DB::table('candidate')
+        ->where('candidate_id',$key)
+        ->where('active_status',1);
+
+        $status=$candidates->first();
+     
+        if(!empty($status))
+        {
+            $mac_address=$candidates->where('mac_address',$macAddr)
+            ->first();
+            if(empty($mac_address))
+            {
+                return redirect()->back();
+            }
+        }
 
         $query = DB::table('candidate_test_link')
             ->select('test_category_id', 'status')
@@ -29,18 +46,16 @@ class InfoController extends Controller
             $err = "You can not give a test !";
             return view('AfterSubmit', compact('err'));
         } else {
-            $query = DB::table('candidate')
-                ->where('category_id', '=', $cat)
-                ->where('candidate_id', '=', $key)
+            $candidates=$candidates->where('category_id', '=', $cat)
                 ->first();
 
-            if (!empty($query)) {
-                if ($query->status == 0) {
-                    $name = $query->name;
-                    $email = $query->email;
-                    $phone = $query->mobile;
-                    $company_id = $query->company_id;
-                    $link = $query->link;
+            if (!empty($candidates)) {
+                if ($candidates->status == 0) {
+                    $name = $candidates->name;
+                    $email = $candidates->email;
+                    $phone = $candidates->mobile;
+                    $company_id = $candidates->company_id;
+                    $link = $candidates->link;
                     $descrip = $category->description;
 
                     return view('login', compact('name', 'email', 'company_id', 'phone', 'cat', 'key', 'link', 'descrip'));
@@ -94,7 +109,8 @@ class InfoController extends Controller
         $link = $request->link;
         $category_id = $request->cat_id;
         $candidate_id = $request->can_id;
-        $ip = $request->ip();
+        $macAddr = exec('getmac');
+        // $ip = $request->ip();
 
         $query = DB::table('candidate')
             ->where('candidate_id', '=', $candidate_id);
@@ -110,10 +126,10 @@ class InfoController extends Controller
 
                 $id = 1;
                 $data = [
-                    'ip' => $ip,
                     'category_id' => $category_id,
-                    'time' => $starttime,
                     'can_id' => $candidate_id
+                    // 'ip' => $ip,
+                    // 'time' => $localtime,
                 ];
 
                 $request->session()->put('data', $data);
@@ -123,28 +139,28 @@ class InfoController extends Controller
                 return view('AfterSubmit', compact('err'));
             }
         } elseif (!empty($new_query) && $new_query->start_date_time == null) {
-            $timezone = 'ASIA/KOLKATA';
-            $date = new DateTime('now', new DateTimeZone($timezone));
-            $localtime = $date->format('Y-m-d h:i:s');
+            // $timezone = 'ASIA/KOLKATA';
+            // $date = new DateTime('now', new DateTimeZone($timezone));
+            // $localtime = $date->format('Y-m-d h:i:s'); 
             
             $id = 1;
             $data = [
-                'ip' => $ip,
                 'category_id' => $category_id,
-                'time' => $localtime,
                 'can_id' => $candidate_id
+                // 'ip' => $ip,
+                // 'time' => $localtime,
             ];
 
             $request->session()->put('data', $data);
             return Redirect::route('exam', $id);
         } else {
 
-            $timezone = 'ASIA/KOLKATA';
-            $date = new DateTime('now', new DateTimeZone($timezone));
-            $localtime = $date->format('Y-m-d h:i:s');
+            // $timezone = 'ASIA/KOLKATA';
+            // $date = new DateTime('now', new DateTimeZone($timezone));
+            // $localtime = $date->format('Y-m-d h:i:s');
 
-            DB::table('ip_details')
-                ->insert(['ip' => $ip, 'candidate_id' => $candidate_id, 'category_id' => $category_id, 'date_time' => $localtime]);
+            // DB::table('ip_details')
+            //     ->insert(['ip' => $ip, 'candidate_id' => $candidate_id, 'category_id' => $category_id, 'date_time' => $localtime]);
 
             DB::table('candidate')
                 ->insert([
@@ -156,16 +172,16 @@ class InfoController extends Controller
                     'company_id' => $company_id,
                     'resume' => $path,
                     'link' => $link,
-                    'ip' => $ip,
-                    // 'start_date_time' => $localtime
+                    'mac_address'=>$macAddr
+                    // 'ip' => $ip,
                 ]);
 
             $id = 1;
             $data = [
-                'ip' => $ip,
                 'category_id' => $category_id,
-                'time' => $localtime,
                 'can_id' => $candidate_id
+                // 'ip' => $ip,
+                // 'time' => $localtime,
             ];
 
             $request->session()->put('data', $data);

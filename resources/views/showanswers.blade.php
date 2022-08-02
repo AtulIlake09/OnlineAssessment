@@ -64,7 +64,7 @@
                                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                 <!--begin::Title-->
                                 <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">
-                                    {{ $cname }}
+                                    {{"Answers Given By ".$cname }}
                                     <!--begin::Separator-->
                                     <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
                                     <!--end::Separator-->
@@ -92,11 +92,11 @@
                                     <!--begin::Tables Widget 9-->
                                     <div class="card card-xl-stretch mb-5 mb-xl-8">
                                         <!--begin::Header-->
-                                        <div class="card-header border-0 pt-5">
-                                            <h3 class="card-title align-items-start flex-column">
+                                        <div class="card-header border-0 pt-5 justify-content-end">
+                                            {{-- <h3 class="card-title align-items-start flex-column">
                                                 <span class="card-label fw-bolder fs-3 mb-1">Question and
                                                     Answers</span>
-                                            </h3>
+                                            </h3> --}}
                                             <div class="card-toolbar" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" data-bs-trigger="hover" title="Write Feedback"
                                                 style="display: grid;">

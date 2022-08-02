@@ -38,9 +38,9 @@ class ExamController extends Controller
                 $start = $candidate_details->start_date_time;
             }
         }
-
+        $duration= 10;
         if (session()->has('questions')) {
-            $ip = $request->ip();
+            // $ip = $request->ip();
             $ques = $request->session()->get('allquestion');
 
             foreach ($ques as $k => $v) {
@@ -51,25 +51,22 @@ class ExamController extends Controller
             }
             $qnos = $request->session()->get('qnos');
             $questions = $request->session()->get('questions');
-            $ip = $request->ip();
             $candidate_id = $data['can_id'];
             $count = $request->session()->get('count');
         } elseif (session()->has('data')) {
       
-            $ip = $request->ip();
+            // $ip = $request->ip();
+            // $query = DB::table('ip_details')
+            //     ->where('candidate_id', '=', $can_id)
+            //     ->orderBy('id', 'DESC')
+            //     ->first();
+            // $ip_id = $query->id;
 
-            $query = DB::table('ip_details')
-                ->where('candidate_id', '=', $can_id)
-                ->orderBy('id', 'DESC')
-                ->first();
-
-            $ip_id = $query->id;
-
-            $query = DB::table('candidate_answers as cs')
-                ->select('cs.ques_id as id', 'qs.questions', 'cs.type')
-                ->join('questions as qs', 'qs.id', '=', 'cs.ques_id')
-                ->where('cs.candidate_id', '=', $can_id)
-                ->where('cs.status', 1)
+            $query = DB::table('candidate_answers as ca')
+                ->select('ca.ques_id as id', 'qs.questions', 'ca.type')
+                ->join('questions as qs', 'qs.id', '=', 'ca.ques_id')
+                ->where('ca.candidate_id', '=', $can_id)
+                ->where('ca.status', 1)
                 ->get();
 
             if (!empty($query->first())) {
@@ -79,14 +76,14 @@ class ExamController extends Controller
                 $query = DB::table('questions')
                     ->select('id', 'questions', 'type')
                     ->where('category_id', '=', $data['category_id'])
-                    ->whereIn('status', [0, 1])
+                    ->where('status', 1)
                     ->inRandomOrder()
                     ->limit(5)
                     ->get();
                 $allquestion = $query->all();
                 foreach ($allquestion as $val) {
                     DB::table('candidate_answers')
-                        ->insert(['candidate_id' => $can_id, 'ip_id' => $ip_id, 'ques_id' => $val->id, 'type' => $val->type]);
+                        ->insert(['candidate_id' => $can_id, 'ques_id' => $val->id, 'type' => $val->type]);
                 }
             }
 
@@ -94,7 +91,6 @@ class ExamController extends Controller
             $key = 1;
 
             foreach ($allquestion as $val) {
-
                 $questions[$key] = ['id' => $val->id, 'question' => $val->questions, 'type' => $val->type];
                 $key++;
             }
@@ -113,30 +109,27 @@ class ExamController extends Controller
             $request->session()->put('questions', $values);
             $request->session()->put('allquestion', $questions);
 
-            $query = DB::table('category')
-                ->where('category.id', '=', $data['category_id'])
-                ->select('category.time_period')
-                ->first();
-
-            $duration = $query->time_period;
-            $request->session()->put('duration', $duration);
-           
         } else {
             return redirect()->back()->with('error_msg', "Test not available");
         }
 
-        $duration = $request->session()->get('duration');
-        
+        $query = DB::table('category')
+                ->select('category.time_period')
+                ->where('category.id', '=', $data['category_id'])
+                ->first();
+
+        $duration = $query->time_period;
         $end = date('Y-m-d h:i:s', strtotime('+' . $duration . 'minutes', strtotime($start)));
         
         $timefirst = strtotime($start);
-        $times = strtotime($end);
-        $diffinsec = $times - $timefirst;
+        $endtime = strtotime($end);
+        $testduration = $endtime - $timefirst;
+
         $timesecond = strtotime($localtime);
-        $difftime = $timesecond - $timefirst;
+        $timeleft = $timesecond - $timefirst;
        
-        if ($difftime>=0 && $difftime <= $diffinsec) {
-            $remain = $diffinsec - $difftime;
+        if ($timeleft>=0 && $timeleft <= $testduration) {
+            $remain = $testduration - $timeleft;
             $query = DB::table('candidate_answers')
                 ->select('answers')
                 ->where('candidate_id', '=', $can_id)
@@ -333,12 +326,12 @@ class ExamController extends Controller
                 ->where('status',1)
                 ->first();
 
-            $ip_id = DB::table('ip_details')
-                ->select('id')
-                ->where('ip', '=', $data['ip'])
-                ->orderBy('id', 'DESC')
-                ->first();
-            $ip_id = $ip_id->id;
+            // $ip_id = DB::table('ip_details')
+            //     ->select('id')
+            //     ->where('ip', '=', $data['ip'])
+            //     ->orderBy('id', 'DESC')
+            //     ->first();
+            // $ip_id = $ip_id->id;
 
             if (!empty($query)) {
 
@@ -354,14 +347,14 @@ class ExamController extends Controller
 
                 DB::table('candidate_answers')
                     ->where('candidate_id', '=', $candidate_id)
-                    ->where('ip_id', '=', $ip_id)
+                    // ->where('ip_id', '=', $ip_id)
                     ->where('ques_id', '=', $ques_id)
                     ->where('status',1)
                     ->update(['answers' => $ans, 'updated_at' => date("Y-m-d h:i:s")]);
             } else {
 
                 DB::table('candidate_answers')
-                    ->insert(['candidate_id' => $candidate_id, 'ip_id' => $ip_id, 'ques_id' => $que['id'], 'answers' => $ans]);
+                    ->insert(['candidate_id' => $candidate_id, 'ques_id' => $que['id'], 'answers' => $ans]);
             }
 
             return redirect('/finish')->with('message', 'Test Submitted Successfully...');
@@ -418,7 +411,7 @@ class ExamController extends Controller
 
             DB::table('candidate')
                 ->where('candidate_id', '=', $candidate_id)
-                ->update(['end_date_time' => $localtime, 'status' => 1]);
+                ->update(['end_date_time' => $localtime, 'status' => 1,'active_status'=>0]);
 
             DB::table('candidate_test_link')
                 ->where('candidate_id', '=', $candidate_id)

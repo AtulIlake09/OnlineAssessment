@@ -10,28 +10,33 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         if ($request->ajax()) {
-            $query = DB::table('companies')
-                ->where('cname', 'LIKE', '%' . $request->search . "%")
-                ->whereIn('status', [0, 1])
-                ->get();
 
-            if ($query) {
+            if ($request->table == "companies") {
 
-                $records = $query->all();
+                $query = DB::table('companies')
+                    ->where('cname', 'LIKE', '%' . $request->search . "%")
+                    ->whereIn('status', [0, 1])
+                    ->get();
 
-                $companies = [];
-                foreach ($records as $val) {
-                    $companies[] = [
-                        'id' => $val->id,
-                        'company' => $val->cname,
-                        'email' => $val->email,
-                        'address' => $val->address,
-                        'status' => $val->status
-                    ];
+                if ($query) {
+
+                    $records = $query->all();
+
+                    $companies = [];
+                    foreach ($records as $val) {
+                        $companies[] = [
+                            'id' => $val->id,
+                            'company' => $val->cname,
+                            'email' => $val->email,
+                            'address' => $val->address,
+                            'status' => $val->status
+                        ];
+                    }
+                    $view = view("companies_ajax", compact('companies'))->render();
+                    return $view;
                 }
-                $view = view("companies_ajax", compact('companies'))->render();
-                return $view;
             }
+
         }
     }
 }

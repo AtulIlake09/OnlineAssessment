@@ -268,6 +268,11 @@
                                         <div class="row">
                                             {{$questions->links()}}
                                         </div>
+                                        @if (empty($questions->all()))
+                                        <div class="row mt-5 text-center">
+                                            <span>Questions Not Available</span>
+                                        </div>
+                                        @endif
                                         <!--end::Table container-->
                                     </div>
                                     <!--begin::Body-->

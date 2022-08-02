@@ -63,8 +63,6 @@ class SuperAdminController extends Controller
 
     public function users_view(Request $request)
     {
-        // $macAddr = exec('getmac');
-        // dd($macAddr);
         if (Auth::user()) {
             $user = auth()->user();
             $flag = $user->user;
@@ -83,7 +81,8 @@ class SuperAdminController extends Controller
                 )
                 ->whereIn('users.status', [0, 1])
                 ->where('companies.status', '!=', 2)
-                ->where('users.user', '!=', 1);
+                ->where('users.user', '!=', 1)
+                ->orderBY('users.id','desc');
 
             $id = 0;
             if ($flag == 1) {

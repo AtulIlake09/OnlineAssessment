@@ -192,3 +192,8 @@
     <!--end::Table body-->
 </table>
 </div>
+@if (empty($candidates->all()))
+<div class="row mt-5 text-center">
+    <span>Record not found</span>
+</div>
+@endif

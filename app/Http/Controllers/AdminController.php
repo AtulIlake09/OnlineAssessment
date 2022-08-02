@@ -107,13 +107,14 @@ class AdminController extends Controller
         $query = DB::table('category as ct')
             ->join('companies as co', 'ct.company_id', '=', 'co.id')
             ->select('ct.id', 'ct.category', 'ct.time_period', 'ct.description', 'ct.active', 'ct.company_id', 'co.cname')
-            ->where('ct.active', '!=', 2);
+            ->where('ct.active', '!=', 2)
+            ->orderBy('ct.id','desc');
         if ($id != 0 && $id != null) {
             $query = $query->where('ct.company_id', $id)
-                ->get();
+                ->paginate(4);
         } else {
 
-            $query = $query->paginate(5);
+            $query = $query->paginate(4);
         }
         $category = $query;
         return $category;
@@ -171,7 +172,7 @@ class AdminController extends Controller
                 }
             }
 
-            $query = $query->paginate(3);
+            $query = $query->paginate(4);
             $data = $query;
 
             $query = DB::table('category')
@@ -182,9 +183,8 @@ class AdminController extends Controller
                 $query->where('company_id', $company_id);
             }
 
-            $query = $query->get();
+            $categories = $query->get();
 
-            $categories = $query;
             $companies = DB::table('companies')
                 ->select('id', 'cname')
                 ->whereIn('status', [0, 1])
@@ -216,6 +216,16 @@ class AdminController extends Controller
 
             $link = '/test/' . $token;
 
+            $query=DB::table('category')
+            ->where('id',$category_id)
+            ->where('active',1)
+            ->first();
+
+            if(empty($query))
+            {
+                return redirect()->back()->with('error_msg',"Test not Ready!");
+            }
+
             $data = [
                 'name' => $name,
                 'email' => $email,
@@ -223,7 +233,7 @@ class AdminController extends Controller
                 'phone' => $phone,
                 'test_category_id' => $category_id,
                 'candidate_id' => $token,
-                'link' => $link
+                'link' => $link,
             ];
 
             DB::table('candidate_test_link')
@@ -391,6 +401,7 @@ class AdminController extends Controller
                     'cn.resume',
                     'cn.link',
                     'cn.ip',
+                    'cn.active_status',
                     'cn.start_date_time',
                     'cn.end_date_time',
                     'cn.status'
@@ -412,7 +423,7 @@ class AdminController extends Controller
                 $view = view("assessmentviewajax", compact('candidates'))->render();
                 return $view;
             }
-            $query = $query->paginate(3);
+            $query = $query->paginate(4);
             $candidates = $query;
 
             $query = DB::table('category')
@@ -437,39 +448,46 @@ class AdminController extends Controller
         if (Auth::user()) {
             $query = DB::table('candidate')
                 ->where('id', '=', $id)
-                ->first();
+                ->where('active_status','!=',2);
+
+                $status=$query->first();
             
-            if (!empty($query)) {
-                $status = $query->status;
-                $category = DB::table('category')
-                    ->where('id', '=', $query->category_id)
-                    ->select('time_period')
-                    ->first();
-                $duration = $category->time_period;
+            if (!empty($status)) {
+                $active_status = $status->active_status;
+                // $category = DB::table('category')
+                //     ->where('id', '=', $query->category_id)
+                //     ->select('time_period')
+                //     ->first();
+                // $duration = $category->time_period;
 
-                $starttime = $query->start_date_time;
-                $endtime = $query->end_date_time;
-                $start = date_create($starttime);
-                $end = date_create($endtime);
-                $diff = date_diff($start, $end);
-                $timediff = $diff->format("%i");
-
-                $query=DB::table('candidate')
-                ->where('id', '=', $id);
-          
-                if ($timediff < $duration) {
-                    $status = 0;
-                    $query->update(['status' => $status,'end_date_time'=>null]);
-                    return redirect()->back()->with('success_msg', "Status Changed");
+                // $starttime = $query->start_date_time;
+                // $endtime = $query->end_date_time;
+                // $start = date_create($starttime);
+                // $end = date_create($endtime);
+                // $diff = date_diff($start, $end);
+                // $timediff = $diff->format("%i");
+                if ($active_status==1) {
+                    $active_status = 0;
+                    $query->update(['active_status' => $active_status]);
+                    // return redirect()->back()->with('success_msg', "Status Changed to Inactive");
+                    
+                    $html ='<span class="badge badge-light-danger text-center">Inactive</span>';
+                    return $html;
+                }
+                elseif($active_status==0)
+                {
+                    $active_status = 1;
+                    $query->update(['active_status' => $active_status]);
+                    //return redirect()->back()->with('success_msg', "Status Changed to Active");
+                    $html ='<span class="badge badge-light-success text-center">Active</span>';
+                    return $html;
                 }
                 else
                 {
-                    $status = 1;
-                    $query->update(['status' => $status]);
-                    return redirect()->back()->with('success_msg', "Status Changed");
+                    return false;
                 }
             }
-            return redirect()->back()->with('error_msg', "Time is over");
+            return redirect()->back()->with('error_msg', "Record not found");
         }
     }
 
@@ -555,7 +573,7 @@ class AdminController extends Controller
                         $query = DB::table('question_options')
                             ->select('option')
                             ->where('option_id', $val->answers)
-                            ->orWhere('option', $val->answers)
+                            // ->orWhere('option', $val->answers)
                             ->first();
 
                         if (isset($query->option) != null) {
@@ -842,6 +860,10 @@ class AdminController extends Controller
         if (empty($query)) {
             DB::table('questions')
                 ->insert(['category_id' => $cat_id, 'questions' => $question, 'type' => $type_id]);
+                
+            DB::table('category')
+            ->where('id',$cat_id)
+            ->update(['active'=>1]);
         }
         return redirect()->back();
     }

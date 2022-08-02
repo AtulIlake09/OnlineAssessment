@@ -564,13 +564,16 @@
     </script>
 
     <script type="text/javascript">
+        var tbl="companies";
         $('#search').on('keyup', function() {
             $value = $(this).val();
+            console.log(tbl);
             $.ajax({
                 type: 'get',
                 url: '{{ URL::to('search') }}',
                 data: {
-                    'search': $value
+                    'search': $value,
+                    'table': tbl
                 },
                 success: function(data) {
                     $('tbody').html(data);

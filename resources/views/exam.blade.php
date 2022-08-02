@@ -125,7 +125,7 @@
                             </div>
                         </nav> --}}
                         <div class="time" style="text-align: end;">
-                            <span class="yellow">Timer: </span>
+                            {{-- <span class="yellow">Timer: </span> --}}
                             <label class="font-weight-bold" id="timer"></label>
                         </div>
                     </div>

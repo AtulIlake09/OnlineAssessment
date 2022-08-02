@@ -18,7 +18,7 @@
                 <th class="min-w-100px">Link</th>
                 <th class="min-w-50px"></th>
                 <th class="min-w-150px">Phone</th>
-                <th class="min-w-150px">category</th>
+                <th class="min-w-150px">Tests</th>
                 {{-- <th class="min-w-150px">Company</th> --}}
                 <th class="min-w-150px">Generated at</th>
                 <th class="min-w-150px text-center">Status</th>
@@ -170,7 +170,11 @@
     </table>
     <!--end::Table-->
 </div>
-
+@if (empty($data->all()))
+<div class="row mt-5 text-center">
+    <span>Record not found</span>
+</div>
+@endif
 
 <script>
     $(document).ready(function() {

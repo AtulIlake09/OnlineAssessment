@@ -141,11 +141,11 @@
                                                                 <th class="min-w-150px">Company</th>
                                                             @endif
                                                             <th class="min-w-150px">Test Link</th>
-                                                            <th class="min-w-150px">IP address</th>
                                                             <th class="min-w-150px">start at</th>
                                                             <th class="min-w-150px">end at</th>
                                                             <th class="min-w-50px text-center">Test</th>
                                                             <th class="min-w-150px text-center">Result</th>
+                                                            <th class="min-w-50px text-center">Candidate</th>
                                                             <th class="min-w-100px text-center">Actions</th>
                                                             <th class="min-w-150px text-center">Resume</th>
                                                         </tr>
@@ -199,10 +199,6 @@
                                                                 </td>
                                                                 <td>
                                                                     <label
-                                                                        class="text-dark d-block fs-6">{{ $val->ip }}</label>
-                                                                </td>
-                                                                <td>
-                                                                    <label
                                                                         class="text-dark d-block fs-6">{{ $val->start_date_time }}</label>
                                                                 </td>
                                                                 <td>
@@ -215,7 +211,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <a
-                                                                        href="{{ url('/getqueans/' . $val->candidate_id) }}">
+                                                                        href="{{ url('/getqueans/' . $val->candidate_id) }}" >
                                                                         <div class="text-center"><span
                                                                                 @if ($val->result == 1) class="badge badge-light-success text-center" @elseif($val->result == 2) class="badge badge-light-danger text-center" data-bs-toggle="tooltip" data-bs-placement="top"
                                                                             title="{{ $val->feedback }}" @else class="badge badge-light-warning text-center" @endif>
@@ -230,6 +226,9 @@
                                                                                 @endphp</span>
                                                                         </div>
                                                                     </a>
+                                                                </td>
+                                                                <td class="candidate_status">
+                                                                    <span @if ($val->active_status == 1) class="badge badge-light-success text-center" @else class="badge badge-light-danger text-center" @endif>{{ $val->active_status == 1 ? 'Active' : 'Inactive' }}</span>
                                                                 </td>
                                                                 <td>
                                                                     <div
@@ -258,8 +257,8 @@
                                                                             </span>
                                                                             <!--end::Svg Icon-->
                                                                         </a>
-                                                                        <a href="{{ url('/changeStatuscan/' . $val->id) }}"
-                                                                            class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+                                                                        <a {{-- href="{{ url('/changeStatuscan/' . $val->id) }}" --}}
+                                                                            class="change_status btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="tooltip"
                                                                             data-bs-placement="top"
                                                                             title="Change Status">
@@ -366,6 +365,11 @@
                                             <div class="row mt-3">
                                                 {{ $candidates->links() }}
                                             </div>
+                                            @if (empty($candidates->all()))
+                                            <div class="row mt-5 text-center">
+                                                <span>Record not found</span>
+                                            </div>
+                                            @endif
                                             <!--end::Table container-->
                                         </div>
                                         <!--begin::Body-->
@@ -715,6 +719,43 @@
                 });
             });
 
+        });
+
+        $(".change_status").on("click", function() {
+
+            var currentRow = $(this).closest("tr");
+            var col1 = currentRow.find("td:eq(1)").text(); // get current row 1st TD value
+            var id = col1.trim();
+            var string_url = '/changeStatuscan/' + id;
+
+            swal({
+                title: "Are you sure!",
+                text: "Do you really want to Change status!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "get",
+                        url: string_url,
+                        data: "",
+                        success: function(data) {
+                            if (data != false) {
+                                var td = currentRow.find('.candidate_status');
+                                td.html(data);
+                            } else {
+                                swal("Failed to Change Status!", {
+                                    icon: "error",
+                                });
+                            }
+
+                        }
+                    })
+
+
+                }
+            });
         });
     </script>
 
