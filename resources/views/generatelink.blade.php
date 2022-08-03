@@ -984,7 +984,7 @@
     <script>
         $(document).ready(function() {
 
-            swal("Link Send!", "Link shared successfully!", "success");
+            swal("Link Sent!", "Link shared successfully!", "success");
 
         });
     </script>
@@ -996,7 +996,7 @@
     <script>
         $(document).ready(function() {
 
-            swal("Link not send!", "Please check link active or not", "error");
+            swal("Link not sent!", "Please check link active or not", "error");
 
         });
     </script>

@@ -136,16 +136,16 @@
                                                             <th class="min-w-150px">Name</th>
                                                             <th class="min-w-150px">Email</th>
                                                             <th class="min-w-150px">Phone</th>
-                                                            <th class="min-w-150px">category</th>
+                                                            <th class="min-w-150px">Tests</th>
                                                             @if ($flag == 1)
                                                                 <th class="min-w-150px">Company</th>
                                                             @endif
                                                             <th class="min-w-150px">Test Link</th>
                                                             <th class="min-w-150px">start at</th>
                                                             <th class="min-w-150px">end at</th>
-                                                            <th class="min-w-50px text-center">Test</th>
+                                                            <th class="min-w-50px text-center">Status</th>
                                                             <th class="min-w-150px text-center">Result</th>
-                                                            <th class="min-w-50px text-center">Candidate</th>
+                                                            {{-- <th class="min-w-50px text-center">Candidate</th> --}}
                                                             <th class="min-w-100px text-center">Actions</th>
                                                             <th class="min-w-150px text-center">Resume</th>
                                                         </tr>
@@ -227,9 +227,9 @@
                                                                         </div>
                                                                     </a>
                                                                 </td>
-                                                                <td class="candidate_status">
+                                                                {{-- <td class="candidate_status">
                                                                     <span @if ($val->active_status == 1) class="badge badge-light-success text-center" @else class="badge badge-light-danger text-center" @endif>{{ $val->active_status == 1 ? 'Active' : 'Inactive' }}</span>
-                                                                </td>
+                                                                </td> --}}
                                                                 <td>
                                                                     <div
                                                                         class="d-flex justify-content-end flex-shrink-0">
@@ -257,8 +257,8 @@
                                                                             </span>
                                                                             <!--end::Svg Icon-->
                                                                         </a>
-                                                                        <a {{-- href="{{ url('/changeStatuscan/' . $val->id) }}" --}}
-                                                                            class="change_status btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+                                                                        {{-- href="{{ url('/changeStatuscan/' . $val->id) }}" --}}
+                                                                        {{-- <a class="change_status btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="tooltip"
                                                                             data-bs-placement="top"
                                                                             title="Change Status">
@@ -277,7 +277,7 @@
                                                                                 </svg>
                                                                             </span>
                                                                             <!--end::Svg Icon-->
-                                                                        </a>
+                                                                        </a> --}}
                                                                         <a href="#"
                                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                                                                             data-bs-toggle="modal"
@@ -457,7 +457,7 @@
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
                                                                 style="margin-left: 5px"
-                                                                for="">Category</label>
+                                                                for="">Test</label>
                                                             <!--begin::Select2-->
                                                             <select name="category" disabled id="inputnCategory"
                                                                 class="form-control form-select form-select-solid mb-8"
@@ -590,7 +590,7 @@
                                                         </div>
                                                         <div class="col-md-6 fv-row">
                                                             <label class="required fs-6 fw-bold mb-2"
-                                                                for="">Category</label>
+                                                                for="">Test</label>
                                                             <!--begin::Select2-->
                                                             <select name="category" disabled id="inputnCategory"
                                                                 class="form-control form-select form-select-solid"

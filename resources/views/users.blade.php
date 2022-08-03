@@ -312,7 +312,7 @@
                                                 </div>
                                                 @if (empty($users->all()))
                                                     <div class="row mt-5 text-center">
-                                                        <span style="color: red;">Users Not Found</span>
+                                                        <span>Users Not Found</span>
                                                     </div>
                                                 @endif
                                                 <!--end::Table container-->

@@ -13,23 +13,23 @@ class InfoController extends Controller
 {
     public function index(Request $request, $key)
     {
-        $macAddr = exec('getmac');
+        // $macAddr = exec('getmac');
         
         $candidates=DB::table('candidate')
         ->where('candidate_id',$key)
         ->where('active_status',1);
 
-        $status=$candidates->first();
+        // $status=$candidates->first();
      
-        if(!empty($status))
-        {
-            $mac_address=$candidates->where('mac_address',$macAddr)
-            ->first();
-            if(empty($mac_address))
-            {
-                return redirect()->back();
-            }
-        }
+        // if(!empty($status))
+        // {
+        //     $mac_address=$candidates->where('mac_address',$macAddr)
+        //     ->first();
+        //     if(empty($mac_address))
+        //     {
+        //         return redirect()->back();
+        //     }
+        // }
 
         $query = DB::table('candidate_test_link')
             ->select('test_category_id', 'status')

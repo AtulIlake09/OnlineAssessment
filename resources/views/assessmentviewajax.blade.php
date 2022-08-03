@@ -13,12 +13,11 @@
             <th class="min-w-150px">Name</th>
             <th class="min-w-150px">Email</th>
             <th class="min-w-150px">Phone</th>
-            <th class="min-w-150px">category</th>
+            <th class="min-w-150px">Tests</th>
             <th class="min-w-150px">Test Link</th>
-            <th class="min-w-150px">IP address</th>
             <th class="min-w-150px">start at</th>
             <th class="min-w-150px">end at</th>
-            <th class="min-w-150px">Test</th>
+            <th class="min-w-50px text-center">Status</th>
             <th class="min-w-150px text-center">Result</th>
             <th class="min-w-100px text-center">Actions</th>
             <th class="min-w-150px text-center">Resume</th>
@@ -56,9 +55,6 @@
                 </td>
                 <td>
                     <label href="#" class="text-dark d-block fs-6">{{ url($val->link) }}</label>
-                </td>
-                <td>
-                    <label href="#" class="text-dark d-block fs-6">{{ $val->ip }}</label>
                 </td>
                 <td>
                     <label href="#" class="text-dark d-block fs-6">{{ $val->start_date_time }}</label>
@@ -106,7 +102,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </a>
-                        <a href="{{ url('/changeStatuscan/' . $val->id) }}"
+                        {{-- <a href="{{ url('/changeStatuscan/' . $val->id) }}"
                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Change Status">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
@@ -122,7 +118,7 @@
                                 </svg>
                             </span>
                             <!--end::Svg Icon-->
-                        </a>
+                        </a> --}}
                         <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_edit_link_{{ $val->id }}">
                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
